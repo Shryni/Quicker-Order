@@ -29,6 +29,6 @@ public class RequestorStore {
     @Column(nullable = false, unique = true)
     private String store_email;
     private long approval_limit;
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="requestorStore")
     private List <Requestor> requestors;
 }

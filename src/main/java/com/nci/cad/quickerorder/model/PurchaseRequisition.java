@@ -29,9 +29,10 @@ public class PurchaseRequisition
     private String status;
     private String additional_comments;
     private boolean save_template;
-//    @OneToOne(mappedBy="purchase_requisitions",  fetch = FetchType.LAZY)
-//    private Requestor requestor;
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
-    private List<Item> items;
+    @ManyToOne
+    @JoinColumn
+    private Requestor requestor;
+//    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="purchaseRequisition")
+//    private List<Item> items;
 
 }
