@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table
-public class Purchase_Requisition
+public class PurchaseRequisition
 {
     @Id
     private long id;
