@@ -2,22 +2,19 @@ package com.nci.cad.quickerorder.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table
 public class RequestorStore {
     @Id
     private long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String store_name;
     @Column(nullable = false)
     private String storeAddress_line1;
@@ -27,9 +24,11 @@ public class RequestorStore {
     private String store_city;
     @Column(nullable = false)
     private String store_postal_code;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String store_contact;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String store_email;
     private long approval_limit;
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
+    private List <Requestor> requestors;
 }
