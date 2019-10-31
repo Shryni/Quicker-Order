@@ -33,5 +33,9 @@ public class PurchaseRequisition
     private Requestor requestor;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Quotation> quotations;
+    @OneToOne(mappedBy="purchaseRequisition_po",  fetch = FetchType.LAZY)
+    private Purchaseorder purchaseorder;
 
 }

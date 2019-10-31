@@ -2,10 +2,8 @@ package com.nci.cad.quickerorder.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Getter
@@ -31,4 +29,6 @@ public class VendorStore {
     private String vendor_store_contact;
     @Column(nullable = false)
     private String vendor_store_email;
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Quotation> quotations;
 }
