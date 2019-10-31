@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,5 +27,5 @@ public class Requestor {
     @OneToOne(mappedBy="requestors",  fetch = FetchType.LAZY)
     private RequestorStore requestorStore;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true)
-    private List<Purchase_Requisition> purchase_requisitions;
+    private List<PurchaseRequisition> purchase_requisitions;
 }
