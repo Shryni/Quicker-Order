@@ -21,6 +21,6 @@ public class Item {
     private String description;
     @Column(nullable = false)
     private int quantity;
-    @OneToOne(mappedBy="items",  fetch = FetchType.LAZY)
-    private PurchaseRequisition purchase_requisition;
+//    @OneToOne(mappedBy="items",  fetch = FetchType.LAZY)
+//    private PurchaseRequisition purchase_requisition;
 }

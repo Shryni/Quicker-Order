@@ -24,8 +24,8 @@ public class Requestor {
     @Column( unique = true)
     private String role_id;
     private String role;
-    @OneToOne(mappedBy="requestors",  fetch = FetchType.LAZY)
-    private RequestorStore requestorStore;
+//    @OneToOne(mappedBy="requestors",  fetch = FetchType.LAZY)
+//    private RequestorStore requestorStore;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true)
     private List<PurchaseRequisition> purchase_requisitions;
 }
