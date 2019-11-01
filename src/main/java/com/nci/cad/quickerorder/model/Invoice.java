@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+
 @Entity
 @Table
 public class Invoice {
@@ -20,6 +20,7 @@ public class Invoice {
     @Column(nullable = false)
     private Date due_date;
     private String status;
-    @OneToOne(mappedBy="purchase_order",  fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn
     private Purchaseorder purchaseorder;
 }

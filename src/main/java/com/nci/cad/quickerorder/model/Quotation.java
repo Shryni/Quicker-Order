@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+
 @Entity
 @Table
 public class Quotation {
@@ -26,9 +26,11 @@ public class Quotation {
     private boolean transport;
     @Column(nullable = false)
     private float price;
-    @OneToOne(mappedBy="vendors",  fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn
     private VendorStore vendorStore;
-    @OneToOne(mappedBy="purchaseRequisitions",  fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn
     private PurchaseRequisition purchaseRequisition;
 }
 
