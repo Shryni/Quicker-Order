@@ -24,7 +24,7 @@ public class RequestorStore_Service {
 
     public ResponseEntity<RequestorStore> addRequestorStore(RequestorStore requestorStore) throws URISyntaxException {
         RequestorStore requestorStore1 = requestorStore_repository.save(requestorStore);
-        return ResponseEntity.created(new URI("/quickerorder/addRequestorStore/" + requestorStore1.getId()))
+        return ResponseEntity.created(new URI("/requestorStore/add/" + requestorStore1.getId()))
                 .body(requestorStore1);
     }
 
