@@ -1,6 +1,5 @@
 package com.nci.cad.quickerorder.controller;
 
-import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.model.RequestorStore;
 import com.nci.cad.quickerorder.service.Item_Service;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
@@ -31,20 +30,28 @@ public class RestController {
     RequestorStore_Service requestorStore_service;
 
     @GetMapping("/getAllRequestorStore")
-    List<RequestorStore> getAllRequestorStore(){
+    public List<RequestorStore> getAllRequestorStore(){
         return requestorStore_service.getAllRequestorStores();
     }
 
+    @GetMapping("/getRequestorStore/{id}")
+    public ResponseEntity<RequestorStore> getRequestorStore(@Valid @PathVariable long id){
+        return requestorStore_service.getRequestorStore(id);
+    }
+
     @PostMapping("/addRequestorStore")
-    ResponseEntity<RequestorStore> addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
+    public ResponseEntity<RequestorStore> addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
         return requestorStore_service.addRequestorStore(requestorStore);
     }
 
    @PutMapping ("/addRequestorStore/{id}")
-    ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
+    public ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
         return requestorStore_service.updateRequestorStore(requestorStore);
    }
 
-
+    @DeleteMapping("/deleteRequestorStore/{id}")
+    public ResponseEntity<?> deleteGroup(@PathVariable Long id) {
+        return requestorStore_service.deleteRequestorStore(id);
+    }
 
 }
