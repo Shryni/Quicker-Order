@@ -23,4 +23,6 @@ public class Invoice {
     @OneToOne
     @JoinColumn
     private Purchaseorder purchaseorder;
+
+
 }
