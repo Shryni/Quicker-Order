@@ -30,9 +30,8 @@ public class PurchaseRequisition
     private String additional_comments;
     private boolean save_template;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "requestor_id", nullable = false)
     private Requestor requestor;
-//    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="purchaseRequisition")
-//    private List<Item> items;
-
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
+    private List<Item> items;
 }

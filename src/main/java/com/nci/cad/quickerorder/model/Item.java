@@ -21,7 +21,7 @@ public class Item {
     private String description;
     @Column(nullable = false)
     private int quantity;
-//    @ManyToOne
-//    @JoinColumn
-//    private PurchaseRequisition purchase_requisition;
+    @ManyToOne
+    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+    private PurchaseRequisition purchaseRequisition;
 }

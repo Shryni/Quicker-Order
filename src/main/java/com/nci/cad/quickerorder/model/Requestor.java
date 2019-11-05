@@ -25,7 +25,7 @@ public class Requestor {
     private String role_id;
     private String role;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="requestorStore_id", nullable = false)
     private RequestorStore requestorStore;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="requestor")
     private List<PurchaseRequisition> purchase_requisitions;
