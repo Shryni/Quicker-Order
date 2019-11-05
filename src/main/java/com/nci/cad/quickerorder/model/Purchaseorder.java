@@ -18,10 +18,9 @@ public class Purchaseorder {
     @Column(nullable = false)
     private Date date;
     private String status;
-    //private String date;
     private String comments;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     private PurchaseRequisition purchaseRequisition;
     @OneToOne(mappedBy="purchaseorder",  fetch = FetchType.LAZY)
     private Invoice invoice;

@@ -29,7 +29,6 @@ public class VendorStore {
     private String vendor_store_contact;
     @Column(nullable = false)
     private String vendor_store_email;
-
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="vendorStore")
     private List<Quotation> quotations;
 }

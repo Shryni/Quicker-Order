@@ -21,7 +21,7 @@ public class Invoice {
     private Date due_date;
     private String status;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name = "purchaseorder_id", nullable = false)
     private Purchaseorder purchaseorder;
 
 

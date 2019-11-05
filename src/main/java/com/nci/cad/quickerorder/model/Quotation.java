@@ -27,10 +27,10 @@ public class Quotation {
     @Column(nullable = false)
     private float price;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "vendorStore_id" , nullable = false)
     private VendorStore vendorStore;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     private PurchaseRequisition purchaseRequisition;
 }
 
