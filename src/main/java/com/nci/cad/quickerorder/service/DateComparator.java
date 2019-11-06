@@ -1,5 +1,10 @@
 package com.nci.cad.quickerorder.service;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,9 +12,20 @@ import java.util.Map;
 
 public class DateComparator {
     public static void main(String[] args) {
-//        Date date1 = java.sql.Date.valueOf("2010-10-20");
-//        Date date2 = java.sql.Date.valueOf("2010-06-15");
-//        Date date3 = java.sql.Date.valueOf("2010-06-15");
+        Date date1 = java.sql.Date.valueOf("2010-06-15");
+        Date date2 = java.sql.Date.valueOf("2010-12-15");
+        Date date3 = java.sql.Date.valueOf("2010-06-15");
+
+        DateTime date11 = new DateTime(date1);
+        DateTime date12 = new DateTime(date2);
+
+        int weeks = Weeks.weeksBetween(date11, date12).getWeeks();
+        //System.out.println(weeks);
+
+        LocalDate start = LocalDate.parse(String.valueOf(date1));
+        LocalDate end = LocalDate.parse(String.valueOf(date2));
+        int days = Days.daysBetween(date11, date12).getDays();
+        System.out.println(days);
 //        ArrayList<java.sql.Date> allDeliveryDates = new ArrayList<>();
 //        allDeliveryDates.add((java.sql.Date) date1);
 //        allDeliveryDates.add((java.sql.Date) date2);
@@ -43,42 +59,8 @@ public class DateComparator {
 //        }
 //        deliveryDateMap.put(currentEarliestindex,currentEarliest);
 //        System.out.println(deliveryDateMap);
-        Map<Integer , Float> bestPrices = new HashMap<>();
-        ArrayList<Float> allPrices = new ArrayList<>();
-        allPrices.add((float) 345.6);
-        allPrices.add((float) 345.6);
-        allPrices.add((float) 785.6);
-        allPrices.add((float) 345.6);
-        Float currentBestPrice = allPrices.get(0);
-        int counter =0;
-        int currentIndex = 0;
-        for (Float thisPrice: allPrices) {
-            System.out.println();
-            System.out.println("For "+thisPrice);
-            System.out.println("************* "+counter);
-            System.out.println("CURRENT BEST "+currentBestPrice);
-            if(thisPrice < currentBestPrice){
-                currentBestPrice = thisPrice;
-                currentIndex = counter;
-                System.out.println("Updated "+currentBestPrice +" and index "+currentIndex);
-            }
-            else if(Float.compare(thisPrice,currentBestPrice) == 0){
 
-                if(counter != 0){
-                    bestPrices.put(counter,thisPrice);
-                    System.out.println(bestPrices+"!!!!");
-                }
-                else{
-                    System.out.println("Counter is 0 for "+thisPrice);
 
-                }
-            }
-            else{
-                System.out.println("Invalid");
-            }
-            counter++;
-        }
-        bestPrices.put(currentIndex,currentBestPrice);
-        System.out.println(bestPrices);
+
     }
 }
