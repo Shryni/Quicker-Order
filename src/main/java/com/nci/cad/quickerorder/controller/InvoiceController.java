@@ -47,8 +47,8 @@ public class InvoiceController {
         return invoice_service.deleteInvoice(id);
     }
 
-    @GetMapping("/getMonthlyExpense")
-    public ResponseEntity<?> getMonthlyExpense (){
-        return spendings_service.getMonthlyExpense();
-    }
+//    @GetMapping("/getMonthlyExpense")
+//    public ResponseEntity<?> getMonthlyExpense (){
+//        return spendings_service.getMonthlyExpense();
+//    }
 }
