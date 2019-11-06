@@ -49,7 +49,7 @@ public class QuotationController {
     }
 
     @GetMapping("/compare/{criteria}")
-    public ResponseEntity<Quotation> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
+    public ResponseEntity<List<Quotation>> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
         if(quotations.size()>3)
             return null;
         else
