@@ -2,6 +2,7 @@ package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.Invoice;
 import com.nci.cad.quickerorder.service.Invoice_Service;
+import com.nci.cad.quickerorder.service.Spendings_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class InvoiceController {
 
     @Autowired
     Invoice_Service invoice_service;
+
+    @Autowired
+    Spendings_Service spendings_service;
 
     @GetMapping("/getAll")
     public List<Invoice> getAll(){
@@ -41,5 +45,10 @@ public class InvoiceController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteInvoice( @Valid @PathVariable Long id) {
         return invoice_service.deleteInvoice(id);
+    }
+
+    @GetMapping("/getMonthlyExpense")
+    public ResponseEntity<?> getMonthlyExpense (){
+        return spendings_service.getMonthlyExpense();
     }
 }
