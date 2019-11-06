@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Getter
@@ -19,18 +20,25 @@ public class Quotation {
     @Column(nullable = false)
     private String status;
     @Column(nullable = false)
-    private Date delivery_date;
+    private java.sql.Date deliveryDate;
     @Column(nullable = false)
-    private String quote_validity;
+    private java.sql.Date quoteValidity;
     @Column(nullable = false)
     private boolean transport;
+    private float discount;
     @Column(nullable = false)
-    private float price;
+    private Float totalPrice;
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="quotation")
+    private List<Item> items;
     @ManyToOne
     @JoinColumn(name = "vendorStore_id" , nullable = false)
     private VendorStore vendorStore;
     @ManyToOne
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     private PurchaseRequisition purchaseRequisition;
+
+    public Boolean getTransport() {
+        return this.transport;
+    }
 }
 
