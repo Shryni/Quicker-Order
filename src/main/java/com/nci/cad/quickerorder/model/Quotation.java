@@ -37,6 +37,9 @@ public class Quotation {
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     private PurchaseRequisition purchaseRequisition;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="quotation")
+    private Purchaseorder purchaseorder;
+
     public Boolean getTransport() {
         return this.transport;
     }

@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
+import com.sun.org.apache.xpath.internal.operations.Quo;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,10 @@ public class Purchaseorder {
     @OneToOne
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     private PurchaseRequisition purchaseRequisition;
+    @OneToOne
+    @JoinColumn(name = "quotation_id")
+    private Quotation quotation;
+
     @OneToOne(mappedBy="purchaseorder",  fetch = FetchType.LAZY)
     private Invoice invoice;
 
