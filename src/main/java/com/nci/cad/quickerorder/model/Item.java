@@ -21,7 +21,12 @@ public class Item {
     private String description;
     @Column(nullable = false)
     private int quantity;
-//    @ManyToOne
-//    @JoinColumn
-//    private PurchaseRequisition purchase_requisition;
+    private float price;
+    @ManyToOne
+    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+    private PurchaseRequisition purchaseRequisition;
+    @ManyToOne
+    @JoinColumn(name = "quotation_id", nullable = false)
+    private Quotation quotation;
+
 }

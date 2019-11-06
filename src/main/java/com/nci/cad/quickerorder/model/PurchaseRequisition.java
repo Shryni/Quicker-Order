@@ -30,12 +30,12 @@ public class PurchaseRequisition
     private String additional_comments;
     private boolean save_template;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "requestor_id", nullable = false)
     private Requestor requestor;
-//    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="purchaseRequisition")
-//    private List<Item> items;
-    @OneToOne(mappedBy="purchaseRequisition",  fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
+    private List<Item> items;
+    @OneToOne(mappedBy="purchaseRequisition",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Purchaseorder purchaseorder;
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
     private List<Quotation> quotations;
 }

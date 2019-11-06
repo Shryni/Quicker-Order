@@ -1,12 +1,15 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.Quotation;
+import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
+import com.sun.org.apache.xpath.internal.operations.Quo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -16,6 +19,9 @@ public class QuotationController {
 
     @Autowired
     Quotation_Service quotation_service;
+
+    @Autowired
+    Quotation_Comparator quotation_comparator;
 
     @GetMapping("/getAll")
     public List<Quotation> getAll(){
@@ -40,6 +46,14 @@ public class QuotationController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuotation( @Valid @PathVariable Long id) {
         return quotation_service.deleteQuotation(id);
+    }
+
+    @GetMapping("/compare/{criteria}")
+    public ResponseEntity<List<Quotation>> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
+        if(quotations.size()>3)
+            return null;
+        else
+            return quotation_comparator.compareQuotations(quotations,criteria);
     }
 
 }

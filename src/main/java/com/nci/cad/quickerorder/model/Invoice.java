@@ -18,10 +18,10 @@ public class Invoice {
     @Column(nullable = false)
     private Date quote_date;
     @Column(nullable = false)
-    private Date due_date;
+    private Date date;
     private String status;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name = "purchaseorder_id", nullable = false)
     private Purchaseorder purchaseorder;
 
 
