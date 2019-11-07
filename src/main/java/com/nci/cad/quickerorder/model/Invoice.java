@@ -14,7 +14,7 @@ import java.util.Date;
 @Table
 public class Invoice {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false)
     private Date quote_date;
     @Column(nullable = false)

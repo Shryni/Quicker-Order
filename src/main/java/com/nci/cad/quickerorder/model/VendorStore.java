@@ -14,7 +14,7 @@ import java.util.List;
 @Table
 public class VendorStore {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false)
     private String vendor_store_name;
     @Column(nullable = false)

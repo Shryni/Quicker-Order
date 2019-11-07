@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table
 public class Item {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false)
     private String name;
     private String description;

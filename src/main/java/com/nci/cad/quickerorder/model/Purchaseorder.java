@@ -14,7 +14,7 @@ import java.util.Date;
 @Table
 public class Purchaseorder {
     @Id
-    private long id;
+    private String id;
     private Date quote_date;
     @Column(nullable = false)
     private Date date;

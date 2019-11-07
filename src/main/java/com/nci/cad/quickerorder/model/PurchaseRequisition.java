@@ -18,7 +18,7 @@ import java.util.List;
 public class PurchaseRequisition
 {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)

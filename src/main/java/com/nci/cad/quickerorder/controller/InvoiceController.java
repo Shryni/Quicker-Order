@@ -47,8 +47,9 @@ public class InvoiceController {
         return invoice_service.deleteInvoice(id);
     }
 
-//    @GetMapping("/getMonthlyExpense")
-//    public ResponseEntity<?> getMonthlyExpense (){
-//        return spendings_service.getMonthlyExpense();
-//    }
+    @GetMapping("/getMonthlyExpense/{startDate}/{endDate}")
+    public ResponseEntity<?> getMonthlyExpense (@Valid @PathVariable String startDate , @PathVariable String endDate){
+
+        return spendings_service.getMonthlyExpense(invoice_service.getAll(), startDate, endDate);
+    }
 }

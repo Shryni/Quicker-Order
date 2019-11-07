@@ -16,7 +16,7 @@ import java.util.List;
 @Table
 public class Requestor {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false)
     private String first_name;
     @Column(nullable = false)

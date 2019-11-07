@@ -13,7 +13,7 @@ import java.util.List;
 @Table
 public class RequestorStore {
     @Id
-    private long id;
+    private String id;
     @Column(nullable = false, unique = true)
     private String store_name;
     @Column(nullable = false)

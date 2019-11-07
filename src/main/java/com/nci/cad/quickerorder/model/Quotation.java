@@ -15,7 +15,7 @@ import java.util.List;
 @Table
 public class Quotation {
     @Id
-    private long id;
+    private String id;
     private Date quote_date;
     @Column(nullable = false)
     private String status;
