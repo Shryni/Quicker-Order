@@ -10,4 +10,8 @@ public class Configuration {
     public Quotation_Comparator quotation_comparator(){
         return new Quotation_Comparator();
     }
+    @Bean
+    public Spendings_Service spendings_service(){
+        return new Spendings_Service();
+    }
 }

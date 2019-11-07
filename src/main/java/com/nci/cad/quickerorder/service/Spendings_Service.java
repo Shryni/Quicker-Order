@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Spendings_Service {
 
@@ -26,6 +27,9 @@ public class Spendings_Service {
         LocalDate start = LocalDate.fromDateFields(invoice_Dates.get(0));
         LocalDate end = LocalDate.fromDateFields(invoice_Dates.get(invoice_Dates.size()-1));
         int days = Days.daysBetween(start, end).getDays();
+
+
+
         System.out.println(days);
         if(days >0 && days<=42){
             range = "weeks";
@@ -41,6 +45,9 @@ public class Spendings_Service {
         }
 
 
+        return null;
+    }
+    private Map<Date , Float> expenditure(List<Invoice> invoiceList){
         return null;
     }
 }
