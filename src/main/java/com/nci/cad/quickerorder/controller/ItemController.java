@@ -19,20 +19,20 @@ public class ItemController {
     @Autowired
     Item_Service item_service;
 
-    @GetMapping("/view")
-    public String viewItems() {
-        return "items/view.html";
-    }
-
-    @GetMapping("/add")
-    public String addItems() {
-        return "items/add.html";
-    }
-
-    @GetMapping("/edit")
-    public String editItems() {
-        return "items/add.html";
-    }
+//    @GetMapping("/view")
+//    public String viewItems() {
+//        return "items/view.html";
+//    }
+//
+//    @GetMapping("/add")
+//    public String addItems() {
+//        return "items/add.html";
+//    }
+//
+//    @GetMapping("/edit")
+//    public String editItems() {
+//        return "items/add.html";
+//    }
 
 
     @GetMapping("/getAll")

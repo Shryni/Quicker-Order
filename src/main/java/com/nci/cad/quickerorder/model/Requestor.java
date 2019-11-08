@@ -1,34 +1,40 @@
 package com.nci.cad.quickerorder.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table
 public class Requestor {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private String id;
+    private Long id;
     @Column(nullable = false)
     private String first_name;
     @Column(nullable = false)
     private String last_name;
-    @Column( unique = true)
+    //@Column( unique = true)
     private String role_id;
     private String role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="requestorStore_id", nullable = false)
+    @JsonIgnore
     private RequestorStore requestorStore;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="requestor")
-    private List<PurchaseRequisition> purchase_requisitions;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+            mappedBy = "requestor")
+    private List <PurchaseRequisition> purchaseRequisitions;
+
 }

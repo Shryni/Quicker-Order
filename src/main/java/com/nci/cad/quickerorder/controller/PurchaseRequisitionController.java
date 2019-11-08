@@ -1,7 +1,9 @@
 package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
+import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
+import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +19,31 @@ public class PurchaseRequisitionController {
     @Autowired
     PurchaseRequisition_Service purchaseRequisition_service;
 
-    @GetMapping("/getAll")
-    public List<PurchaseRequisition> getAll(){
-        return purchaseRequisition_service.getAll();
+    @Autowired
+    Requestor_Service requestor_service;
+
+
+    @GetMapping("/{requestorstoreId}/getRequestor/{requestorId}/getPR")
+    public List<PurchaseRequisition> getAllPR(@PathVariable (value = "requestorstoreId")Long requestorstoreId,@PathVariable (value = "requestorId")Long requestorId) {
+        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
+        return purchaseRequisition_service.getAllPR(requestor);
     }
-    @GetMapping("/get/{id}")
-    public ResponseEntity<PurchaseRequisition> getPurchaseRequisition (@Valid @PathVariable Long id){
-        return purchaseRequisition_service.getPurchaseRequistion(id);
+    @GetMapping("/{requestorstoreId}/getRequestor/{requestorId}/getPR/{prId}")
+    public PurchaseRequisition getPurchaseRequisition (@PathVariable (value = "requestorstoreId")Long requestorstoreId,@PathVariable (value = "requestorId")Long requestorId,@PathVariable (value = "requestorId")Long prId){
+        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
+        return purchaseRequisition_service.getPurchaseRequistionbyID(requestor,prId);
     }
-    @PostMapping("/add")
-    public ResponseEntity<PurchaseRequisition> addPurchaseRequisition (@Valid @RequestBody PurchaseRequisition purchaseRequisition)throws URISyntaxException {
-        return purchaseRequisition_service.addPurchaseRequisition(purchaseRequisition);
+
+    @PostMapping("/{requestorstoreId}/getRequestor/{requestorId}/addPR")
+    public PurchaseRequisition addPR(@PathVariable (value = "requestorstoreId")Long requestorstoreId, @PathVariable (value = "requestorId")Long requestorId, @Valid @RequestBody PurchaseRequisition purchaseRequisition) throws URISyntaxException {
+        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
+        return purchaseRequisition_service.addPurchaseRequisition(requestor,purchaseRequisition);
     }
+    /*@PostMapping("/{requestorstoreId}/addRequestor")
+    public Requestor addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId,@Valid @RequestBody Requestor requestor) throws URISyntaxException {
+        return requestor_service.addRequestor(requestor,requestorstoreId);
+
+    } */
 
     @PutMapping("/add/{id}")
     public ResponseEntity<PurchaseRequisition> updatePUrchaseRequisition(@Valid @RequestBody PurchaseRequisition purchaseRequisition){

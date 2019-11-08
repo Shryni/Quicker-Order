@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,8 @@ import java.util.List;
 public class PurchaseRequisition
 {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -29,13 +31,20 @@ public class PurchaseRequisition
     private String status;
     private String additional_comments;
     private boolean save_template;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "requestor_id", nullable = false)
+    @JsonIgnore
     private Requestor requestor;
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="purchaseRequisition")
     private List<Item> items;
+
     @OneToOne(mappedBy="purchaseRequisition",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Purchaseorder purchaseorder;
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,orphanRemoval = true,mappedBy="purchaseRequisition")
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="purchaseRequisition")
     private List<Quotation> quotations;
+
+
 }

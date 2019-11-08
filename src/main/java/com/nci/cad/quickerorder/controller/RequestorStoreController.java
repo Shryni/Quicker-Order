@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/requestorStore")
@@ -30,11 +28,11 @@ public class RequestorStoreController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<RequestorStore> addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
+    public RequestorStore addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
         return requestorStore_service.addRequestorStore(requestorStore);
     }
 
-   @PutMapping ("/add/{id}")
+   @PutMapping ("/update/{id}")
     public ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
         return requestorStore_service.updateRequestorStore(requestorStore);
    }

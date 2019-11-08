@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.org.apache.xpath.internal.operations.Quo;
 import lombok.*;
 
@@ -14,20 +15,25 @@ import java.util.Date;
 @Table
 public class Purchaseorder {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Date quote_date;
     @Column(nullable = false)
     private Date date;
     private String status;
     private String comments;
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+    @JsonIgnore
     private PurchaseRequisition purchaseRequisition;
-    @OneToOne
-    @JoinColumn(name = "quotation_id")
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quotation_id",nullable = false)
+    @JsonIgnore
     private Quotation quotation;
 
-    @OneToOne(mappedBy="purchaseorder",  fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,mappedBy="purchaseorder",  fetch = FetchType.LAZY)
     private Invoice invoice;
 
 }

@@ -13,7 +13,8 @@ import java.util.List;
 @Table
 public class RequestorStore {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false, unique = true)
     private String store_name;
     @Column(nullable = false)
@@ -30,6 +31,8 @@ public class RequestorStore {
     private String store_email;
     private long approval_limit;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="requestorStore")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+            mappedBy = "requestorStore")
     private List <Requestor> requestors;
+
 }

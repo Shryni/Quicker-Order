@@ -25,10 +25,11 @@ public class RequestorStore_Service {
         return requestorStore_repository.findAll();
     }
 
-    public ResponseEntity<RequestorStore> addRequestorStore(RequestorStore requestorStore) throws URISyntaxException {
+    public RequestorStore addRequestorStore(RequestorStore requestorStore) throws URISyntaxException {
         RequestorStore requestorStore1 = requestorStore_repository.save(requestorStore);
-        return ResponseEntity.created(new URI("/requestorStore/add/" + requestorStore1.getId()))
-                .body(requestorStore1);
+        return requestorStore1;
+//        return ResponseEntity.created(new URI("/requestorStore/add/" + requestorStore1.getId()))
+//                .body(requestorStore1);
     }
 
     public ResponseEntity<RequestorStore> updateRequestorStore(RequestorStore requestorStore) {
@@ -47,28 +48,28 @@ public class RequestorStore_Service {
         return ResponseEntity.ok().build();
     }
 
-    public Map<Date, Float> getInvoiceDetails(long id) {
-        Optional<RequestorStore> requestorStore = requestorStore_repository.findById(id);
-        RequestorStore requestorStore1 = requestorStore.get();
-        assert requestorStore1 != null;
-        List<Requestor> requestorsList = requestorStore1.getRequestors();
-        Map<Date, Float> invoiceDetails = new LinkedHashMap<>();
-        for(Requestor requestor: requestorsList) {
-            List<PurchaseRequisition> purchaseRequisitionList = requestor.getPurchase_requisitions();
-            for(PurchaseRequisition purchaseRequisition: purchaseRequisitionList){
-                List<Quotation> quotationList = purchaseRequisition.getQuotations();
-                for(Quotation quotation: quotationList){
-                    if(quotation.getStatus().equals("Approved")){
-                        float price = quotation.getTotalPrice();
-                        Purchaseorder purchaseorder = quotation.getPurchaseorder();
-                        Invoice invoice = purchaseorder.getInvoice();
-                        Date invoiceDate = (Date) invoice.getDate();
-                        invoiceDetails.put(invoiceDate,price);
-                    }
-                }
-            }
-
-        }
-        return invoiceDetails;
-    }
+//    public Map<Date, Float> getInvoiceDetails(long id) {
+//        Optional<RequestorStore> requestorStore = requestorStore_repository.findById(id);
+//        RequestorStore requestorStore1 = requestorStore.get();
+//        assert requestorStore1 != null;
+//        List<Requestor> requestorsList = requestorStore1.getRequestors();
+//        Map<Date, Float> invoiceDetails = new LinkedHashMap<>();
+//        for(Requestor requestor: requestorsList) {
+//            List<PurchaseRequisition> purchaseRequisitionList = requestor.getPurchase_requisitions();
+//            for(PurchaseRequisition purchaseRequisition: purchaseRequisitionList){
+//                List<Quotation> quotationList = purchaseRequisition.getQuotations();
+//                for(Quotation quotation: quotationList){
+//                    if(quotation.getStatus().equals("Approved")){
+//                        float price = quotation.getTotalPrice();
+//                        Purchaseorder purchaseorder = quotation.getPurchaseorder();
+//                        Invoice invoice = purchaseorder.getInvoice();
+//                        Date invoiceDate = (Date) invoice.getDate();
+//                        invoiceDetails.put(invoiceDate,price);
+//                    }
+//                }
+//            }
+//
+//        }
+//        return invoiceDetails;
+//    }
 }

@@ -1,6 +1,7 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
+import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,19 +19,18 @@ public class PurchaseRequisition_Service {
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
 
-    public List<PurchaseRequisition> getAll() {
-        return purchaseRequisition_repository.findAll();
+    public List<PurchaseRequisition> getAllPR(Requestor requestor) {
+        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_repository.findByRequestorId(requestor.getId());
+        return purchaseRequisitionList;
+    }
+    public PurchaseRequisition getPurchaseRequistionbyID(Requestor requestor, Long prId) {
+        PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.findById(prId).get();
+        return purchaseRequisition;
     }
 
-    public ResponseEntity<PurchaseRequisition> getPurchaseRequistion(Long id) {
-        Optional<PurchaseRequisition> purchaseRequisition = purchaseRequisition_repository.findById(id);
-        return purchaseRequisition.map(purchaseRequisition1 -> ResponseEntity.ok().body(purchaseRequisition1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    public ResponseEntity<PurchaseRequisition> addPurchaseRequisition(PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-        PurchaseRequisition purchaseRequisition1 = purchaseRequisition_repository.save(purchaseRequisition);
-        return ResponseEntity.created(new URI("/purchaseRequisition/add/"+purchaseRequisition1.getId())).body(purchaseRequisition1);
+   public PurchaseRequisition addPurchaseRequisition(Requestor requestor, PurchaseRequisition purchaseRequisition) throws URISyntaxException {
+       purchaseRequisition.setRequestor(requestor);
+       return purchaseRequisition_repository.save(purchaseRequisition);
     }
 
     public ResponseEntity<PurchaseRequisition> updatePUrchaseRequisition(PurchaseRequisition purchaseRequisition) {

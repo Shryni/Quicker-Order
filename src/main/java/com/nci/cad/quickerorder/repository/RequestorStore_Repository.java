@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RequestorStore_Repository extends JpaRepository<RequestorStore,Long> {
-   // Group findByName(String name);
 }
