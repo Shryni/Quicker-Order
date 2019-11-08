@@ -25,19 +25,16 @@ public class PurchaseRequisitionController {
 
     @GetMapping("/{requestorstoreId}/getRequestor/{requestorId}/getPR")
     public List<PurchaseRequisition> getAllPR(@PathVariable (value = "requestorstoreId")Long requestorstoreId,@PathVariable (value = "requestorId")Long requestorId) {
-        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
-        return purchaseRequisition_service.getAllPR(requestor);
+       return purchaseRequisition_service.getAllPR(requestorstoreId,requestorId);
     }
     @GetMapping("/{requestorstoreId}/getRequestor/{requestorId}/getPR/{prId}")
     public PurchaseRequisition getPurchaseRequisition (@PathVariable (value = "requestorstoreId")Long requestorstoreId,@PathVariable (value = "requestorId")Long requestorId,@PathVariable (value = "requestorId")Long prId){
-        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
-        return purchaseRequisition_service.getPurchaseRequistionbyID(requestor,prId);
+        return purchaseRequisition_service.getPurchaseRequistionbyID(requestorstoreId,requestorId,prId);
     }
 
     @PostMapping("/{requestorstoreId}/getRequestor/{requestorId}/addPR")
     public PurchaseRequisition addPR(@PathVariable (value = "requestorstoreId")Long requestorstoreId, @PathVariable (value = "requestorId")Long requestorId, @Valid @RequestBody PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
-        return purchaseRequisition_service.addPurchaseRequisition(requestor,purchaseRequisition);
+        return purchaseRequisition_service.addPurchaseRequisition(requestorstoreId,requestorId,purchaseRequisition);
     }
     /*@PostMapping("/{requestorstoreId}/addRequestor")
     public Requestor addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId,@Valid @RequestBody Requestor requestor) throws URISyntaxException {

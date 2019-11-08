@@ -1,7 +1,9 @@
 package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.Item;
+import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.service.Item_Service;
+import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class ItemController {
     @Autowired
     Item_Service item_service;
 
+    @Autowired
+    PurchaseRequisition_Service purchaseRequisition_service;
+
 //    @GetMapping("/view")
 //    public String viewItems() {
 //        return "items/view.html";
@@ -35,9 +40,9 @@ public class ItemController {
 //    }
 
 
-    @GetMapping("/getAll")
-    public List<Item> getAll(){
-        return item_service.getAll();
+    @GetMapping("/{requestorstoreId}/getRequestor/{requestorId}/getPR/{prId}/")
+    public List<Item> getAllItems(@PathVariable (value = "requestorstoreId")Long requestorstoreId,@PathVariable (value = "requestorId")Long requestorId,@PathVariable (value = "prId")Long prId) {
+        return item_service.getAllItems(requestorstoreId,requestorId,prId);
     }
 
     @GetMapping("/get/{id}")

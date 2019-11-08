@@ -1,6 +1,7 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Item;
+import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.repository.Item_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class Item_Service {
 
     @Autowired
     Item_Repository item_repository;
+
+    @Autowired
+    Requestor_Service requestor_service;
 
     public ResponseEntity<Item> addItem(Item item) throws URISyntaxException {
         Item item1 = item_repository.save(item);
@@ -39,7 +43,10 @@ public class Item_Service {
         return ResponseEntity.ok().build();
     }
 
-    public List<Item> getAll() {
-        return item_repository.findAll();
+    public List<Item> getAllItems(Long requestorstoreId, Long requestorId, Long prId) {
+        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
+        return null;
     }
+
+
 }

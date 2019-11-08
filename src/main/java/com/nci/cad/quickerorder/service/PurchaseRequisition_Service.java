@@ -19,17 +19,26 @@ public class PurchaseRequisition_Service {
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
 
-    public List<PurchaseRequisition> getAllPR(Requestor requestor) {
+    @Autowired
+            Requestor_Service requestor_service;
+
+    public Requestor getRequestor(Long requestorstoreId, Long requestorId){
+        return  requestor_service.getRequestorById(requestorstoreId,requestorId);
+    }
+
+    public List<PurchaseRequisition> getAllPR(Long requestorstoreId, Long requestorId) {
+        Requestor requestor = getRequestor(requestorstoreId,requestorId);
         List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_repository.findByRequestorId(requestor.getId());
         return purchaseRequisitionList;
     }
-    public PurchaseRequisition getPurchaseRequistionbyID(Requestor requestor, Long prId) {
+    public PurchaseRequisition getPurchaseRequistionbyID(Long requestorstoreId,Long requestorId, Long prId) {
         PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.findById(prId).get();
         return purchaseRequisition;
     }
 
-   public PurchaseRequisition addPurchaseRequisition(Requestor requestor, PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-       purchaseRequisition.setRequestor(requestor);
+   public PurchaseRequisition addPurchaseRequisition(Long requestorstoreId,Long requestorId, PurchaseRequisition purchaseRequisition) throws URISyntaxException {
+       Requestor requestor = getRequestor(requestorstoreId,requestorId);
+        purchaseRequisition.setRequestor(requestor);
        return purchaseRequisition_repository.save(purchaseRequisition);
     }
 
@@ -42,4 +51,6 @@ public class PurchaseRequisition_Service {
         purchaseRequisition_repository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+
 }
