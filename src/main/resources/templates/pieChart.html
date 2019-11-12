@@ -29,7 +29,7 @@
 				}
 			},
 			title : {
-				text : 'Result Status'
+				text : 'Spendings'
 			},
 			tooltip : {
 				pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -48,7 +48,7 @@
 			series : [ {
 				type : 'pie',
 				name : 'Ratio',
-				data : [ [ 'Success', [[${pass}]] ], [ 'Failure', [[${fail}]] ]  ]
+				data : [ [ 'Spendings', [[${spendings}]] ], [ 'Savings', [[${savings}]] ],[ 'Transport', [[${transport}]] ],[ 'Miscellaneous', [[${miscellaneous}]] ]  ]
 			} ]
 		});
 	</script>

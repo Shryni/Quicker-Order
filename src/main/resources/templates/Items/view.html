@@ -1,4 +1,5 @@
 <div class="container">
+    <html xmlns:th="http://www.thymeleaf.org">
     <form action="action_page.php">
 
         <label for="id">Item ID</label>
@@ -28,8 +29,8 @@
 <!--        <label for="subject">Subject</label>-->
 <!--        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>-->
 
-        <button type="Save" value="Save">Save</button>
-        <button type="Cancel" value="Cancel">Reset</button>
+        <button type="Save" value="Save" th:action="@{/checkUser}">Save</button>
+        <button type="Cancel" value="Cancel">Cancel</button>
 
     </form>
 </div>

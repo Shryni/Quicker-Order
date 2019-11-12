@@ -1,15 +1,12 @@
 <div class="container">
+    <html xmlns:th="http://www.thymeleaf.org">
     <form action="action_page.php">
 
-        <label for="id">Quote ID</label>
-        <input type="text" id="id" name="quoteID" ><br/>
+        <label for="id">Item ID</label>
+        <input type="text" id="id" name="itemID" ><br/>
 
-                <label for="status">Status</label>
-                <select id="status" name="status">
-                    <option value="draft">Draft</option>
-                    <option value="inprogress">In Progress</option>
-                    <option value="approved">Approved</option>
-                </select>
+        <label for="name">Item Name</label>
+        <input type="text" id="name" name="itemname" ><br/>
 
         <label for="description">Item Description</label>
         <input type="text" id="description" name="itemdescription" ><br/>
@@ -32,7 +29,7 @@
         <!--        <label for="subject">Subject</label>-->
         <!--        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>-->
 
-        <button type="Save" value="Save">Save</button>
+        <button type="Save" value="Save" th:action="@{/addVendor}">Save</button>
         <button type="Cancel" value="Cancel">Reset</button>
 
     </form>

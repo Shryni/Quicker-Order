@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("/requestor")
 public class RequestorController {
     @Autowired
@@ -24,6 +24,23 @@ public class RequestorController {
     public List<Requestor> getAll(){
         return requestor_service.getAll();
     }
+
+
+    @GetMapping("/view")
+    public String viewRequestor() {
+        return "requestor/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addRequestor() {
+        return "requestor/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editRequestor() {
+        return "requestor/edit.html";
+    }
+
 
 
     @GetMapping("/get/{id}")

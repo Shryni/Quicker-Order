@@ -30,10 +30,12 @@ public class ViewController {
         return "barGraph";
     }
 
-    @GetMapping("/displayPieChart")
+    @GetMapping("/displayPieChart/{id}")
     public String pieChart(Model model) {
-        model.addAttribute("pass", 50);
-        model.addAttribute("fail", 50);
+        model.addAttribute("spendings", 20);
+        model.addAttribute("savings", 28);
+        model.addAttribute("transport", 22);
+        model.addAttribute("miscellaneous", 30);
         return "pieChart";
     }
 
@@ -48,6 +50,7 @@ public class ViewController {
         invoiceMap.put(Date.valueOf("2019-05-19"),(float) 4689.120);
         model.addAttribute("invoiceMap",invoiceMap);
         return "invoiceGraph";
+
     }
 
 }

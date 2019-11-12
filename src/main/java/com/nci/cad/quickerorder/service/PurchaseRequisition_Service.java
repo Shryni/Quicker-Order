@@ -30,7 +30,7 @@ public class PurchaseRequisition_Service {
 
     public ResponseEntity<PurchaseRequisition> addPurchaseRequisition(PurchaseRequisition purchaseRequisition) throws URISyntaxException {
         PurchaseRequisition purchaseRequisition1 = purchaseRequisition_repository.save(purchaseRequisition);
-        return ResponseEntity.created(new URI("/purchaseRequisition/add/"+purchaseRequisition1.getId())).body(purchaseRequisition1);
+        return ResponseEntity.created(new URI("/purchaserequisition/add/"+purchaseRequisition1.getId())).body(purchaseRequisition1);
     }
 
     public ResponseEntity<PurchaseRequisition> updatePUrchaseRequisition(PurchaseRequisition purchaseRequisition) {

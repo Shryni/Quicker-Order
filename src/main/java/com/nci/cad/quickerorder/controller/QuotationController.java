@@ -5,6 +5,7 @@ import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.sun.org.apache.xpath.internal.operations.Quo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,7 +13,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/quotation")
 public class QuotationController {
 
@@ -22,6 +23,22 @@ public class QuotationController {
 
     @Autowired
     Quotation_Comparator quotation_comparator;
+
+    @GetMapping("/view")
+    public String viewQuotation() {
+        return "quotation/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addQuotation() {
+        return "quotation/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editQuotation() {
+        return "quotation/edit.html";
+    }
+
 
     @GetMapping("/getAll")
     public List<Quotation> getAll(){

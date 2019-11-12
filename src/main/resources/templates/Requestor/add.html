@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requestor Store Details</title>
+</head>
+<body>
+<h1>Requestor Create Page</h1>
+<form >
+    <label for="requestorid">Requestor ID</label>:
+    <input type="text" id="requestorid" name="requestorid" autofocus="autofocus"/> <br />
+    <label for="requestorfirstname">First Name</label>:
+    <input type="text" id="requestorfirstname" name="requestorfirstname" autofocus="autofocus"/> <br />
+    <label for="requestorlastname">Last Name</label>:
+    <input type="text" id="requestorlastname" name="requestorlastname" autofocus="autofocus"/> <br />
+    <label for="role">Role</label>
+    <select id="role" name="role">
+        <option value="manager">Manager</option>
+        <option value="supervisor">Supervisor</option>
+    </select>
+
+    <button type="Save" value="Save">Save</button>
+    <button type="Cancel" value="Cancel">Cancel</button>
+
+
+</form>
+</body>
+</html>

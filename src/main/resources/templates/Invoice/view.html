@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+<h1>Invoice View Page</h1>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<form>
+
+    <label for="invoiceid">Invoice ID</label>
+    <input type="text" id="invoiceid" name="invoiceid" ><br/>
+
+    <label for="invoicedate">Date</label>
+    <input type="date" id="invoicedate" name="invoicedate" ><br/>
+
+    <label for="status">Status</label>
+    <select id="status" name="invoicestatus">
+        <option value="draft">Draft</option>
+        <option value="in_review">In Review</option>
+        <option value="approved">Approved</option>
+    </select>
+    </br>
+    </br>
+    <button type="Save" value="Save">Save</button>
+    <button type="Cancel" value="Cancel">Cancel</button>
+</form>
+</body>
+</html>

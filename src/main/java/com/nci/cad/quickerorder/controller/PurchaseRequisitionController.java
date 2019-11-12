@@ -4,18 +4,36 @@ import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
-@RequestMapping("/purchaseRequisition")
+@Controller
+@RequestMapping("/purchaserequisition")
 public class PurchaseRequisitionController {
 
     @Autowired
     PurchaseRequisition_Service purchaseRequisition_service;
+
+    @GetMapping("/view")
+    public String viewPurchaserequisition() {
+        return "purchaserequisition/view.html";
+    }
+
+    @PostMapping("/add")
+    public String addPurchaserequisition(@ModelAttribute PurchaseRequisition purchaseRequisition) throws URISyntaxException {
+        purchaseRequisition_service.addPurchaseRequisition(purchaseRequisition);
+        return "purchaserequisition/add.html";
+    }
+
+    @PatchMapping("/edit")
+    public String editPurchaserequisition() {
+        return "purchaserequisition/edit.html";
+    }
+
 
     @GetMapping("/getAll")
     public List<PurchaseRequisition> getAll(){
