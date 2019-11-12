@@ -33,7 +33,7 @@ public class Purchaseorder {
     @JsonIgnore
     private Quotation quotation;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy="purchaseorder",  fetch = FetchType.LAZY)
-    private Invoice invoice;
+//    @OneToOne(cascade = CascadeType.ALL,mappedBy="purchaseorder",  fetch = FetchType.LAZY)
+//    private Invoice invoice;
 
 }

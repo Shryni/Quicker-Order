@@ -23,21 +23,18 @@ public class Requestor_Service {
     @Autowired
     RequestorStore_Repository requestorStore_repository;
 
-    public List<Requestor> getAll(Long requestorStoreID) {
-        List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorStoreID);
+    public List<Requestor> getRequestorByStoreID(Long requestorstoreId) {
+        List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorstoreId);
         return requestors;
     }
 
-    public Requestor getRequestorById(Long requestorstoreId,Long requestorId) {
-        Requestor requestorbyID = null;
-        List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorstoreId);
-        for (Requestor requestor: requestors
-             ) {
-            if(requestor.getId() == requestorId){
-                requestorbyID = requestor;
-            }
-        }
-        return requestorbyID;
+    public List<Requestor> getAll() {
+        List<Requestor> requestors = requestor_repository.findAll();
+        return requestors;
+    }
+
+    public Requestor getRequestorById(Long requestorId) {
+        return requestor_repository.findById(requestorId).get();
     }
 
     public Requestor addRequestor(Requestor requestor, Long requestorStoreId) throws URISyntaxException {
@@ -56,12 +53,4 @@ public class Requestor_Service {
         requestor_repository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
-
 }
-
-//    public ResponseEntity<Requestor> getRequestor(long id) {
-//        Optional<Requestor> requestor = requestor_repository.findById(id);
-//        return requestor.map(requestor1-> ResponseEntity.ok().body(requestor1))
-//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }

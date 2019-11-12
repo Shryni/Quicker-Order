@@ -31,8 +31,8 @@ public class RequestorStore {
     private String store_email;
     private long approval_limit;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
-            mappedBy = "requestorStore")
-    private List <Requestor> requestors;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+//            mappedBy = "requestorStore")
+//    private List <Requestor> requestors;
 
 }

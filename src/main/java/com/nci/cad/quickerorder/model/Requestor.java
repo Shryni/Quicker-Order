@@ -33,8 +33,8 @@ public class Requestor {
     private RequestorStore requestorStore;
 
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
-            mappedBy = "requestor")
-    private List <PurchaseRequisition> purchaseRequisitions;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+//            mappedBy = "requestor")
+//    private List <PurchaseRequisition> purchaseRequisitions;
 
 }

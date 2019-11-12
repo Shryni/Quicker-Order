@@ -24,12 +24,13 @@ public class RequestorStore_Service {
     public List<RequestorStore> getAllRequestorStores() {
         return requestorStore_repository.findAll();
     }
+    public RequestorStore getRequestorStore(long id) {
+        return requestorStore_repository.findById(id).get();
+    }
 
     public RequestorStore addRequestorStore(RequestorStore requestorStore) throws URISyntaxException {
         RequestorStore requestorStore1 = requestorStore_repository.save(requestorStore);
         return requestorStore1;
-//        return ResponseEntity.created(new URI("/requestorStore/add/" + requestorStore1.getId()))
-//                .body(requestorStore1);
     }
 
     public ResponseEntity<RequestorStore> updateRequestorStore(RequestorStore requestorStore) {
@@ -37,11 +38,7 @@ public class RequestorStore_Service {
         return ResponseEntity.ok().body(requestorStore1);
     }
 
-    public ResponseEntity<RequestorStore> getRequestorStore(long id) {
-        Optional<RequestorStore> requestorStore = requestorStore_repository.findById(id);
-        return requestorStore.map(response -> ResponseEntity.ok().body(response))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+
 
     public ResponseEntity<?> deleteRequestorStore(Long id) {
         requestorStore_repository.deleteById(id);

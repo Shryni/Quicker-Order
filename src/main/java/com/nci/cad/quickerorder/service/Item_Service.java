@@ -44,9 +44,7 @@ public class Item_Service {
     }
 
     public List<Item> getAllItems(Long requestorstoreId, Long requestorId, Long prId) {
-        Requestor requestor = requestor_service.getRequestorById(requestorstoreId,requestorId);
+        Requestor requestor = requestor_service.getRequestorById(requestorId);
         return null;
     }
-
-
 }

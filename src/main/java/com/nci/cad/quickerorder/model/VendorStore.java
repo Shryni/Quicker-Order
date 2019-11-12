@@ -30,8 +30,8 @@ public class VendorStore {
     private String vendor_store_contact;
     @Column(nullable = false)
     private String vendor_store_email;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy="vendorStore")
-    private List<Quotation> quotations;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy="vendorStore")
+//    private List<Quotation> quotations;
 
 
 }

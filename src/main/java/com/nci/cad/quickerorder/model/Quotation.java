@@ -31,11 +31,11 @@ public class Quotation {
     @Column(nullable = false)
     private Float totalPrice;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
-    private List<Item> items;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
-    private Purchaseorder purchaseorder;
+//    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
+//    private List<Item> items;
+//
+//    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
+//    private Purchaseorder purchaseorder;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendorStore_id" , nullable = false)
