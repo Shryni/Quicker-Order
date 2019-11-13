@@ -23,9 +23,9 @@ public class PurchaseRequisitionController {
         return "purchaserequisition/view.html";
     }
 
-    @PostMapping("/add")
-    public String addPurchaserequisition(@ModelAttribute PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-        purchaseRequisition_service.addPurchaseRequisition(purchaseRequisition);
+    @GetMapping("/add")
+    public String addPurchaserequisition() {
+
         return "purchaserequisition/add.html";
     }
 

@@ -24,11 +24,12 @@ public class RequestorStoreController {
 
     @GetMapping("/view")
     public String viewRequestorstore() {
+
         return "requestorstore/view.html";
     }
 
-    @PostMapping("/add")
-    public String addRequestorstore(@ModelAttribute RequestorStore requestorStore) throws URISyntaxException {
+    @GetMapping("/add")
+    public String addReqestorstore() {
 
         return "requestorstore/add.html";
     }
