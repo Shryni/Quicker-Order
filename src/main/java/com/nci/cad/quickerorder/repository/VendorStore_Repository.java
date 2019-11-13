@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VendorStore_Repository extends JpaRepository<VendorStore,Long> {
-    // Group findByName(String name);
 }

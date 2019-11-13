@@ -15,7 +15,7 @@ public class Quotation_Comparator {
     @Autowired
     Quotation_Repository quotation_repository;
 
-    public ResponseEntity<List<Quotation>> compareQuotations(List<Quotation> quotations, String criteria) throws ParseException {
+    public List<Quotation> compareQuotations(List<Quotation> quotations, String criteria) throws ParseException {
         if(quotations.size()<2){
             System.out.println("Cannot Compare less than 2 quotations!");
             return null;
@@ -30,6 +30,7 @@ public class Quotation_Comparator {
                 allDeliveryDates.add(quotation.getDeliveryDate());
                 allTransport.add(quotation.getTransport());
                 allPrices.add(quotation.getTotalPrice());
+                System.out.println(quotation.getTotalPrice());
                 allDiscounts.add(quotation.getDiscount());
             }
             Map<Integer, Date> bestDeliveryDates = new HashMap<>();
@@ -69,10 +70,10 @@ public class Quotation_Comparator {
             }
 
             switch (criteria){
-                case "deliveryDate": return (ResponseEntity<List<Quotation>>) bestDeliveryDateQuotations;
-                case "transport": return (ResponseEntity<List<Quotation>>) bestTransportQuotations;
-                case "prices": return (ResponseEntity<List<Quotation>>) bestPriceQuotation;
-                case "dicsount": return (ResponseEntity<List<Quotation>>) bestDiscountQuotations;
+                case "deliveryDate": return bestDeliveryDateQuotations;
+                case "transport": return  bestTransportQuotations;
+                case "prices": return  bestPriceQuotation;
+                case "discount": return bestDiscountQuotations;
                 default: return null;
             }
 

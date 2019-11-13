@@ -1,7 +1,10 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
+import com.nci.cad.quickerorder.model.Requestor;
+import com.nci.cad.quickerorder.repository.Item_Repository;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
+import com.nci.cad.quickerorder.repository.Requestor_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +21,29 @@ public class PurchaseRequisition_Service {
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
 
-    public List<PurchaseRequisition> getAll() {
+    @Autowired
+    Requestor_Repository requestor_repository;
+
+    @Autowired
+    Item_Repository item_repository;
+
+    @Autowired
+    Requestor_Service requestor_service;
+
+    public List<PurchaseRequisition> getPRByRequestorID(Long requestorID) {
+        return purchaseRequisition_repository.findByRequestorId(requestorID);
+    }
+    public List<PurchaseRequisition> getAllPR(){
         return purchaseRequisition_repository.findAll();
     }
-
-    public ResponseEntity<PurchaseRequisition> getPurchaseRequistion(Long id) {
-        Optional<PurchaseRequisition> purchaseRequisition = purchaseRequisition_repository.findById(id);
-        return purchaseRequisition.map(purchaseRequisition1 -> ResponseEntity.ok().body(purchaseRequisition1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public PurchaseRequisition getPRByID(Long prID) {
+        return purchaseRequisition_repository.findById(prID).get();
     }
 
-    public ResponseEntity<PurchaseRequisition> addPurchaseRequisition(PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-        PurchaseRequisition purchaseRequisition1 = purchaseRequisition_repository.save(purchaseRequisition);
-        return ResponseEntity.created(new URI("/purchaserequisition/add/"+purchaseRequisition1.getId())).body(purchaseRequisition1);
+   public PurchaseRequisition addPurchaseRequisition(Long requestorId, PurchaseRequisition purchaseRequisition) throws URISyntaxException {
+       Requestor requestor = requestor_repository.findById(requestorId).get();
+       purchaseRequisition.setRequestor(requestor);
+       return purchaseRequisition_repository.save(purchaseRequisition);
     }
 
     public ResponseEntity<PurchaseRequisition> updatePUrchaseRequisition(PurchaseRequisition purchaseRequisition) {

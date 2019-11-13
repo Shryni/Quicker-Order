@@ -1,6 +1,8 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Requestor;
+import com.nci.cad.quickerorder.model.RequestorStore;
+import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
 import com.nci.cad.quickerorder.repository.Requestor_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,19 +20,28 @@ public class Requestor_Service {
     @Autowired
     Requestor_Repository requestor_repository;
 
+    @Autowired
+    RequestorStore_Repository requestorStore_repository;
+
+    public List<Requestor> getRequestorByStoreID(Long requestorstoreId) {
+        List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorstoreId);
+        return requestors;
+    }
+
     public List<Requestor> getAll() {
-        return requestor_repository.findAll();
+        List<Requestor> requestors = requestor_repository.findAll();
+        return requestors;
     }
 
-    public ResponseEntity<Requestor> getRequestor(long id) {
-        Optional<Requestor> requestor = requestor_repository.findById(id);
-        return requestor.map(requestor1-> ResponseEntity.ok().body(requestor1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public Requestor getRequestorById(Long requestorId) {
+        return requestor_repository.findById(requestorId).get();
     }
 
-    public ResponseEntity<Requestor> addRequestor(Requestor requestor) throws URISyntaxException {
+    public Requestor addRequestor(Requestor requestor, Long requestorStoreId) throws URISyntaxException {
+        RequestorStore requestorStore = requestorStore_repository.findById(requestorStoreId).get();
+        requestor.setRequestorStore(requestorStore);
         Requestor requestor1 = requestor_repository.save(requestor);
-        return ResponseEntity.created(new URI("/requestor/add/"+requestor1.getId())).body(requestor1);
+        return requestor1;
     }
 
     public ResponseEntity<Requestor> updateRequestor(Requestor requestor) {

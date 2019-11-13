@@ -14,7 +14,8 @@ import java.util.List;
 @Table
 public class VendorStore {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String vendor_store_name;
     @Column(nullable = false)
@@ -29,6 +30,8 @@ public class VendorStore {
     private String vendor_store_contact;
     @Column(nullable = false)
     private String vendor_store_email;
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true,mappedBy="vendorStore")
-    private List<Quotation> quotations;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy="vendorStore")
+//    private List<Quotation> quotations;
+
+
 }

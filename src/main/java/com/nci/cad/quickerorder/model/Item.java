@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,18 +16,24 @@ import javax.persistence.*;
 @Table
 public class Item {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String name;
     private String description;
     @Column(nullable = false)
     private int quantity;
     private float price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+    @JsonIgnore
     private PurchaseRequisition purchaseRequisition;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quotation_id", nullable = false)
+    @JsonIgnore
     private Quotation quotation;
+
+
+
 
 }
