@@ -3,27 +3,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vendor Store Details</title>
+    <title>Vendor Store View Details</title>
 </head>
 <body>
-<h1>Vendor View Page</h1>
-<form>
-    <label for="vendorstoreid">Vendor Store ID</label>:
-    <input type="text" id="vendorstoreid" name="vendorstoreid" autofocus="autofocus"/> <br />
+<h1>Vendor Store View Page</h1>
+<form method="get" action="/vendorstore/get">
+
     <label for="vendorstorename">Vendor Store Name</label>:
-    <input type="text" id="vendorstorename" name="vendorstorename" autofocus="autofocus"/> <br />
+    <input type="text" id="vendorstorename" name="vendor_store_name" autofocus="autofocus"/> <br />
     <label for="address1">Address 1</label>:
-    <input type="text" id="address1" name="address1" autofocus="autofocus"/> <br />
+    <input type="text" id="address1" name="vendor_storeAddress_line1" autofocus="autofocus"/> <br />
     <label for="address2">Address 2</label>:
-    <input type="text" id="address2" name="address2" autofocus="autofocus"/> <br />
+    <input type="text" id="address2" name="vendor_storeAddress_line2" autofocus="autofocus"/> <br />
+    <label for="address3">Address 3</label>:
+    <input type="text" id="address3" name="vendor_storeAddress_line3" autofocus="autofocus"/> <br />
     <label for="city">City</label>:
-    <input type="text" id="city" name="city" autofocus="autofocus"/> <br />
+    <input type="text" id="city" name="vendor_store_city" autofocus="autofocus"/> <br />
     <label for="eircode">EIR Code</label>:
-    <input type="text" id="eircode" name="eircode" autofocus="autofocus"/> <br />
+    <input type="text" id="eircode" name="vendor_store_postal_code" autofocus="autofocus"/> <br />
     <label for="contact">Contact</label>:
-    <input type="integer" id="contact" name="contact" autofocus="autofocus"/> <br />
+    <input type="integer" id="contact" name="vendor_store_contact" autofocus="autofocus"/> <br />
     <label for="email">Email</label>:
-    <input type="email" id="email" name="email" autofocus="autofocus"/> <br />
+    <input type="email" id="email" name="vendor_store_email" autofocus="autofocus"/> <br />
     <button type="Save" value="Save">Save</button>
     <button type="Cancel" value="Cancel">Cancel</button>
 

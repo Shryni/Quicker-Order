@@ -15,7 +15,7 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//@RestController
+//@Controller
 //@RequestMapping("/quotation")
 //public class QuotationController {
 //
@@ -26,6 +26,24 @@
 //    @Autowired
 //    Quotation_Comparator quotation_comparator;
 //
+
+
+
+//@GetMapping("/add")
+//public String showAddPage() {
+//        return "quotation/add.html";
+//        }
+//
+//@GetMapping("/view")
+//public String showViewpage() {
+//
+//        return "quotation/view.html";
+//        }
+//@GetMapping("/edit")
+//public String showEditpage() {
+//
+//        return "quotation/edit.html";
+//        }
 //    @GetMapping("/getAll")
 //    public List<Quotation> getAll(){
 //        return quotation_service.getAll();

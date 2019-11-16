@@ -8,13 +8,14 @@ import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/requestor")
 public class RequestorController {
     @Autowired
@@ -24,6 +25,22 @@ public class RequestorController {
     PurchaseRequisition_Service purchaseRequisition_service;
 
     ResponseEntity responseEntity = null;
+
+    @GetMapping("/add")
+    public String showAddPage() {
+        return "requestor/add.html";
+    }
+
+    @GetMapping("/view")
+    public String showViewpage() {
+
+        return "requestor/view.html";
+    }
+    @GetMapping("/edit")
+    public String showEditpage() {
+
+        return "requestor/edit.html";
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<Requestor>> getAllRequestor(){
@@ -48,7 +65,7 @@ public class RequestorController {
     }
 
     @PostMapping("/{requestorstoreId}/new")
-    public ResponseEntity<Requestor> addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId, @Valid @RequestBody Requestor requestor) throws URISyntaxException {
+    public ResponseEntity<Requestor> addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId, @Valid /*@RequestBody*/ Requestor requestor) throws URISyntaxException {
         Requestor requestor1 = requestor_service.addRequestor(requestor,requestorstoreId);
         if(requestor1 != null){
             return responseEntity.status(HttpStatus.OK).body(requestor1);
@@ -70,7 +87,7 @@ public class RequestorController {
     }
 
     @PutMapping("/add/{id}")
-    public ResponseEntity<Requestor> updateRequestor(@Valid @RequestBody RequestorDTO requestor) {
+    public ResponseEntity<Requestor> updateRequestor(@Valid /*@RequestBody*/ RequestorDTO requestor) {
         return null;
     }
     @DeleteMapping("/delete/{id}")

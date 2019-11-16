@@ -7,15 +7,17 @@ import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
+@Controller
 @RequestMapping("/requestorStore")
 public class RequestorStoreController {
+
 
     @Autowired
     RequestorStore_Service requestorStore_service;
@@ -25,6 +27,27 @@ public class RequestorStoreController {
 
 
     ResponseEntity responseEntity = null;
+
+    @GetMapping("/add")
+    public String showAddPage() {
+        return "RequestorStore/add.html";
+    }
+
+    @GetMapping("/view")
+    public String showViewpage() {
+
+        return "RequestorStore/view.html";
+    }
+    @GetMapping("/edit")
+    public String showEditpage() {
+
+        return "RequestorStore/edit.html";
+    }
+
+
+//----------------------------------------------------//
+
+
 
     @GetMapping("/all")
     public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
@@ -49,7 +72,7 @@ public class RequestorStoreController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<RequestorStore> addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
+    public ResponseEntity<RequestorStore> addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
         RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
         if(requestorStoreAdded != null){
             return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);
@@ -70,7 +93,7 @@ public class RequestorStoreController {
     }
 
     @PutMapping ("/update/{id}")
-    public ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
+    public ResponseEntity<RequestorStore> updateRequestorStore (@Valid /*@RequestBody*/ RequestorStore requestorStore){
         return requestorStore_service.updateRequestorStore(requestorStore);
     }
 

@@ -8,16 +8,16 @@
 <body>
 <h1>PO Edit Page</h1>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<form>
+<form method="post" action="/purchaseorder/new">
 
-    <label for="purchaseorderID">PO ID</label>
-    <input type="text" id="purchaseorderID" name="purchaseorderID" ><br/>
+    <!--<label for="purchaseorderID">PO ID</label>
+    <input type="text" id="purchaseorderID" name="purchaseorderID" ><br/>-->
 
     <label for="podate">Date</label>
-    <input type="date" id="podate" name="podate" ><br/>
+    <input type="date" id="podate" name="quote_date" ><br/>
 
     <label for="status">Status</label>
-    <select id="status" name="postatus">
+    <select id="status" name="status">
         <option value="draft">Draft</option>
         <option value="in_review">In Review</option>
         <option value="approved">Approved</option>
@@ -26,6 +26,11 @@
     <label for="comments">Comments</label>
     <input type="text" id="comments" name="comments" ><br/>
 
+    <label for="quote">Quote</label>
+    <input type="text" id="quote" name="purchaseRequisition" ><br/>
+
+    <label for="pr">PR</label>
+    <input type="text" id="pr" name="quotation" ><br/>
 
     </br>
     </br>
