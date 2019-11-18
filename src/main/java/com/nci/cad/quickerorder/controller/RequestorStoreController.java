@@ -35,8 +35,7 @@ public class RequestorStoreController {
 
     @GetMapping("/add")
     public String addReqestorstore() {
-
-        return "requestorstore/add.html";
+        return "RequestorStore/add.html";
     }
 
     @GetMapping("/edit")
@@ -68,13 +67,15 @@ public class RequestorStoreController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<RequestorStore> addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
+    public String addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
         RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
         if(requestorStoreAdded != null){
-            return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);
+            //return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);
+            return "RequestorStore/add.html";
         }
         else{
-            return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            //return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            return "";
         }
     }
     @GetMapping("/{requestorstoreId}/requestors")
