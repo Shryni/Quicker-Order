@@ -10,7 +10,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-
+@ToString
 @Entity
 @Table
 public class Invoice {

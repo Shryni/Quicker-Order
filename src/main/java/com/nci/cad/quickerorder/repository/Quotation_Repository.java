@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface Quotation_Repository extends JpaRepository<Quotation, Long> {
     List<Quotation> findByPurchaseRequisitionId(Long id);
-    List<Quotation> findByVendorStoreId(Long id);
+    List<Quotation> findByVendorPRId(Long id);
 }

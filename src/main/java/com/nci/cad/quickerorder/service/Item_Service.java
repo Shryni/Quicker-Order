@@ -1,8 +1,10 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Item;
+import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.repository.Item_Repository;
+import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +22,22 @@ public class Item_Service {
     Item_Repository item_repository;
 
     @Autowired
-    Requestor_Service requestor_service;
+    PurchaseRequisition_Repository purchaseRequisition_repository;
 
-    public ResponseEntity<Item> addItem(Item item) throws URISyntaxException {
-        Item item1 = item_repository.save(item);
-        return ResponseEntity.created(new URI("/item/add/"+item1.getId())).body(item1);
+    public List<Item> getItemsByPRId( Long prId) {
+        List<Item> items = item_repository.findByPurchaseRequisitionId(prId);
+        return items;
     }
-
-    public ResponseEntity<Item> getItem(long id) {
-        Optional<Item> item = item_repository.findById(id);
-        return item.map(item1 -> ResponseEntity.ok().body(item1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public List<Item> getAllItems(){
+        return item_repository.findAll();
+    }
+    public Item getItembyID(Long itemID){
+        return item_repository.findById(itemID).get();
+    }
+    public Item addnewItem(Long prID, Item item){
+        PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.findById(prID).get();
+        item.setPurchaseRequisition(purchaseRequisition);
+        return item_repository.save(item);
     }
 
     public ResponseEntity<Item> updateItem(Item item) {
@@ -43,8 +50,5 @@ public class Item_Service {
         return ResponseEntity.ok().build();
     }
 
-    public List<Item> getAllItems(Long requestorstoreId, Long requestorId, Long prId) {
-        Requestor requestor = requestor_service.getRequestorById(requestorId);
-        return null;
-    }
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-
+@ToString
 @Entity
 @Table
 public class Quotation {
@@ -20,8 +20,8 @@ public class Quotation {
     private Long id;
     private Date quote_date;
     @Column(nullable = false)
-    private String status;
-    @Column(nullable = false)
+    private Boolean status;
+    @Column(nullable = true)
     private java.sql.Date deliveryDate;
     @Column(nullable = false)
     private java.sql.Date quoteValidity;
@@ -37,15 +37,15 @@ public class Quotation {
 //    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
 //    private Purchaseorder purchaseorder;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "vendorStore_id" , nullable = false)
-    @JsonIgnore
-    private VendorStore vendorStore;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "vendorStore_id" , nullable = false)
+//    @JsonIgnore
+//    private VendorStore vendorStore;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+    @JoinColumn(name = "vendorPRId", nullable = false)
     @JsonIgnore
-    private PurchaseRequisition purchaseRequisition;
+    private VendorPR vendorPR;
 
     public Boolean getTransport() {
         return this.transport;

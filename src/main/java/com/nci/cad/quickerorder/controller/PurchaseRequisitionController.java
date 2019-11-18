@@ -1,10 +1,11 @@
 package com.nci.cad.quickerorder.controller;
 
+import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
-import com.nci.cad.quickerorder.model.Requestor;
+import com.nci.cad.quickerorder.model.VendorPR;
 import com.nci.cad.quickerorder.service.Item_Service;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
-import com.nci.cad.quickerorder.service.Requestor_Service;
+import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class PurchaseRequisitionController {
 
     @Autowired
     PurchaseRequisition_Service purchaseRequisition_service;
+
+    @Autowired
+    VendorPRService vendorPRService;
 
     @Autowired
     Item_Service item_service;
@@ -58,19 +62,27 @@ public class PurchaseRequisitionController {
         }
 
     }
-
-
-/*@PostMapping("/{requestorstoreId}/new")
-    public ResponseEntity<Requestor> addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId, @Valid @RequestBody Requestor requestor) throws URISyntaxException {
-        Requestor requestor1 = requestor_service.addRequestor(requestor,requestorstoreId);
-        if(requestor1 != null){
-            return responseEntity.status(HttpStatus.OK).body(requestor1);
+    @GetMapping("/{prID}/items")
+    public ResponseEntity<List<Item>> getAllItems(@PathVariable (value = "prID") Long prID){
+        List<Item> items = item_service.getItemsByPRId(prID);
+        if(items != null){
+            return responseEntity.status(HttpStatus.OK).body(items);
         }
         else{
-            return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<List<Item>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
+    }
 
-    }*/
+    @PostMapping("/{prID}/export")
+    public ResponseEntity<List<VendorPR>> sendPRToVendor(@PathVariable (value = "prID") Long prID, Long[] vendors){
+        vendorPRService.addPRsToVendors(prID,vendors);
+        //if(vendorPRS != null){
+            return responseEntity.status(HttpStatus.OK).body(null);
+//        }
+//        else{
+//            return (ResponseEntity<List<VendorPR>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+//        }
+    }
 
     @PutMapping("/add/{id}")
     public ResponseEntity<PurchaseRequisition> updatePUrchaseRequisition(@Valid @RequestBody PurchaseRequisition purchaseRequisition){

@@ -24,12 +24,6 @@ public class PurchaseRequisition_Service {
     @Autowired
     Requestor_Repository requestor_repository;
 
-    @Autowired
-    Item_Repository item_repository;
-
-    @Autowired
-    Requestor_Service requestor_service;
-
     public List<PurchaseRequisition> getPRByRequestorID(Long requestorID) {
         return purchaseRequisition_repository.findByRequestorId(requestorID);
     }

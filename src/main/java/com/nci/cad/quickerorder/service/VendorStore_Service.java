@@ -23,25 +23,16 @@ public class VendorStore_Service {
         return vendorStore_repository.findAll();
     }
 
-    public ResponseEntity<VendorStore> addVendorStore(VendorStore vendorStore) throws URISyntaxException {
-        VendorStore vendorStore1 = vendorStore_repository.save(vendorStore);
-        return ResponseEntity.created(new URI("/vendorstore/add/" + vendorStore1.getId()))
-                .body(vendorStore1);
+    public VendorStore findByID(Long vendorstireID){
+        return vendorStore_repository.findById(vendorstireID).get();
     }
 
-    public ResponseEntity<VendorStore> updateVendorStore(VendorStore vendorStore) {
-        VendorStore vendorStore1 = vendorStore_repository.save(vendorStore);
-        return ResponseEntity.ok().body(vendorStore1);
+    public VendorStore addVendorStore(VendorStore vendorStore){
+        return vendorStore_repository.save(vendorStore);
     }
 
-    public ResponseEntity<VendorStore> getVendorStore(long id) {
-        Optional<VendorStore> vendorStore = vendorStore_repository.findById(id);
-        return vendorStore.map(response -> ResponseEntity.ok().body(response))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    public ResponseEntity<?> deleteVendorStore(Long id) {
-        vendorStore_repository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public VendorStore updateVendorStore(VendorStore vendorStore){
+        VendorStore vendorStore1 = vendorStore_repository.findById(vendorStore.getId()).get();
+        return null;
     }
 }

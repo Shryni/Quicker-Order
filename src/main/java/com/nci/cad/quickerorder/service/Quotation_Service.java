@@ -2,7 +2,9 @@ package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.Quotation;
+import com.nci.cad.quickerorder.model.VendorPR;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
+import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.sun.org.apache.xpath.internal.operations.Quo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,28 +28,35 @@ public class Quotation_Service {
     @Autowired
     Quotation_Repository quotation_repository;
 
-    public ResponseEntity<Quotation> addQuotation(Quotation quotation) throws URISyntaxException {
-        Quotation quotation1 = quotation_repository.save(quotation);
-        return ResponseEntity.created(new URI("/quotation/add/"+quotation1.getId())).body(quotation1);
+    @Autowired
+    VendorPR_Repository vendorPR_repository;
+
+    public List<Quotation> getAll() {
+        return quotation_repository.findAll();
+    }
+    public Quotation getQuotationByID(long id) {
+        return quotation_repository.findById(id).get();
     }
 
-    public ResponseEntity<Quotation> getQuotation(long id) {
-        Optional<Quotation> quotation = quotation_repository.findById(id);
-        return quotation.map(quotation1 -> ResponseEntity.ok().body(quotation1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public Quotation addQuotation(Long vendorPRID, Quotation quotation) throws URISyntaxException {
+        VendorPR vendorPR = vendorPR_repository.findById(vendorPRID).get();
+        quotation.setVendorPR(vendorPR);
+        return quotation_repository.save(quotation);
+    }
+    public List<Quotation> getAllQuotationsforVendor(Long prID) {
+        return quotation_repository.findByVendorPRId(prID);
     }
 
-    public ResponseEntity<Quotation> updateQuotation(Quotation quotation) {
-        Quotation quotation1 = quotation_repository.save(quotation);
-        return ResponseEntity.ok().body(quotation1);
+    public Quotation approveQuotation(Long quotationID) {
+        Quotation quotation = quotation_repository.findById(quotationID).get();
+        quotation.setStatus(true);
+        return quotation_repository.save(quotation);
     }
-
     public ResponseEntity<?> deleteQuotation(Long id) {
         quotation_repository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    public List<Quotation> getAll() {
-        return quotation_repository.findAll();
-    }
+
+
 }

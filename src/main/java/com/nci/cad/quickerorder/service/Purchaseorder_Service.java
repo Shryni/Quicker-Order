@@ -1,7 +1,9 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Purchaseorder;
+import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.repository.PurchaseOrder_Repository;
+import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +19,28 @@ public class Purchaseorder_Service {
     @Autowired
     PurchaseOrder_Repository purchaseOrder_repository;
 
-    public ResponseEntity<Purchaseorder> addPurchaseOrder(Purchaseorder purchaseOrder) throws URISyntaxException {
-        Purchaseorder purchaseOrder1 = purchaseOrder_repository.save(purchaseOrder);
-        return ResponseEntity.created(new URI("/purchaseOrder/add/"+purchaseOrder1.getId())).body(purchaseOrder1);
+    @Autowired
+    Quotation_Repository quotation_repository;
+
+    public List<Purchaseorder> getAll() {
+        return purchaseOrder_repository.findAll();
     }
 
-    public ResponseEntity<Purchaseorder> getPurchaseOrder(long id) {
-        Optional<Purchaseorder> purchaseOrder = purchaseOrder_repository.findById(id);
-        return purchaseOrder.map(purchaseOrder1 -> ResponseEntity.ok().body(purchaseOrder1))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public Purchaseorder getPOByID(long id) {
+        return purchaseOrder_repository.findById(id).get();
+    }
+
+    public Purchaseorder addPurchaseOrder(Long quotationID,Purchaseorder purchaseOrder) throws URISyntaxException {
+        Quotation quotation = quotation_repository.findById(quotationID).get();
+        if(quotation.getStatus()){
+            purchaseOrder.setQuotation(quotation);
+            return purchaseOrder_repository.save(purchaseOrder);
+        }
+        else{
+            System.out.println("Quotation not approved");
+            return null;
+        }
+
     }
 
     public ResponseEntity<Purchaseorder> updatePurchaseOrder(Purchaseorder purchaseOrder) {
@@ -38,7 +53,5 @@ public class Purchaseorder_Service {
         return ResponseEntity.ok().build();
     }
 
-    public List<Purchaseorder> getAll() {
-        return purchaseOrder_repository.findAll();
-    }
+
 }

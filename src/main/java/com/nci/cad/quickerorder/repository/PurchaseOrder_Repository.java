@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PurchaseOrder_Repository extends JpaRepository<Purchaseorder,Long> {
-    List<Purchaseorder> findByPurchaseRequisitionId(Long id);
+    //List<Purchaseorder> findByPurchaseRequisitionId(Long id);
     Purchaseorder findByQuotationId(Long id);
 }

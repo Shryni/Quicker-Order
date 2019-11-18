@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table
@@ -23,10 +24,10 @@ public class Purchaseorder {
     private String status;
     private String comments;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
-    @JsonIgnore
-    private PurchaseRequisition purchaseRequisition;
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+//    @JsonIgnore
+//    private PurchaseRequisition purchaseRequisition;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quotation_id",nullable = false)
