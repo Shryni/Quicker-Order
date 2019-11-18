@@ -4,11 +4,13 @@
     <meta charset="ISO-8859-1" />
     <title>Home</title>
 </head>
-<body>
+<body style="background-color:cyan;">
+
 <div align="center">
-    <a th:href="@{/displayBarGraph}">Bar-Graph</a><br /> <br />
-    <a th:href="@{/displayPieChart}">Pie-Chart</a>
-    <a th:href="@{/spendings/{id}}">Invoice chart</a>
+    <a th:href="@{/displayBarGraph}">Bar-Graph</a><br />
+    <a th:href="@{/displayPieChart/1}">Pie-Chart</a><br />
+    <a th:href="@{/spendings/1}">Invoice chart</a>
+
 </div>
 </body>
 </html>

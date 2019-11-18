@@ -7,6 +7,7 @@ import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,7 +15,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping("/requestorStore")
+@Controller
+@RequestMapping("/requestorstore")
 public class RequestorStoreController {
 
     @Autowired
@@ -35,6 +37,28 @@ public class RequestorStoreController {
         else{
             return (ResponseEntity<List<RequestorStore>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
+
+    @GetMapping("/view")
+    public String viewRequestorstore() {
+
+        return "requestorstore/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addReqestorstore() {
+
+        return "requestorstore/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editRequestorstore() {
+        return "requestorstore/edit.html";
+    }
+
+
+    @GetMapping("/getAll")
+    public List<RequestorStore> getAllRequestorStore(){
+        return requestorStore_service.getAllRequestorStores();
     }
 
     @GetMapping("/{id}")

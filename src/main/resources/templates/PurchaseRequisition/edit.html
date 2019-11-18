@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Requisition</title>
+</head>
+<body>
+<h1>PR Edit Page</h1>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<form>
+
+    <label for="prID">PR ID</label>
+    <input type="text" id="prID" name="prID" ><br/>
+
+    <label for="prtitle">PR Title</label>
+    <input type="text" id="prtitle" name="prtitle" ><br/>
+
+    <label for="prdate">Created Date</label>
+    <input type="date" id="prdate" name="prdate" ><br/>
+
+    <label for="status">Status</label>
+    <select id="status" name="postatus">
+        <option value="draft">Draft</option>
+        <option value="in_review">In Review</option>
+        <option value="approved">Approved</option>
+    </select>
+
+    <label for="comments">Comments</label>
+    <input type="text" id="comments" name="comments" ><br/>
+
+    <label for="save_template">Save Template</label>
+    <input type="boolean" id="save_template" name="save_template" ><br/>
+
+    <label for="comments">Comments</label>
+    <input type="text" id="comments" name="comments" ><br/>
+
+
+    </br>
+    </br>
+    <button type="Save" value="Save">Save</button>
+    <button type="Cancel" value="Cancel">Cancel</button>
+</form>
+</body>
+</html>

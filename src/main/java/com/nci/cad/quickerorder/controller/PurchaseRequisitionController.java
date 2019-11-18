@@ -9,14 +9,15 @@ import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
-@RequestMapping("/purchaseRequisition")
+@Controller
+@RequestMapping("/purchaserequisition")
 public class PurchaseRequisitionController {
 
     @Autowired
@@ -39,6 +40,34 @@ public class PurchaseRequisitionController {
         else {
             return (ResponseEntity<List<PurchaseRequisition>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
+    @GetMapping("/view")
+    public String viewPurchaserequisition() {
+        return "purchaserequisition/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addPurchaserequisition() {
+
+        return "purchaserequisition/add.html";
+    }
+
+    @PatchMapping("/edit")
+    public String editPurchaserequisition() {
+        return "purchaserequisition/edit.html";
+    }
+
+
+    @GetMapping("/getAll")
+    public List<PurchaseRequisition> getAll(){
+        return purchaseRequisition_service.getAll();
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<PurchaseRequisition> getPurchaseRequisition (@Valid @PathVariable Long id){
+        return purchaseRequisition_service.getPurchaseRequistion(id);
+    }
+    @PostMapping("/add")
+    public ResponseEntity<PurchaseRequisition> addPurchaseRequisition (@Valid @RequestBody PurchaseRequisition purchaseRequisition)throws URISyntaxException {
+        return purchaseRequisition_service.addPurchaseRequisition(purchaseRequisition);
     }
 
     @GetMapping("/{prID}")

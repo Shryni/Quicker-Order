@@ -7,19 +7,35 @@ import com.nci.cad.quickerorder.service.Spendings_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/invoice")
 
 public class InvoiceController {
 
     @Autowired
     Invoice_Service invoice_service;
+
+    @GetMapping("/view")
+    public String viewInvoice() {
+        return "invoice/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addInvoice() {
+        return "invoice/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editInvoice() {
+        return "invoice/edit.html";
+    }
 
     @Autowired
     Spendings_Service spendings_service;

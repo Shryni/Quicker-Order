@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/requestor")
 public class RequestorController {
     @Autowired
@@ -56,6 +56,27 @@ public class RequestorController {
         else{
             return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
+    @GetMapping("/view")
+    public String viewRequestor() {
+        return "requestor/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addRequestor() {
+        return "requestor/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editRequestor() {
+        return "requestor/edit.html";
+    }
+
+
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Requestor> getRequestor(@Valid @PathVariable long id){
+        return requestor_service.getRequestor(id);
+    }
 
     }
     @GetMapping("/{requestorID}/pRequisitions")
