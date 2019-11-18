@@ -3,29 +3,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Requestor Store Details</title>
+    <title>Requestor Store</title>
 </head>
 <body>
-<h1>Requestor Create Page</h1>
-<form>
-    <label for="requestorstoreid">Requestor Store ID</label>:
+<h1>Requestor Store Create Page</h1>
+<form method="post" action="/requestorStore/new">
+    <!--<label for="requestorstoreid">Requestor Store ID</label>:
     <input type="text" id="requestorstoreid" name="requestorstoreid" autofocus="autofocus"/> <br />
+    -->
     <label for="requestorstorename">Requestor Store Name</label>:
-    <input type="text" id="requestorstorename" name="requestorstorename" autofocus="autofocus"/> <br />
+    <input type="text" id="requestorstorename" name="store_name" autofocus="autofocus"/> <br />
     <label for="address1">Address 1</label>:
-    <input type="text" id="address1" name="address1" autofocus="autofocus"/> <br />
+    <input type="text" id="address1" name="storeAddress_line1" autofocus="autofocus"/> <br />
     <label for="address2">Address 2</label>:
-    <input type="text" id="address2" name="address2" autofocus="autofocus"/> <br />
+    <input type="text" id="address2" name="storeAddress_line2" autofocus="autofocus"/> <br />
+    <label for="address3">Address 3</label>:
+    <input type="text" id="address3" name="storeAddress_line3" autofocus="autofocus"/> <br />
     <label for="city">City</label>:
-    <input type="text" id="city" name="city" autofocus="autofocus"/> <br />
+    <input type="text" id="city" name="store_city" autofocus="autofocus"/> <br />
     <label for="eircode">EIR Code</label>:
-    <input type="text" id="eircode" name="eircode" autofocus="autofocus"/> <br />
+    <input type="text" id="eircode" name="store_postal_code" autofocus="autofocus"/> <br />
     <label for="contact">Contact</label>:
-    <input type="integer" id="contact" name="contact" autofocus="autofocus"/> <br />
+    <input type="integer" id="contact" name="store_contact" autofocus="autofocus"/> <br />
     <label for="storeapprovallimit">Store Approval Limit</label>:
-    <input type="float" id="storeapprovallimit" name="storeapprovallimit" autofocus="autofocus"/> <br />
+    <input type="float" id="storeapprovallimit" name="approval_limit" autofocus="autofocus"/> <br />
     <label for="email">Email</label>:
-    <input type="email" id="email" name="email" autofocus="autofocus"/> <br />
+    <input type="email" id="email" name="store_email" autofocus="autofocus"/> <br />
     <button type="Save" value="Save">Save</button>
     <button type="Cancel" value="Cancel">Cancel</button>
 

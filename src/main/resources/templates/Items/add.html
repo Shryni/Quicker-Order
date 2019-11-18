@@ -1,18 +1,25 @@
-<div class="container">
-    <html xmlns:th="http://www.thymeleaf.org">
-    <form action="action_page.php">
-
-        <label for="id">Item ID</label>
-        <input type="text" id="id" name="itemID" ><br/>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Store</title>
+</head>
+<body>
+<h1>Item Create Page</h1>
+    <form method="post" action="/item/new">
 
         <label for="name">Item Name</label>
-        <input type="text" id="name" name="itemname" ><br/>
+        <input type="text" id="name" name="name" ><br/>
 
         <label for="description">Item Description</label>
-        <input type="text" id="description" name="itemdescription" ><br/>
+        <input type="text" id="description" name="description" ><br/>
 
         <label for="quantity">Quantity</label>
         <input type="integer" id="quantity" name="quantity" ><br/>
+
+        <label for="purchaseRequisition">PR</label>
+        <input type="integer" id="purchaseRequisition" name="purchaseRequisition" ><br/>
 
         <label for="quotation">Quotation</label>
         <input type="integer" id="quotation" name="quotation" ><br/>
@@ -29,8 +36,9 @@
         <!--        <label for="subject">Subject</label>-->
         <!--        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>-->
 
-        <button type="Save" value="Save" th:action="@{/addVendor}">Save</button>
+        <button type="Save" value="Save" >Save</button>
         <button type="Cancel" value="Cancel">Reset</button>
 
     </form>
-</div>
+</body>
+</html>

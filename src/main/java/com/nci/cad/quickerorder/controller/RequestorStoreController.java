@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/requestorstore")
+@RequestMapping("/requestorStore")
 public class RequestorStoreController {
 
     @Autowired
@@ -68,7 +68,7 @@ public class RequestorStoreController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<RequestorStore> addRequestorStore(@Valid @RequestBody RequestorStore requestorStore) throws URISyntaxException{
+    public ResponseEntity<RequestorStore> addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
         RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
         if(requestorStoreAdded != null){
             return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);

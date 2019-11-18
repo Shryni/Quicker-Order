@@ -8,38 +8,35 @@
 <body>
 <h1>PR Edit Page</h1>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<form>
+<form method="post" action="/purchaseRequisition/new">
 
-    <label for="prID">PR ID</label>
-    <input type="text" id="prID" name="prID" ><br/>
 
     <label for="prtitle">PR Title</label>
-    <input type="text" id="prtitle" name="prtitle" ><br/>
+    <input type="text" id="prtitle" name="title" ><br/>
 
     <label for="prdate">Created Date</label>
-    <input type="date" id="prdate" name="prdate" ><br/>
+    <input type="date" id="prdate" name="created_date" ><br/>
+
+    <label for="expected_date_of_delivery">Expected Date of Delivery</label>
+    <input type="date" id="expected_date_of_delivery" name="expected_date_of_delivery" ><br/>
 
     <label for="status">Status</label>
-    <select id="status" name="postatus">
+    <select id="status" name="status">
         <option value="draft">Draft</option>
         <option value="in_review">In Review</option>
         <option value="approved">Approved</option>
-    </select>
+    </select></form>
+<label for="additionalcomments">Additional Comments</label>
+<input type="date" id="additionalcomments" name="additional_comments" ><br/>
+<label for="save_template">Save Template</label>
+<input type="boolean" id="save_template" name="save_template" ><br/>
+<label for="requestor">Requestor</label>
+<input type="text" id="requestor" name="requestor" ><br/>
 
-    <label for="comments">Comments</label>
-    <input type="text" id="comments" name="comments" ><br/>
-
-    <label for="save_template">Save Template</label>
-    <input type="boolean" id="save_template" name="save_template" ><br/>
-
-    <label for="comments">Comments</label>
-    <input type="text" id="comments" name="comments" ><br/>
-
-
-    </br>
-    </br>
-    <button type="Save" value="Save">Save</button>
-    <button type="Cancel" value="Cancel">Cancel</button>
+</br>
+</br>
+<button type="Save" value="Save">Save</button>
+<button type="Cancel" value="Cancel">Cancel</button>
 </form>
 </body>
 </html>

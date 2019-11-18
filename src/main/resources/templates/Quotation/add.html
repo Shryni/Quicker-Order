@@ -8,11 +8,10 @@
 <body>
 <h1>Quotation Create Page</h1>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<form>
+<form method="post" action="/quotation/new">
 
-
-    <label for="id">Quote ID</label>
-    <input type="text" id="id" name="quoteID" ><br/>
+    <label for="quotedate">Quote Date</label>
+    <input type="date" id="quotedate" name="quote_date" ><br/>
 
     <label for="status">Status</label>
     <select id="status" name="status">
@@ -21,20 +20,15 @@
         <option value="approved">Approved</option>
     </select><br/>
 
-    <label for="description">Item Description</label>
-    <input type="text" id="description" name="itemdescription" ><br/>
 
-    <label for="quantity">Quantity</label>
-    <input type="integer" id="quantity" name="quantity" ><br/>
-
-    <label for="quotation">Quotation</label>
-    <input type="integer" id="quotation" name="quotation" ><br/>
+    <label for="quotevalidity">Quote Validity</label>
+    <input type="date" id="quotevalidity" name="quoteValidity" ><br/>
 
     <label for="transport">Transport</label>
     <input type="checkbox" id="transport" name="transport" ><br/>
 
-    <label for="price">Price</label>
-    <input type="float" id="price" name="price" ><br/>
+    <label for="price">Total Price</label>
+    <input type="float" id="price" name="totalPrice" ><br/>
 
 
     <!--        <label for="country">Country</label>-->

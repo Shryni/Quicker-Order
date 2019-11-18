@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/purchaserequisition")
+@RequestMapping("/purchaseRequisition")
 public class PurchaseRequisitionController {
 
     @Autowired
