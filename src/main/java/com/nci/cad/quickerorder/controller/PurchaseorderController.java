@@ -20,20 +20,7 @@ public class PurchaseorderController {
 
     ResponseEntity responseEntity = null;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Purchaseorder>> getAll(){
-        List<Purchaseorder> purchaseorders = purchaseorder_service.getAll();
-        if(purchaseorders != null){
-            return responseEntity.status(HttpStatus.OK).body(purchaseorders);
-        }
-        else{
-            return (ResponseEntity<List<Purchaseorder>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-    @GetMapping("/view")
-    public String viewPurchaseorder() {
-        return "purchaseorder/view.html";
-    }
-
+    //***********************************************************************//
     @GetMapping("/add")
     public String addPurchaseorder() {
         return "purchaseorder/add.html";
@@ -43,11 +30,23 @@ public class PurchaseorderController {
     public String editPurchaseorder() {
         return "purchaseorder/edit.html";
     }
-
-    @GetMapping("/getAll")
-    public List<Purchaseorder> getAll(){
-        return purchaseorder_service.getAll();
+    @GetMapping("/view")
+    public String viewPurchaseorder() {
+        return "purchaseorder/view.html";
     }
+    //***********************************************************************//
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Purchaseorder>> getAll() {
+        List<Purchaseorder> purchaseorders = purchaseorder_service.getAll();
+        if (purchaseorders != null) {
+            return responseEntity.status(HttpStatus.OK).body(purchaseorders);
+        } else {
+            return (ResponseEntity<List<Purchaseorder>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @GetMapping("/{purchaseOrderID}")
     public ResponseEntity<Purchaseorder> getPOByID(@PathVariable (value = "purchaseOrderID")Long purchaseOrderID){
         Purchaseorder purchaseorder = purchaseorder_service.getPOByID(purchaseOrderID);
@@ -61,16 +60,16 @@ public class PurchaseorderController {
 
     @PostMapping("/{quotationID}/new")
     public ResponseEntity<Purchaseorder> addPO(@PathVariable (value = "quotationID") Long quotationID, @Valid @RequestBody Purchaseorder purchaseorder) throws URISyntaxException {
-        Purchaseorder purchaseorder1 = purchaseorder_service.addPurchaseOrder(quotationID,purchaseorder);
-        if(purchaseorder1 != null){
+        Purchaseorder purchaseorder1 = purchaseorder_service.addPurchaseOrder(quotationID, purchaseorder);
+        if (purchaseorder1 != null) {
             return responseEntity.status(HttpStatus.OK).body(purchaseorder1);
-        }
-        else{
+        } else {
             return (ResponseEntity<Purchaseorder>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePurchaseOrder( @Valid @PathVariable Long id) {
-        return purchaseorder_service.deletePurchaseOrder(id);
     }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> deletePurchaseOrder( @Valid @PathVariable Long id) {
+//        return purchaseorder_service.deletePurchaseOrder(id);
+//    }
 }

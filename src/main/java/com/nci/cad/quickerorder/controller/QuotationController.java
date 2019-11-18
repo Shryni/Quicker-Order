@@ -26,25 +26,7 @@ public class QuotationController {
 
     ResponseEntity responseEntity = null;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Quotation>> getAll(){
-        List<Quotation> quotationList = quotation_service.getAll();
-        if(quotationList != null){
-            return responseEntity.status(HttpStatus.OK).body(quotationList);
-        }
-        else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-    }
-    @GetMapping("/{quotationID}")
-    public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID){
-        Quotation quotation = quotation_service.getQuotationByID(quotationID);
-        if(quotation != null){
-            return responseEntity.status(HttpStatus.OK).body(quotation);
-        }
-        else {
-            return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
+    //*****************************************************************************//
     @GetMapping("/view")
     public String viewQuotation() {
         return "quotation/view.html";
@@ -59,12 +41,28 @@ public class QuotationController {
     public String editQuotation() {
         return "quotation/edit.html";
     }
+    //*****************************************************************************//
 
-
-    @GetMapping("/getAll")
-    public List<Quotation> getAll(){
-        return quotation_service.getAll();
+    @GetMapping("/all")
+    public ResponseEntity<List<Quotation>> getAll(){
+        List<Quotation> quotationList = quotation_service.getAll();
+        if(quotationList != null){
+            return responseEntity.status(HttpStatus.OK).body(quotationList);
+        }
+        else{
+            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
     }
+    @GetMapping("/{quotationID}")
+    public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID) {
+        Quotation quotation = quotation_service.getQuotationByID(quotationID);
+        if (quotation != null) {
+            return responseEntity.status(HttpStatus.OK).body(quotation);
+        } else {
+            return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @PutMapping("/{prID}/approve")
     public ResponseEntity<Quotation> approveQuotation (@PathVariable (value = "quotationID")Long quotationID){

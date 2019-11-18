@@ -31,15 +31,7 @@ public class PurchaseRequisitionController {
 
     ResponseEntity responseEntity = null;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PurchaseRequisition>> getAllPR(){
-        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getAllPR();
-        if(purchaseRequisitionList != null){
-            return responseEntity.status(HttpStatus.OK).body(purchaseRequisitionList);
-        }
-        else {
-            return (ResponseEntity<List<PurchaseRequisition>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
+    //****************************************************************************//
     @GetMapping("/view")
     public String viewPurchaserequisition() {
         return "purchaserequisition/view.html";
@@ -55,19 +47,16 @@ public class PurchaseRequisitionController {
     public String editPurchaserequisition() {
         return "purchaserequisition/edit.html";
     }
+    //****************************************************************************//
 
-
-    @GetMapping("/getAll")
-    public List<PurchaseRequisition> getAll(){
-        return purchaseRequisition_service.getAll();
-    }
-    @GetMapping("/get/{id}")
-    public ResponseEntity<PurchaseRequisition> getPurchaseRequisition (@Valid @PathVariable Long id){
-        return purchaseRequisition_service.getPurchaseRequistion(id);
-    }
-    @PostMapping("/add")
-    public ResponseEntity<PurchaseRequisition> addPurchaseRequisition (@Valid @RequestBody PurchaseRequisition purchaseRequisition)throws URISyntaxException {
-        return purchaseRequisition_service.addPurchaseRequisition(purchaseRequisition);
+    @GetMapping("/all")
+    public ResponseEntity<List<PurchaseRequisition>> getAllPR() {
+        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getAllPR();
+        if (purchaseRequisitionList != null) {
+            return responseEntity.status(HttpStatus.OK).body(purchaseRequisitionList);
+        } else {
+            return (ResponseEntity<List<PurchaseRequisition>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{prID}")

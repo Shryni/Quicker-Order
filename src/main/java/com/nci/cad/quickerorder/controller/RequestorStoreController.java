@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
 @Controller
 @RequestMapping("/requestorstore")
 public class RequestorStoreController {
@@ -28,19 +27,9 @@ public class RequestorStoreController {
 
     ResponseEntity responseEntity = null;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
-        List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
-        if(requestorStores != null){
-            return responseEntity.status(HttpStatus.OK).body(requestorStores);
-        }
-        else{
-            return (ResponseEntity<List<RequestorStore>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-
+    //-------------------------------------------------------------------------
     @GetMapping("/view")
     public String viewRequestorstore() {
-
         return "requestorstore/view.html";
     }
 
@@ -54,12 +43,18 @@ public class RequestorStoreController {
     public String editRequestorstore() {
         return "requestorstore/edit.html";
     }
+    //-------------------------------------------------------------------------
 
-
-    @GetMapping("/getAll")
-    public List<RequestorStore> getAllRequestorStore(){
-        return requestorStore_service.getAllRequestorStores();
+    @GetMapping("/all")
+    public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
+        List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
+        if (requestorStores != null) {
+            return responseEntity.status(HttpStatus.OK).body(requestorStores);
+        } else {
+            return (ResponseEntity<List<RequestorStore>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<RequestorStore> getRequestorStore(@Valid @PathVariable long id){
@@ -93,14 +88,14 @@ public class RequestorStoreController {
         }
     }
 
-    @PutMapping ("/update/{id}")
-    public ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
-        return requestorStore_service.updateRequestorStore(requestorStore);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteGroup( @Valid @PathVariable Long id) {
-        return requestorStore_service.deleteRequestorStore(id);
-    }
+//    @PutMapping ("/update/{id}")
+//    public ResponseEntity<RequestorStore> updateRequestorStore (@Valid @RequestBody RequestorStore requestorStore){
+//        return requestorStore_service.updateRequestorStore(requestorStore);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> deleteGroup( @Valid @PathVariable Long id) {
+//        return requestorStore_service.deleteRequestorStore(id);
+//    }
 
 }

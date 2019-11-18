@@ -8,6 +8,7 @@ import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,24 @@ public class RequestorController {
     PurchaseRequisition_Service purchaseRequisition_service;
 
     ResponseEntity responseEntity = null;
+
+    //*************************************************************************//
+    @GetMapping("/view")
+    public String viewRequestor() {
+        return "requestor/view.html";
+    }
+
+    @GetMapping("/add")
+    public String addRequestor() {
+        return "requestor/add.html";
+    }
+
+    @GetMapping("/edit")
+    public String editRequestor() {
+        return "requestor/edit.html";
+    }
+
+    //*************************************************************************//
 
     @GetMapping("/all")
     public ResponseEntity<List<Requestor>> getAllRequestor(){
@@ -49,36 +68,16 @@ public class RequestorController {
 
     @PostMapping("/{requestorstoreId}/new")
     public ResponseEntity<Requestor> addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId, @Valid @RequestBody Requestor requestor) throws URISyntaxException {
-        Requestor requestor1 = requestor_service.addRequestor(requestor,requestorstoreId);
-        if(requestor1 != null){
+        Requestor requestor1 = requestor_service.addRequestor(requestor, requestorstoreId);
+        if (requestor1 != null) {
             return responseEntity.status(HttpStatus.OK).body(requestor1);
-        }
-        else{
+        } else {
             return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
-    @GetMapping("/view")
-    public String viewRequestor() {
-        return "requestor/view.html";
-    }
-
-    @GetMapping("/add")
-    public String addRequestor() {
-        return "requestor/add.html";
-    }
-
-    @GetMapping("/edit")
-    public String editRequestor() {
-        return "requestor/edit.html";
     }
 
 
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Requestor> getRequestor(@Valid @PathVariable long id){
-        return requestor_service.getRequestor(id);
-    }
-
-    }
     @GetMapping("/{requestorID}/pRequisitions")
     public ResponseEntity<List<PurchaseRequisition>> getAllPR(@PathVariable (value = "requestorID") Long requestorID){
         List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getPRByRequestorID(requestorID);
@@ -90,10 +89,7 @@ public class RequestorController {
         }
     }
 
-    @PutMapping("/add/{id}")
-    public ResponseEntity<Requestor> updateRequestor(@Valid @RequestBody RequestorDTO requestor) {
-        return null;
-    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRequestor(@Valid @PathVariable Long id) {
         return requestor_service.deleteRequestor(id);
