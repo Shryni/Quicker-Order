@@ -31,6 +31,11 @@ public class Item {
     @JsonIgnore
     private Quotation quotation;
 
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @JoinColumn(name = "quotation_id", nullable = true)
+    @JsonIgnore
+    private VendorPR vendorPR;
+
 
 
 

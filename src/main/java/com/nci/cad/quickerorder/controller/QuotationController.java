@@ -53,6 +53,16 @@ public class QuotationController {
             return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/{prID}/all")
+    public ResponseEntity<List<Quotation>> getAllQuotationforthisRequestor(@PathVariable (value = "prID")Long prID){
+        List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
+        if(quotationList != null){
+            return responseEntity.status(HttpStatus.OK).body(quotationList);
+        }
+        else{
+            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping("/{quotationID}")
     public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID) {
         Quotation quotation = quotation_service.getQuotationByID(quotationID);
@@ -64,7 +74,7 @@ public class QuotationController {
     }
 
 
-    @PutMapping("/{prID}/approve")
+    @PutMapping("/{quotationID}/approve")
     public ResponseEntity<Quotation> approveQuotation (@PathVariable (value = "quotationID")Long quotationID){
         Quotation quotation = quotation_service.approveQuotation(quotationID);
         if(quotation != null){
@@ -75,9 +85,9 @@ public class QuotationController {
         }
     }
 
-    @PostMapping("/{prID}/new")
-    public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "prID") Long prID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
-        Quotation quotation1 = quotation_service.addQuotation(prID,quotation);
+    @PostMapping("/{vprID}/new")
+    public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "vprID") Long vprID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
+        Quotation quotation1 = quotation_service.addQuotation(vprID,quotation);
         if(quotation1 != null){
             return responseEntity.status(HttpStatus.OK).body(quotation1);
         }
