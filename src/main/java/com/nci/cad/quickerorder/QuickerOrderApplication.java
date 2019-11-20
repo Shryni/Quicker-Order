@@ -16,6 +16,6 @@ public class QuickerOrderApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(QuickerOrderApplication.class, args);
-	}
 
+	}
 }

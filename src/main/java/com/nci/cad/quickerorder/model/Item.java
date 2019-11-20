@@ -26,13 +26,14 @@ public class Item {
     @JoinColumn(name = "purchaseRequisition_id", nullable = false)
     @JsonIgnore
     private PurchaseRequisition purchaseRequisition;
+
     @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "quotation_id", nullable = true)
     @JsonIgnore
     private Quotation quotation;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = true)
-    @JoinColumn(name = "quotation_id", nullable = true)
+    @JoinColumn(name = "vendorPR_id", nullable = true)
     @JsonIgnore
     private VendorPR vendorPR;
 

@@ -47,6 +47,7 @@ public class RequestorStoreController {
     @GetMapping("/all")
     public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
         List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
+        //System.out.println(requestorStores.get(0).toString());
         if (requestorStores != null) {
             return responseEntity.status(HttpStatus.OK).body(requestorStores);
         } else {
@@ -67,14 +68,12 @@ public class RequestorStoreController {
     }
 
     @PostMapping("/new")
-    public String addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
+    public String addRequestorStore(@Valid RequestorStore requestorStore) throws URISyntaxException{
         RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
         if(requestorStoreAdded != null){
-            //return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);
             return "RequestorStore/add.html";
         }
         else{
-            //return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
             return "";
         }
     }

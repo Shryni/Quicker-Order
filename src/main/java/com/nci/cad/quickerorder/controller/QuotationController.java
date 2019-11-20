@@ -96,17 +96,17 @@ public class QuotationController {
         }
 
     }
-    @GetMapping("/{prID}/all")
-    public ResponseEntity<List<Quotation>> getVendorQuotations(@PathVariable (value = "prID") Long prID) throws URISyntaxException {
-        List<Quotation> quotationList = quotation_service.getAllQuotationsforVendor(prID);
-        if(quotationList != null){
-            return responseEntity.status(HttpStatus.OK).body(quotationList);
-        }
-        else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-
-    }
+//    @GetMapping("/{prID}/all")
+//    public ResponseEntity<List<Quotation>> getVendorQuotations(@PathVariable (value = "prID") Long prID) throws URISyntaxException {
+//        List<Quotation> quotationList = quotation_service.getAllQuotationsforVendor(prID);
+//        if(quotationList != null){
+//            return responseEntity.status(HttpStatus.OK).body(quotationList);
+//        }
+//        else{
+//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+//        }
+//
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuotation( @Valid @PathVariable Long id) {
