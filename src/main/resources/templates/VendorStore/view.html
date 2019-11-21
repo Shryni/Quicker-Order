@@ -7,28 +7,38 @@
 </head>
 <body>
 <h1>Vendor Store View Page</h1>
-<form method="get" action="/vendorstore/get">
 
+<form method="get" th:object="${vendorStore}" action="/quotation/{id}">
     <label for="vendorstorename">Vendor Store Name</label>:
-    <input type="text" id="vendorstorename" name="vendor_store_name" autofocus="autofocus"/> <br />
-    <label for="address1">Address 1</label>:
-    <input type="text" id="address1" name="vendor_storeAddress_line1" autofocus="autofocus"/> <br />
-    <label for="address2">Address 2</label>:
-    <input type="text" id="address2" name="vendor_storeAddress_line2" autofocus="autofocus"/> <br />
-    <label for="address3">Address 3</label>:
-    <input type="text" id="address3" name="vendor_storeAddress_line3" autofocus="autofocus"/> <br />
-    <label for="city">City</label>:
-    <input type="text" id="city" name="vendor_store_city" autofocus="autofocus"/> <br />
+    <input th:field="*{vendor_store_name}" type="text" disabled id="vendorstorename" name="vendor_store_name" autofocus="autofocus"/> <br />
+
+    <label for="address1">Address 1</label>
+    <input th:field="*{vendor_storeAddress_line1}" type="text" disabled id="address1" name="vendor_storeAddress_line1" autofocus="autofocus"/> <br />
+
+    <label for="address2">Address 2</label>
+    <input th:field="*{vendor_storeAddress_line2}" type="text" disabled id="address2" name="vendor_storeAddress_line2" autofocus="autofocus"/> <br />
+
+    <label for="address3">Address 3</label>
+    <input th:field="*{vendor_storeAddress_line3}" type="text" disabled id="address3" name="vendor_storeAddress_line3" autofocus="autofocus"/> <br />
+
+    <label for="city">City</label>
+    <input th:field="*{vendor_store_city}" type="text" disabled id="city" name="vendor_store_city" autofocus="autofocus"/> <br />
+
     <label for="eircode">EIR Code</label>:
-    <input type="text" id="eircode" name="vendor_store_postal_code" autofocus="autofocus"/> <br />
+    <input th:field="*{vendor_store_postal_code}" type="text" disabled id="eircode" name="vendor_store_postal_code" autofocus="autofocus"/> <br />
+
     <label for="contact">Contact</label>:
-    <input type="integer" id="contact" name="vendor_store_contact" autofocus="autofocus"/> <br />
+    <input th:field="*{vendor_store_contact}" type="integer" disabled id="contact" name="vendor_store_contact" autofocus="autofocus"/> <br />
+
     <label for="email">Email</label>:
-    <input type="email" id="email" name="vendor_store_email" autofocus="autofocus"/> <br />
+    <input th:field="*{vendor_store_email}" type="vendor_store_email" disabled id="email" name="vendor_store_email" autofocus="autofocus"/> <br />
+
+
     <button type="Save" value="Save">Save</button>
     <button type="Cancel" value="Cancel">Cancel</button>
 
     <!-- <a th:href="@{/confirm}">Log In</a> -->
 </form>
+<a href="/quotation/add" type="button" >Create Requestor</a>
 </body>
 </html>

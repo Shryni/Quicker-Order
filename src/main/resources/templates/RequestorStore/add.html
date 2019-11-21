@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Requestor Store Create Page</h1>
-<form method="post" action="/requestorStore/new">
+<form method="post" th:object="${id}" action="/requestorStore/new">
     <!--<label for="requestorstoreid">Requestor Store ID</label>:
     <input type="text" id="requestorstoreid" name="requestorstoreid" autofocus="autofocus"/> <br />
     -->
@@ -30,7 +30,8 @@
     <label for="email">Email</label>:
     <input type="email" id="email" name="store_email" autofocus="autofocus"/> <br />
     <button type="Save" value="Save">Save</button>
-    <button type="Cancel" value="Cancel">Cancel</button>
+    <button type="Cancel" value="Cancel">Cancel</button><br/>
+
 
     <!-- <a th:href="@{/confirm}">Log In</a> -->
 </form>

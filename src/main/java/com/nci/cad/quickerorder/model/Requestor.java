@@ -31,7 +31,7 @@ public class Requestor {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="requestorStore_id", nullable = false)
     @JsonIgnore
-    private RequestorStore requestorStore;
+    private RequestorStore requestorStore= new RequestorStore();
 
 
 //    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,

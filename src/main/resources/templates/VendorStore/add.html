@@ -7,8 +7,8 @@
 </head>
 <body>
 <h1>Vendor Store Create Page</h1>
-<form method="post" action="/vendorstore/add">
 
+    <form method="post" th:object="${vendorStore}" action="/vendorstore/new">
     <label for="vendorstorename">Vendor Store Name</label>:
     <input type="text" id="vendorstorename" name="vendor_store_name" autofocus="autofocus"/> <br />
     <label for="address1">Address 1</label>:

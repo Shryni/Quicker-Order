@@ -7,22 +7,27 @@
 </head>
 <body>
 <h1>Requestor View Page</h1>
-<form method="post" action="/requestor/new">
-     <label for="requestorfirstname">First Name</label>
-<input type="text" id="requestorfirstname" name="first_name" autofocus="autofocus"/> <br />
-<label for="requestorlastname">Last Name</label>
-<input type="text" id="requestorlastname" name="last_name" autofocus="autofocus"/> <br />
-<label for="role">Role</label>
-<select id="role" name="role">
-    <option value="manager">Manager</option>
-    <option value="supervisor">Supervisor</option>
-</select>
-<label for="roleID">Role ID</label>:
-<input type="text" id="roleID" name="role_id" autofocus="autofocus"/> <br />
-<!--<label for="requestorStore">Requestor Store</label>
-<input type="text" id="requestorStore" name="requestorStore" autofocus="autofocus"/> <br />-->
-<button type="Save" value="Save">Save</button>
-<button type="Cancel" value="Cancel">Cancel</button>
+<form method="get" th:object="${requestor}" action="/requestor/{id}">
+
+    <label for="requestorfirstname">First Name</label>
+    <input th:field="*{first_name}" type="text" disabled id="requestorfirstname" name="first_name" autofocus="autofocus"/> <br />
+
+    <label for="requestorlastname">Last Name</label>
+    <input th:field="*{last_name}" type="text" disabled id="requestorlastname" name="last_name" autofocus="autofocus"/> <br />
+
+    <label for="role">Role</label>
+    <select disabled id="role" name="role">
+        <option value="manager">Manager</option>
+        <option value="supervisor">Supervisor</option>
+    </select><br/>
+
+
+    <label for="roleID">Role ID</label>:
+    <input type="integer" disabled id="roleID" name="role_id" autofocus="autofocus"/> <br />
+    <!--<label for="requestorStore">Requestor Store</label>
+    <input type="text" id="requestorStore" name="requestorStore" autofocus="autofocus"/> <br />-->
+
+    <button type="Cancel" value="Cancel">Cancel</button>
 
 
 </form>

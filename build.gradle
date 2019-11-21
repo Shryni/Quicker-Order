@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//compile("org.springframework.boot:spring-boot-starter-security")
 	implementation 'jfree:jfreechart:1.0.13'
 	implementation 'joda-time:joda-time:2.10.5'
 	compileOnly 'org.projectlombok:lombok'
