@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,14 +29,19 @@ public class RequestorStoreController {
     ResponseEntity responseEntity = null;
 
     //-------------------------------------------------------------------------
-    @GetMapping("/view")
-    public String viewRequestorstore() {
-        return "requestorstore/view.html";
+//    @GetMapping("/view")
+//    public String viewRequestorstore() {
+//        return "requestorstore/th_viewRequestorStore.html";
+//    }
+    @GetMapping("/view/{id}")
+    public String viewRequestorstore(Model model, @PathVariable("id") String id) {
+        model.addAttribute("requestorStore", requestorStore_service.getRequestorStore(Long.parseLong(id)));
+        return "th_viewRequestorStore";
     }
 
     @GetMapping("/add")
     public String addReqestorstore() {
-        return "RequestorStore/add.html";
+        return "th_addRequestorStore";
     }
 
     @GetMapping("/edit")
@@ -45,13 +51,27 @@ public class RequestorStoreController {
     //-------------------------------------------------------------------------
 
     @GetMapping("/all")
-    public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
+    public String getAllRequestorStore(Model model){
         List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
         //System.out.println(requestorStores.get(0).toString());
         if (requestorStores != null) {
-            return responseEntity.status(HttpStatus.OK).body(requestorStores);
+            model.addAttribute("allrequestorStores",requestorStores);
+            return "th_viewAllRequestorStore.html";
         } else {
-            return (ResponseEntity<List<RequestorStore>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            model.addAttribute(null);
+            return "";
+        }
+    }
+    @PostMapping("/new")
+    public String newRequestorStore(@ModelAttribute(name = "requestorStore")RequestorStore requestorStore, Model model) throws URISyntaxException {
+        RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
+        if(requestorStoreAdded != null){
+            model.addAttribute("reqStore",requestorStoreAdded);
+            return "RequestorStore/th_viewRequestorStore.html";
+        }
+        else{
+            model.addAttribute(null);
+            return "";
         }
     }
 
@@ -67,16 +87,11 @@ public class RequestorStoreController {
         }
     }
 
-    @PostMapping("/new")
-    public String addRequestorStore(@Valid RequestorStore requestorStore) throws URISyntaxException{
-        RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
-        if(requestorStoreAdded != null){
-            return "RequestorStore/add.html";
-        }
-        else{
-            return "";
-        }
-    }
+
+//    public String addRequestorStore(@Valid RequestorStore requestorStore) throws URISyntaxException{
+//        RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
+//
+//    }
     @GetMapping("/{requestorstoreId}/requestors")
     public ResponseEntity<List<Requestor>> getAll(@PathVariable (value = "requestorstoreId")Long requestorstoreId) {
         List<Requestor> requestors = requestor_service.getRequestorByStoreID(requestorstoreId);

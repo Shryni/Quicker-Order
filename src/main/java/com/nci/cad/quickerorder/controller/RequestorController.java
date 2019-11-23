@@ -3,12 +3,14 @@ package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.dto.RequestorDTO;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Requestor;
+import com.nci.cad.quickerorder.model.User;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,12 +31,13 @@ public class RequestorController {
     //*************************************************************************//
     @GetMapping("/view")
     public String viewRequestor() {
-        return "requestor/view.html";
+        return "requestor/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
-    public String addRequestor() {
-        return "requestor/add.html";
+    public String addRequestor(Model model,@RequestParam String requestorStoreName) {
+        model.addAttribute("requestorStoreName",requestorStoreName);
+        return "th_addRequestor.html";
     }
 
     @GetMapping("/edit")
@@ -45,13 +48,16 @@ public class RequestorController {
     //*************************************************************************//
 
     @GetMapping("/all")
-    public ResponseEntity<List<Requestor>> getAllRequestor(){
-        List<Requestor> requestors = requestor_service.getAll();
+    public String getAllRequestor(@ModelAttribute("userForm") User userForm, Model model){
+        List<Requestor> requestors = requestor_service.getAllRequestors(userForm.getUsername());
         if(requestors != null){
-            return responseEntity.status(HttpStatus.OK).body(requestors);
+            model.addAttribute("requestors", requestors);
+            model.addAttribute("requestorStoreName",userForm.getUsername());
+            return "th_viewAllRequestors";
         }
         else{
-            return (ResponseEntity<List<Requestor>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            model.addAttribute(null);
+            return "";
         }
     }
 
@@ -66,15 +72,20 @@ public class RequestorController {
         }
     }
 
-    @PostMapping("/{requestorstoreId}/new")
-    public ResponseEntity<Requestor> addRequestor(@PathVariable (value = "requestorstoreId") Long requestorstoreId, @Valid @RequestBody Requestor requestor) throws URISyntaxException {
-        Requestor requestor1 = requestor_service.addRequestor(requestor, requestorstoreId);
+    @PostMapping("/new")
+    public String addRequestor(@ModelAttribute(name = "requestor") Requestor requestor,
+                               @ModelAttribute(name = "requestorStoreName") String requestorStoreName,
+                               Model model) throws URISyntaxException {
+        Requestor requestor1 = requestor_service.addRequestor(requestor, requestorStoreName);
         if (requestor1 != null) {
-            return responseEntity.status(HttpStatus.OK).body(requestor1);
+            model.addAttribute("addedrequestor",requestor1);
+            return "th_viewRequestor";
         } else {
-            return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            model.addAttribute(null);
+            return "";
         }
     }
+
 
 
 

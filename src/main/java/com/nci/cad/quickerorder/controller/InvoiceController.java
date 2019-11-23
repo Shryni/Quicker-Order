@@ -24,12 +24,12 @@ public class InvoiceController {
 
     @GetMapping("/view")
     public String viewInvoice() {
-        return "invoice/view.html";
+        return "invoice/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
     public String addInvoice() {
-        return "invoice/add.html";
+        return "invoice/th_addRequestorStore.html";
     }
 
     @GetMapping("/edit")

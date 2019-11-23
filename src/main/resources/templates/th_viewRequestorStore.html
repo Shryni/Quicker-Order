@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requestor Store Details</title>
+</head>
+<body>
+<h1>Requestor View Page</h1>
+
+    <form method="get"  th:object="${requestorStore}" action="/requestorStore/add">
+    <!--<label for="requestorstoreid">Requestor Store ID</label>:
+    <input type="text" id="requestorstoreid" name="requestorstoreid" autofocus="autofocus"/> <br />
+    -->
+    <label for="requestorstorename">Requestor Store Name</label>:
+    <input type="text" id="requestorstorename" name="store_name" autofocus="autofocus" th:value="${reqStore.store_name}"/> <br />
+    <label for="address1">Address 1</label>:
+    <input type="text" id="address1" name="storeAddress_line1" autofocus="autofocus" th:value="${reqStore.storeAddress_line1}"/> <br />
+    <label for="address2">Address 2</label>:
+    <input type="text" id="address2" name="storeAddress_line2" autofocus="autofocus" th:value="${reqStore.storeAddress_line2}"/> <br />
+    <label for="address3">Address 3</label>:
+    <input type="text" id="address3" name="storeAddress_line3" autofocus="autofocus" th:value="${reqStore.storeAddress_line3}"/> <br />
+    <label for="city">City</label>:
+    <input type="text" id="city" name="store_city" autofocus="autofocus" th:value="${reqStore.store_city}"/> <br />
+    <label for="eircode">EIR Code</label>:
+    <input type="text" id="eircode" name="store_postal_code" autofocus="autofocus" th:value="${reqStore.store_postal_code}"/> <br />
+    <label for="contact">Contact</label>:
+    <input type="integer" id="contact" name="store_contact" autofocus="autofocus" th:value="${reqStore.store_contact}"/> <br />
+    <label for="storeapprovallimit">Store Approval Limit</label>:
+    <input type="float" id="storeapprovallimit" name="approval_limit" autofocus="autofocus" th:value="${reqStore.approval_limit}"/> <br />
+    <label for="email">Email</label>:
+    <input type="email" id="email" name="store_email" autofocus="autofocus" th:value="${reqStore.store_email}"/> <br />
+<!--    <button type="Save" value="Save">Save</button>-->
+    <button type="Cancel" value="Cancel">Cancel</button>
+    <button type="submit" value="Cancel">Back</button>
+
+    <!-- <a th:href="@{/confirm}">Log In</a> -->
+</form>
+</body>
+</html>

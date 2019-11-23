@@ -25,7 +25,7 @@ public class Requestor {
     @Column(nullable = false)
     private String last_name;
     //@Column( unique = true)
-    private String role_id;
+    //private String role_id;
     private String role;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

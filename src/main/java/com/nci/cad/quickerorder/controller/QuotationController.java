@@ -29,12 +29,12 @@ public class QuotationController {
     //*****************************************************************************//
     @GetMapping("/view")
     public String viewQuotation() {
-        return "quotation/view.html";
+        return "quotation/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
     public String addQuotation() {
-        return "quotation/add.html";
+        return "quotation/th_addRequestorStore.html";
     }
 
     @GetMapping("/edit")

@@ -17,7 +17,7 @@ public class RequestorStore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
-    private String store_name;
+    private String name;
     @Column(nullable = false)
     private String storeAddress_line1;
     private String storeAddress_line2;

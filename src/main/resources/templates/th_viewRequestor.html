@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requestor Details</title>
+</head>
+<body>
+<h1>Requestor View Page</h1>
+
+<form method="get"  th:object="${requestor}" action="/requestor/add">
+    <!--<label for="requestorstoreid">Requestor Store ID</label>:
+    <input type="text" id="requestorstoreid" name="requestorstoreid" autofocus="autofocus"/> <br />
+    -->
+    <label for="first_name">first_name</label>:
+    <input type="text" id="first_name" name="first_name" autofocus="autofocus" th:value="${addedrequestor.first_name}"/> <br />
+    <label for="last_name">last_name</label>:
+    <input type="text" id="last_name" name="last_name" autofocus="autofocus" th:value="${addedrequestor.last_name}"/> <br />
+    <label for="role">role</label>:
+    <input type="text" id="role" name="role" autofocus="autofocus" th:value="${addedrequestor.role}"/> <br />
+
+    <!--    <button type="Save" value="Save">Save</button>-->
+    <button type="Cancel" value="Cancel">Cancel</button>
+    <button type="submit" value="Cancel">Back</button>
+
+    <!-- <a th:href="@{/confirm}">Log In</a> -->
+</form>
+</body>
+</html>

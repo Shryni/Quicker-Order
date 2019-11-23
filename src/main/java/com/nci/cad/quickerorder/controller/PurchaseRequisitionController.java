@@ -34,13 +34,13 @@ public class PurchaseRequisitionController {
     //****************************************************************************//
     @GetMapping("/view")
     public String viewPurchaserequisition() {
-        return "purchaserequisition/view.html";
+        return "purchaserequisition/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
     public String addPurchaserequisition() {
 
-        return "purchaserequisition/add.html";
+        return "purchaserequisition/th_addRequestorStore.html";
     }
 
     @PatchMapping("/edit")
