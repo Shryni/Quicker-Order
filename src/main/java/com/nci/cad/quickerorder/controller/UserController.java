@@ -1,66 +1,42 @@
 package com.nci.cad.quickerorder.controller;
 
-import com.nci.cad.quickerorder.model.User;
-import com.nci.cad.quickerorder.service.SecurityService;
-import com.nci.cad.quickerorder.service.UserService;
-import com.nci.cad.quickerorder.service.UserValidator;
+import com.nci.cad.quickerorder.payload.UserIdentityAvailability;
+import com.nci.cad.quickerorder.payload.UserSummary;
+import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
+import com.nci.cad.quickerorder.security.CurrentUser;
+import com.nci.cad.quickerorder.security.RequestorStorePrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class UserController {
-    @Autowired
-    private UserService userService;
 
     @Autowired
-    private SecurityService securityService;
+    private RequestorStore_Repository requestorStore_repository;
 
-    @Autowired
-    private UserValidator userValidator;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @GetMapping("/registration")
-    public String registration(Model model) {
-        model.addAttribute("userForm", new User());
-
-        return "registration";
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public UserSummary getCurrentUser(@CurrentUser RequestorStorePrincipal requestorStorePrincipal) {
+        UserSummary userSummary = new UserSummary(requestorStorePrincipal.getId(), requestorStorePrincipal.getUsername(), requestorStorePrincipal.getName());
+        return userSummary;
     }
 
-    @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult,Model model) {
-        userValidator.validate(userForm, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-
-        User user = userService.save(userForm);
-
-        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-        model.addAttribute("user",user);
-
-
-        //return "redirect:/welcome";
-        return "/welcome";
+    @GetMapping("/user/checkUsernameAvailability")
+    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
+        Boolean isAvailable = !requestorStore_repository.existsByUsername(username);
+        return new UserIdentityAvailability(isAvailable);
     }
 
-    @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "login";
+    @GetMapping("/user/checkEmailAvailability")
+    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
+        Boolean isAvailable = !requestorStore_repository.existsByEmail(email);
+        return new UserIdentityAvailability(isAvailable);
     }
 
-    @GetMapping({"/", "/welcome"})
-    public String welcome(Model model) {
-
-        return "welcome";
-    }
 }
-

@@ -1,9 +1,8 @@
 package com.nci.cad.quickerorder.controller;
 
-import com.nci.cad.quickerorder.dto.RequestorDTO;
+
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Requestor;
-import com.nci.cad.quickerorder.model.User;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,20 +46,6 @@ public class RequestorController {
 
     //*************************************************************************//
 
-    @GetMapping("/all")
-    public String getAllRequestor(@ModelAttribute("userForm") User userForm, Model model){
-        List<Requestor> requestors = requestor_service.getAllRequestors(userForm.getUsername());
-        if(requestors != null){
-            model.addAttribute("requestors", requestors);
-            model.addAttribute("requestorStoreName",userForm.getUsername());
-            return "th_viewAllRequestors";
-        }
-        else{
-            model.addAttribute(null);
-            return "";
-        }
-    }
-
     @GetMapping("/{requestorId}")
     public ResponseEntity<Requestor> getRequestorById(@PathVariable (value = "requestorId")Long requestorId){
         Requestor requestor = requestor_service.getRequestorById(requestorId);
@@ -85,7 +70,6 @@ public class RequestorController {
             return "";
         }
     }
-
 
 
 

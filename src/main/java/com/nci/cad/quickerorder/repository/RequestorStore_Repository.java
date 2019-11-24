@@ -7,11 +7,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface RequestorStore_Repository extends JpaRepository<RequestorStore,Long> {
-    //RequestorStore findByName(String name);
 
+    Optional<RequestorStore> findByEmail(String email);
 
-//    @Query("Select * FROM quicker_order.requestor_store rs WHERE rs.name = ?1")
-//    RequestorStore findByName(String name);
+    Optional<RequestorStore> findByUsernameOrEmail(String username, String email);
+
+    List<RequestorStore> findByIdIn(List<Long> userIds);
+
+    Optional<RequestorStore> findByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
+
 }
