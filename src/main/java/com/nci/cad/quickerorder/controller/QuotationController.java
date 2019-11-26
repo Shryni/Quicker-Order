@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
 import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class QuotationController {
         List<Quotation> quotationList = quotation_service.getAll();
         if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
+
         }
         else{
             return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);

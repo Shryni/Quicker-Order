@@ -63,16 +63,19 @@ public class AuthController {
 
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerStore(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
+           // System.out.println("Username is already taken!");
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if(requestorStore_repository.existsByEmail(signUpRequest.getEmail())) {
+           // System.out.println("Email Address already in use!");
             return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -104,3 +107,5 @@ public class AuthController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
     }
 }
+
+
