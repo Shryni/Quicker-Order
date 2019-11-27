@@ -12,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/requestorStore")
 public class RequestorStoreController {
 
@@ -30,16 +29,19 @@ public class RequestorStoreController {
     ResponseEntity responseEntity = null;
 
     //-------------------------------------------------------------------------
+//    @GetMapping("/view")
+//    public String viewRequestorstore() {
+//        return "requestorstore/th_viewRequestorStore.html";
+//    }
     @GetMapping("/view/{id}")
     public String viewRequestorstore(Model model, @PathVariable("id") String id) {
         model.addAttribute("requestorStore", requestorStore_service.getRequestorStore(Long.parseLong(id)));
-        return "requestorstore/view.html";
+        return "th_viewRequestorStore";
     }
 
     @GetMapping("/add")
     public String addReqestorstore() {
-
-        return "RequestorStore/add.html";
+        return "th_addRequestorStore";
     }
 
     @GetMapping("/edit")
@@ -48,51 +50,55 @@ public class RequestorStoreController {
     }
     //-------------------------------------------------------------------------
 
-            @GetMapping("/all")
-            public ResponseEntity<List<RequestorStore>> getAllRequestorStore(){
-                List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
-                if (requestorStores != null) {
-                    return responseEntity.status(HttpStatus.OK).body(requestorStores);
-                } else {
-                    return (ResponseEntity<List<RequestorStore>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-                }
-            }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RequestorStore> getRequestorStore(@Valid @PathVariable long id){
-   // public String getRequestorStore(@Valid @PathVariable long id){
-
-        RequestorStore requestorStore = requestorStore_service.getRequestorStore(id);
-        if(requestorStore != null){
-            return responseEntity.status(HttpStatus.OK).body(requestorStore);
-           // return "RequestorStore/view.html";
-        }
-        else{
-            return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
-//return "";
+    @GetMapping("/all")
+    public String getAllRequestorStore(Model model){
+        List<RequestorStore> requestorStores = requestorStore_service.getAllRequestorStores();
+        //System.out.println(requestorStores.get(0).toString());
+        if (requestorStores != null) {
+            model.addAttribute("allrequestorStores",requestorStores);
+            return "th_viewAllRequestorStore.html";
+        } else {
+            model.addAttribute(null);
+            return "";
         }
     }
-
     @PostMapping("/new")
-    public ResponseEntity<RequestorStore> RequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException{
-    //public String addRequestorStore(@Valid /*@RequestBody*/ RequestorStore requestorStore) throws URISyntaxException {
+    public ResponseEntity<RequestorStore> newRequestorStore(@ModelAttribute(name = "requestorStore")RequestorStore requestorStore, Model model) throws URISyntaxException {
         RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
         if(requestorStoreAdded != null){
-            return responseEntity.status(HttpStatus.OK).body(requestorStoreAdded);
-            //return "redirect:view/" + requestorStore.getId();
+            model.addAttribute("reqStore",requestorStoreAdded);
+            return responseEntity.status(HttpStatus.OK).body(requestorStore);
+            //return "RequestorStore/th_viewRequestorStore.html";
         }
         else{
+            model.addAttribute(null);
             return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
             //return "";
         }
     }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RequestorStore> getRequestorStore(@Valid @PathVariable long id){
+        RequestorStore requestorStore = requestorStore_service.getRequestorStore(id);
+        if(requestorStore != null){
+            return responseEntity.status(HttpStatus.OK).body(requestorStore);
+        }
+        else{
+            return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+//    public String addRequestorStore(@Valid RequestorStore requestorStore) throws URISyntaxException{
+//        RequestorStore requestorStoreAdded = requestorStore_service.addRequestorStore(requestorStore);
+//
+//    }
     @GetMapping("/{requestorstoreId}/requestors")
     public ResponseEntity<List<Requestor>> getAll(@PathVariable (value = "requestorstoreId")Long requestorstoreId) {
         List<Requestor> requestors = requestor_service.getRequestorByStoreID(requestorstoreId);
         if(requestors != null){
             return responseEntity.status(HttpStatus.OK).body(requestors);
-
         }
         else{
             return (ResponseEntity<List<Requestor>>) responseEntity.status(HttpStatus.BAD_REQUEST);

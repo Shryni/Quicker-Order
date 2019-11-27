@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.swing.*;
 import java.sql.Date;
 import java.util.List;
 
@@ -21,14 +22,16 @@ public class PurchaseRequisition
     private Long id;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
-    private Date created_date;
-    @Column(nullable = false)
+    //@Column(nullable = false)
+    //private Date created_date;
+    //@Column(nullable = false)
     private Date expected_date_of_delivery;
     @Column(nullable = false)
     private String status;
-    private String additional_comments;
-    private boolean save_template;
+    //private String additional_comments;
+    //private boolean save_template;
+    private JTextArea items;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "requestor_id", nullable = false)

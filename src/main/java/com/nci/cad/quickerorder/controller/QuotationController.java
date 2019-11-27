@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
 import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class QuotationController {
     //*****************************************************************************//
     @GetMapping("/view")
     public String viewQuotation() {
-        return "quotation/view.html";
+        return "quotation/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
     public String addQuotation() {
-        return "quotation/add.html";
+        return "quotation/th_addRequestorStore.html";
     }
 
     @GetMapping("/edit")
@@ -46,6 +47,17 @@ public class QuotationController {
     @GetMapping("/all")
     public ResponseEntity<List<Quotation>> getAll(){
         List<Quotation> quotationList = quotation_service.getAll();
+        if(quotationList != null){
+            return responseEntity.status(HttpStatus.OK).body(quotationList);
+
+        }
+        else{
+            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/{prID}/all")
+    public ResponseEntity<List<Quotation>> getAllQuotationforthisRequestor(@PathVariable (value = "prID")Long prID){
+        List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
         if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
         }
@@ -64,7 +76,7 @@ public class QuotationController {
     }
 
 
-    @PutMapping("/{prID}/approve")
+    @PutMapping("/{quotationID}/approve")
     public ResponseEntity<Quotation> approveQuotation (@PathVariable (value = "quotationID")Long quotationID){
         Quotation quotation = quotation_service.approveQuotation(quotationID);
         if(quotation != null){
@@ -75,9 +87,9 @@ public class QuotationController {
         }
     }
 
-    @PostMapping("/{prID}/new")
-    public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "prID") Long prID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
-        Quotation quotation1 = quotation_service.addQuotation(prID,quotation);
+    @PostMapping("/{vprID}/new")
+    public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "vprID") Long vprID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
+        Quotation quotation1 = quotation_service.addQuotation(vprID,quotation);
         if(quotation1 != null){
             return responseEntity.status(HttpStatus.OK).body(quotation1);
         }
@@ -86,17 +98,17 @@ public class QuotationController {
         }
 
     }
-    @GetMapping("/{prID}/all")
-    public ResponseEntity<List<Quotation>> getVendorQuotations(@PathVariable (value = "prID") Long prID) throws URISyntaxException {
-        List<Quotation> quotationList = quotation_service.getAllQuotationsforVendor(prID);
-        if(quotationList != null){
-            return responseEntity.status(HttpStatus.OK).body(quotationList);
-        }
-        else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-
-    }
+//    @GetMapping("/{prID}/all")
+//    public ResponseEntity<List<Quotation>> getVendorQuotations(@PathVariable (value = "prID") Long prID) throws URISyntaxException {
+//        List<Quotation> quotationList = quotation_service.getAllQuotationsforVendor(prID);
+//        if(quotationList != null){
+//            return responseEntity.status(HttpStatus.OK).body(quotationList);
+//        }
+//        else{
+//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+//        }
+//
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuotation( @Valid @PathVariable Long id) {

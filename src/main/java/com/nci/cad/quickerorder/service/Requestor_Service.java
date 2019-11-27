@@ -37,8 +37,9 @@ public class Requestor_Service {
         return requestor_repository.findById(requestorId).get();
     }
 
-    public Requestor addRequestor(Requestor requestor, Long requestorStoreId) throws URISyntaxException {
-        RequestorStore requestorStore = requestorStore_repository.findById(requestorStoreId).get();
+    public Requestor addRequestor(Requestor requestor, String requestorStoreName) throws URISyntaxException {
+        //RequestorStore requestorStore = requestorStore_repository.findByName(requestorStoreName);
+        RequestorStore requestorStore = requestorStore_repository.findById(new Long(1)).get();
         requestor.setRequestorStore(requestorStore);
         Requestor requestor1 = requestor_repository.save(requestor);
         return requestor1;
@@ -54,5 +55,7 @@ public class Requestor_Service {
         return ResponseEntity.ok().build();
     }
 
-
+    public List<Requestor> getAllRequestors(String username) {
+        return requestor_repository.findByRequestorStoreName(username);
+    }
 }

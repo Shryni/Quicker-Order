@@ -57,6 +57,7 @@ public class Quotation_Service {
         return ResponseEntity.ok().build();
     }
 
-
-
+    public List<Quotation> getQuotationsbyprID(Long prID) {
+        return quotation_repository.findByVendorPRId(prID);
+    }
 }

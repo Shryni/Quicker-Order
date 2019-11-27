@@ -34,13 +34,13 @@ public class PurchaseRequisitionController {
     //****************************************************************************//
     @GetMapping("/view")
     public String viewPurchaserequisition() {
-        return "purchaserequisition/view.html";
+        return "purchaserequisition/th_viewRequestorStore.html";
     }
 
     @GetMapping("/add")
     public String addPurchaserequisition() {
 
-        return "purchaserequisition/add.html";
+        return "purchaserequisition/th_addRequestorStore.html";
     }
 
     @PatchMapping("/edit")
@@ -92,14 +92,8 @@ public class PurchaseRequisitionController {
     }
 
     @PostMapping("/{prID}/export")
-    public ResponseEntity<List<VendorPR>> sendPRToVendor(@PathVariable (value = "prID") Long prID, Long[] vendors){
-        vendorPRService.addPRsToVendors(prID,vendors);
-        //if(vendorPRS != null){
-            return responseEntity.status(HttpStatus.OK).body(null);
-//        }
-//        else{
-//            return (ResponseEntity<List<VendorPR>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-//        }
+    public String sendPRToVendor(@PathVariable (value = "prID") Long prID, Long[] vendors){
+        return vendorPRService.addPRsToVendors(prID,vendors);
     }
 
     @PutMapping("/add/{id}")

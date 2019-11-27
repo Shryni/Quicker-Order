@@ -18,13 +18,11 @@ public class Quotation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date quote_date;
-    @Column(nullable = false)
+    //private Date quote_date;
+    //@Column(nullable = true)
     private Boolean status;
     @Column(nullable = true)
     private java.sql.Date deliveryDate;
-    @Column(nullable = false)
-    private java.sql.Date quoteValidity;
     @Column(nullable = false)
     private boolean transport;
     private float discount;

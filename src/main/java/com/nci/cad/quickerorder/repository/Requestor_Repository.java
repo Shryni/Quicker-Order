@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface Requestor_Repository extends JpaRepository<Requestor ,Long> {
     List<Requestor> findByRequestorStoreId(Long id);
+    List<Requestor> findByRequestorStoreName(String name);
+
 }

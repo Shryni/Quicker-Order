@@ -23,7 +23,7 @@ public class PurchaseorderController {
     //***********************************************************************//
     @GetMapping("/add")
     public String addPurchaseorder() {
-        return "purchaseorder/add.html";
+        return "purchaseorder/th_addRequestorStore.html";
     }
 
     @GetMapping("/edit")
@@ -32,7 +32,7 @@ public class PurchaseorderController {
     }
     @GetMapping("/view")
     public String viewPurchaseorder() {
-        return "purchaseorder/view.html";
+        return "purchaseorder/th_viewRequestorStore.html";
     }
     //***********************************************************************//
 

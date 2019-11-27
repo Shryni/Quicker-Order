@@ -4,11 +4,9 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Quotation_Comparator {
@@ -76,31 +74,9 @@ public class Quotation_Comparator {
                 case "discount": return bestDiscountQuotations;
                 default: return null;
             }
-
-            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            //Date formattedbestDeliveryDate = (Date) sdf.parse(String.valueOf(bestDeliveryDate));
         }
     }
 
-//    private Map<Integer, ArrayList<Item>> compareItems(ArrayList<ArrayList<Item>> allItems) {
-//        Map<Integer, ArrayList<Item>> bestItems = new HashMap<>();
-//        ArrayList<Item> currentBestItems = allItems.get(0);
-//        int counter = 0;
-//        int currentBestindex = 0;
-//        for (ArrayList<Item> items:allItems) {
-//            compareItemLists(items,currentBestItems);
-//        }
-//
-//        return null;
-//    }
-//
-//    private void compareItemLists(ArrayList<Item> items, ArrayList<Item> currentBestItems) {
-//        for(int i =0; i<items.size();i++){
-//            if(items.get(i).getDiscount() > currentBestItems.get(i).getDiscount()){
-//
-//            }
-//        }
-//    }
     private Map<Integer, Date> compareDeliveryDate(ArrayList<Date> allDeliveryDates) {
         Map<Integer, Date> deliveryDateMap = new HashMap<>();
         java.sql.Date currentEarliest = allDeliveryDates.get(0);

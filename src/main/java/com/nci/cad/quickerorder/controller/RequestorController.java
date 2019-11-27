@@ -1,9 +1,8 @@
 package com.nci.cad.quickerorder.controller;
 
-import com.nci.cad.quickerorder.dto.RequestorDTO;
+
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Requestor;
-import com.nci.cad.quickerorder.model.RequestorStore;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,15 @@ public class RequestorController {
     ResponseEntity responseEntity = null;
 
     //*************************************************************************//
-    @GetMapping("/view/{id}")
-    public String viewRequestor(Model model, @PathVariable("id") String id) {
-        model.addAttribute("requestor", requestor_service.getRequestorById(Long.parseLong(id)));
-        return "requestor/view.html";
+    @GetMapping("/view")
+    public String viewRequestor() {
+        return "requestor/th_viewRequestorStore.html";
     }
 
-    @GetMapping("/add/{id}")
-    public String addRequestor(Model model,@PathVariable("id") String id) {
-        Requestor requester=new Requestor();
-        requester.getRequestorStore().setId(Long.valueOf(id));
-        model.addAttribute("requestor", requester);
-        return "requestor/add.html";
+    @GetMapping("/add")
+    public String addRequestor(Model model,@RequestParam String requestorStoreName) {
+        model.addAttribute("requestorStoreName",requestorStoreName);
+        return "th_addRequestor.html";
     }
 
     @GetMapping("/edit")
@@ -49,17 +45,6 @@ public class RequestorController {
     }
 
     //*************************************************************************//
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Requestor>> getAllRequestor(){
-        List<Requestor> requestors = requestor_service.getAll();
-        if(requestors != null){
-            return responseEntity.status(HttpStatus.OK).body(requestors);
-        }
-        else{
-            return (ResponseEntity<List<Requestor>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @GetMapping("/{requestorId}")
     public ResponseEntity<Requestor> getRequestorById(@PathVariable (value = "requestorId")Long requestorId){
@@ -73,13 +58,16 @@ public class RequestorController {
     }
 
     @PostMapping("/new")
-    public String addRequestor( @Valid /*@RequestBody */Requestor requestor) throws URISyntaxException {
-        Requestor requestor1 = requestor_service.addRequestor(requestor, requestor.getRequestorStore().getId());
+    public String addRequestor(@ModelAttribute(name = "requestor") Requestor requestor,
+                               @ModelAttribute(name = "requestorStoreName") String requestorStoreName,
+                               Model model) throws URISyntaxException {
+        Requestor requestor1 = requestor_service.addRequestor(requestor, requestorStoreName);
         if (requestor1 != null) {
-            return "redirect:view/" + requestor.getId();
-
+            model.addAttribute("addedrequestor",requestor1);
+            return "th_viewRequestor";
         } else {
-            return"";
+            model.addAttribute(null);
+            return "";
         }
     }
 
