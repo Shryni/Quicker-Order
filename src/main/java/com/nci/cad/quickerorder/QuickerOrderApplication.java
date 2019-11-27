@@ -29,6 +29,5 @@ public class QuickerOrderApplication  {
 
 	public static void main(String[] args) {
 		SpringApplication.run(QuickerOrderApplication.class, args);
-
 	}
 }

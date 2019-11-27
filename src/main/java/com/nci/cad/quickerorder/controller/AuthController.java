@@ -28,7 +28,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.Iterator;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -60,22 +61,26 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        RequestorStore requestorStore = requestorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
+        Iterator i = requestorStore.getRoles().iterator();
+        String role = null;
+        if (i.hasNext()){
+            Role r = (Role) i.next();
+            role =r.getName().toString();
+        }
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,role));
 
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerStore(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
-           // System.out.println("Username is already taken!");
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if(requestorStore_repository.existsByEmail(signUpRequest.getEmail())) {
-           // System.out.println("Email Address already in use!");
             return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -86,8 +91,7 @@ public class AuthController {
 
         requestorStore.setPassword(passwordEncoder.encode(requestorStore.getPassword()));
         Role userRole = null;
-
-        if(signUpRequest.getUsername().contains("ADMIN")||signUpRequest.getName().contains("admin")){
+        if(signUpRequest.getUsername().contains("ADMIN")||signUpRequest.getUsername().contains("admin")){
             userRole = role_repository.findByName(RoleName.ROLE_ADMIN)
                     .orElseThrow(() -> new AppException("Admin Role not set."));
         }

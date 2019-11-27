@@ -29,23 +29,13 @@ public class UserController {
     ResponseEntity responseEntity = null;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserSummary getCurrentUser(@CurrentUser RequestorStorePrincipal requestorStorePrincipal) {
         UserSummary userSummary = new UserSummary(requestorStorePrincipal.getId(), requestorStorePrincipal.getUsername(), requestorStorePrincipal.getName());
         return userSummary;
     }
 
-//    @GetMapping("/user/checkUsernameAvailability")
-//    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
-//        Boolean isAvailable = !requestorStore_repository.existsByUsername(username);
-//        return new UserIdentityAvailability(isAvailable);
-//    }
 
-//    @GetMapping("/user/checkEmailAvailability")
-//    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-//        Boolean isAvailable = !requestorStore_repository.existsByEmail(email);
-//        return new UserIdentityAvailability(isAvailable);
-//    }
 
     @PostMapping("/user/checkEmailAvailability")
     public ResponseEntity<?> checkEmailAvailability (@Valid @RequestBody EmailCheck email){
