@@ -29,7 +29,7 @@ public class UserController {
     ResponseEntity responseEntity = null;
 
     @GetMapping("/user/me")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserSummary getCurrentUser(@CurrentUser RequestorStorePrincipal requestorStorePrincipal) {
         UserSummary userSummary = new UserSummary(requestorStorePrincipal.getId(), requestorStorePrincipal.getUsername(), requestorStorePrincipal.getName());
         return userSummary;

@@ -78,8 +78,8 @@ public class RequestorStoreController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RequestorStore> getRequestorStore(@Valid @PathVariable long id){
+    @PostMapping("/store")
+    public ResponseEntity<RequestorStore> getRequestorStore(@Valid @RequestBody Long id){
         RequestorStore requestorStore = requestorStore_service.getRequestorStore(id);
         if(requestorStore != null){
             return responseEntity.status(HttpStatus.OK).body(requestorStore);
