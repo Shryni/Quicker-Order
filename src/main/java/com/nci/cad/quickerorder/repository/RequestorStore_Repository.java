@@ -21,6 +21,8 @@ public interface RequestorStore_Repository extends JpaRepository<RequestorStore,
 
     Optional<RequestorStore> findByUsername(String username);
 
+    Optional<RequestorStore> findByName(String storName);
+
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);

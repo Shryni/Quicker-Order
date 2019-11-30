@@ -2,6 +2,7 @@ package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.model.RequestorStore;
+import com.nci.cad.quickerorder.payload.StoreUpdateObject;
 import com.nci.cad.quickerorder.service.RequestorStore_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,18 @@ public class RequestorStoreController {
         RequestorStore requestorStore = requestorStore_service.getRequestorStore(id);
         if(requestorStore != null){
             return responseEntity.status(HttpStatus.OK).body(requestorStore);
+        }
+        else{
+            return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/store/update")
+    public ResponseEntity<RequestorStore> updateStore(@Valid @RequestBody StoreUpdateObject storeUpdateObject){
+        System.out.println(storeUpdateObject+"OBJJJJJ");
+        RequestorStore requestorStore1 = requestorStore_service.updateRequestorStore(storeUpdateObject);
+        if(requestorStore1 != null){
+            return responseEntity.status(HttpStatus.OK).body(requestorStore1);
         }
         else{
             return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);
