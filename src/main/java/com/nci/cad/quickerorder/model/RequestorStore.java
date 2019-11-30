@@ -64,6 +64,8 @@ public class RequestorStore extends DateAudit {
 
     private long approval_limit;
 
+    private String go_down_address;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "requestorStore_id"),

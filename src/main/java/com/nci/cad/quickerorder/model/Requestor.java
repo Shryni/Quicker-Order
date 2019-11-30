@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Data
@@ -27,6 +28,8 @@ public class Requestor {
     //@Column( unique = true)
     //private String role_id;
     private String role;
+    @Email
+    private String requestor_email;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="requestorStore_id", nullable = false)
