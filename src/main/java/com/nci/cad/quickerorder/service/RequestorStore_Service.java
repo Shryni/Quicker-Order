@@ -1,6 +1,7 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.payload.StoreUpdateObject;
 import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,19 @@ public class RequestorStore_Service {
         return requestorStore1;
     }
 
-    public ResponseEntity<RequestorStore> updateRequestorStore(RequestorStore requestorStore) {
-        RequestorStore requestorStore1 = requestorStore_repository.save(requestorStore);
-        return ResponseEntity.ok().body(requestorStore1);
+    public RequestorStore  updateRequestorStore(StoreUpdateObject requestorStore) {
+        RequestorStore requestorStore1 = requestorStore_repository.findByName(requestorStore.getName()).get();
+        requestorStore1.setName(requestorStore.getName());
+        requestorStore1.setEmail(requestorStore.getEmail());
+        requestorStore1.setStoreAddress_line1(requestorStore.getStoreAddress_line1());
+        requestorStore1.setStoreAddress_line2(requestorStore.getStoreAddress_line2());
+        requestorStore1.setStoreAddress_line3(requestorStore.getStoreAddress_line3());
+        requestorStore1.setApproval_limit(requestorStore.getApproval_limit());
+        requestorStore1.setStore_city(requestorStore.getStore_city());
+        requestorStore1.setStore_postal_code(requestorStore.getStore_postal_code());
+        requestorStore1.setStore_contact(requestorStore.getStore_contact());
+        return requestorStore_repository.save(requestorStore1);
+
     }
 
 

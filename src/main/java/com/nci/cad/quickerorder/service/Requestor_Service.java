@@ -2,6 +2,7 @@ package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.model.RequestorStore;
+import com.nci.cad.quickerorder.payload.NewRequestor;
 import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
 import com.nci.cad.quickerorder.repository.Requestor_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class Requestor_Service {
         return requestors;
     }
 
-    public List<Requestor> getAll() {
-        List<Requestor> requestors = requestor_repository.findAll();
+    public List<Requestor> getAllbyID(Long id) {
+        List<Requestor> requestors = requestor_repository.findByRequestorStoreId(id);
         return requestors;
     }
 
@@ -37,10 +38,14 @@ public class Requestor_Service {
         return requestor_repository.findById(requestorId).get();
     }
 
-    public Requestor addRequestor(Requestor requestor, String requestorStoreName) throws URISyntaxException {
-        //RequestorStore requestorStore = requestorStore_repository.findByName(requestorStoreName);
-        RequestorStore requestorStore = requestorStore_repository.findById(new Long(1)).get();
+    public Requestor addRequestor(NewRequestor newRequestor) throws URISyntaxException {
+        RequestorStore requestorStore = requestorStore_repository.findById(newRequestor.getStoreID()).get();
+        System.out.println("REEEEEEEEEEEEEEEE"+ requestorStore);
+        Requestor requestor = new Requestor();
         requestor.setRequestorStore(requestorStore);
+        requestor.setFirst_name(newRequestor.getFirst_name());
+        requestor.setLast_name(newRequestor.getLast_name());
+        requestor.setRole(newRequestor.getRole());
         Requestor requestor1 = requestor_repository.save(requestor);
         return requestor1;
     }

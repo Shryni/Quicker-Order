@@ -3,6 +3,8 @@ package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Requestor;
+import com.nci.cad.quickerorder.payload.Id;
+import com.nci.cad.quickerorder.payload.NewRequestor;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,17 +59,25 @@ public class RequestorController {
         }
     }
 
+    @PostMapping ("/all")
+    public ResponseEntity<List<Requestor>> getAllRequestors(@Valid @RequestBody Id id){
+        List<Requestor> requestor = requestor_service.getAllbyID(id.getId());
+        if(requestor != null){
+            return responseEntity.status(HttpStatus.OK).body(requestor);
+        }
+        else {
+            return (ResponseEntity<List<Requestor>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
     @PostMapping("/new")
-    public String addRequestor(@ModelAttribute(name = "requestor") Requestor requestor,
-                               @ModelAttribute(name = "requestorStoreName") String requestorStoreName,
-                               Model model) throws URISyntaxException {
-        Requestor requestor1 = requestor_service.addRequestor(requestor, requestorStoreName);
+    public ResponseEntity<Requestor> addRequestor(@Valid @RequestBody NewRequestor newRequestor) throws URISyntaxException {
+
+
+        Requestor requestor1 = requestor_service.addRequestor(newRequestor);
         if (requestor1 != null) {
-            model.addAttribute("addedrequestor",requestor1);
-            return "th_viewRequestor";
+            return responseEntity.status(HttpStatus.OK).body(requestor1);
         } else {
-            model.addAttribute(null);
-            return "";
+            return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
 
