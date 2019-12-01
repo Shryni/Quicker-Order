@@ -29,7 +29,7 @@ public class Quotation_Comparator {
                 allTransport.add(quotation.getTransport());
                 allPrices.add(quotation.getTotalPrice());
                 System.out.println(quotation.getTotalPrice());
-                allDiscounts.add(quotation.getDiscount());
+                //allDiscounts.add(quotation.getDiscount());
             }
             Map<Integer, Date> bestDeliveryDates = new HashMap<>();
             bestDeliveryDates = compareDeliveryDate(allDeliveryDates);

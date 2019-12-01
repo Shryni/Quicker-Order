@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplyDiscount {
-    @Autowired
+ /*   @Autowired
     Invoice_Repository invoice_repository;
 
     @Autowired
@@ -75,7 +75,7 @@ public class ApplyDiscount {
         }
 
         return size;
-    }
+    }*/
 }
 
 

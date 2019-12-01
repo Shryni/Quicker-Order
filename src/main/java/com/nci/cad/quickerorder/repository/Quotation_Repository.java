@@ -14,10 +14,10 @@ public interface Quotation_Repository extends JpaRepository<Quotation, Long> {
     //List<Quotation> findByPurchaseOrderId(Long id);
     List<Quotation> findByVendorPRId(Long id);
     //List<Quotation> fin
-    @Modifying(clearAutomatically = true)
+  /*  @Modifying(clearAutomatically = true)
     @Query("Update Quotation quotation set quotation.totalPrice =0.95*totalPrice where quotation.id =:quoteID")
     void addDiscountToQuotation_repository(@Param("quoteID") Long quotationID);
 
     @Query("select * from  Quotation quotation where quotation.purchase_requisition in :Ids")
-    List<Quotation> findQuotationByPurchaserequitionId(@Param("Ids") List<Long> ids);
+    List<Quotation> findQuotationByPurchaserequitionId(@Param("Ids") List<Long> ids);*/
 }
