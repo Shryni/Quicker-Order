@@ -1,40 +1,38 @@
 package com.nci.cad.quickerorder.model;
 
-import com.nci.cad.quickerorder.model.audit.DateAudit;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
-
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
-
+@AllArgsConstructor
 @ToString
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-                "vendorStoreName"
+                "name"
         }),
         @UniqueConstraint(columnNames = {
-                "vendoremail"
+                "email"
         })
 })
-public class VendorStore extends DateAudit {
+public class VendorStore {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     @Size(max = 40)
-    private String vendorStoreName;
+    private String name;
 
     @NotBlank
     @Size(max = 15)
@@ -48,40 +46,26 @@ public class VendorStore extends DateAudit {
     @NotBlank
     @Size(max = 40)
     @Email
-    private String vendoremail;
+    private String email;
 
-    private String vendoraddress1;
+    private String storeAddress_line1;
 
-    private String vendoraddress2;
+    private String storeAddress_line2;
 
-    private String vendorcity;
+    private String storeAddress_line3;
 
-    private String vendoreircode;
+    private String store_city;
 
-    private String vendorcontact;
+    private String store_postal_code;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "vendorStore_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private String store_contact;
 
     public VendorStore(String name, String username, String email, String password) {
-        this.vendorStoreName = name;
+        this.name = name;
         this.username = username;
-        this.vendoremail = email;
+        this.email = email;
         this.password = password;
     }
 
+
 }
-
-
-
-
-
-
-
-
-
-
-
