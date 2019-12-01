@@ -40,7 +40,7 @@ public class Requestor_Service {
 
     public Requestor addRequestor(NewRequestor newRequestor) throws URISyntaxException {
         RequestorStore requestorStore = requestorStore_repository.findById(newRequestor.getStoreID()).get();
-        System.out.println("REEEEEEEEEEEEEEEE"+ requestorStore);
+
         Requestor requestor = new Requestor();
         requestor.setRequestorStore(requestorStore);
         requestor.setFirst_name(newRequestor.getFirst_name());

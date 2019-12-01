@@ -4,12 +4,14 @@ import com.nci.cad.quickerorder.exception.AppException;
 import com.nci.cad.quickerorder.model.RequestorStore;
 import com.nci.cad.quickerorder.model.Role;
 import com.nci.cad.quickerorder.model.RoleName;
+import com.nci.cad.quickerorder.model.VendorStore;
 import com.nci.cad.quickerorder.payload.ApiResponse;
 import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
 import com.nci.cad.quickerorder.payload.LoginRequest;
 import com.nci.cad.quickerorder.payload.SignUpRequest;
 import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
 import com.nci.cad.quickerorder.repository.Role_Repository;
+import com.nci.cad.quickerorder.repository.VendorStore_Repository;
 import com.nci.cad.quickerorder.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,9 @@ public class AuthController {
 
     @Autowired
     RequestorStore_Repository requestorStore_repository;
+
+    @Autowired
+    VendorStore_Repository vendorStore_repository;
 
     @Autowired
     Role_Repository role_repository;
@@ -75,40 +80,61 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerStore(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
-        }
+        if (signUpRequest.getUsername().contains("VENDOR")||signUpRequest.getUsername().contains("vendor")){
+            if(vendorStore_repository.existsByUsername(signUpRequest.getUsername())) {
+                return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                        HttpStatus.BAD_REQUEST);
+            }
 
-        if(requestorStore_repository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        // Creating store's account
-        RequestorStore requestorStore = new RequestorStore(signUpRequest.getName(), signUpRequest.getUsername(),
-                signUpRequest.getEmail(), signUpRequest.getPassword());
-
-        requestorStore.setPassword(passwordEncoder.encode(requestorStore.getPassword()));
-        Role userRole = null;
-        if(signUpRequest.getUsername().contains("ADMIN")||signUpRequest.getUsername().contains("admin")){
-            userRole = role_repository.findByName(RoleName.ROLE_ADMIN)
-                    .orElseThrow(() -> new AppException("Admin Role not set."));
+            if(vendorStore_repository.existsByEmail(signUpRequest.getEmail())) {
+                return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+                        HttpStatus.BAD_REQUEST);
+            }
+            VendorStore vendorStore = new VendorStore(signUpRequest.getName(),signUpRequest.getUsername(),signUpRequest.getEmail(), signUpRequest.getPassword());
+            vendorStore.setPassword(passwordEncoder.encode(vendorStore.getPassword()));
+            VendorStore result = vendorStore_repository.save(vendorStore);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/users/{username}")
+                    .buildAndExpand(result.getUsername()).toUri();
+            return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
         }
         else{
-            userRole = role_repository.findByName(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new AppException("User Role not set."));
+            if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
+                return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                        HttpStatus.BAD_REQUEST);
+            }
+
+            if(requestorStore_repository.existsByEmail(signUpRequest.getEmail())) {
+                return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+                        HttpStatus.BAD_REQUEST);
+            }
+            RequestorStore requestorStore = new RequestorStore(signUpRequest.getName(), signUpRequest.getUsername(),
+                    signUpRequest.getEmail(), signUpRequest.getPassword());
+            requestorStore.setPassword(passwordEncoder.encode(requestorStore.getPassword()));
+            Role userRole = null;
+            if(signUpRequest.getUsername().contains("ADMIN")||signUpRequest.getUsername().contains("admin")){
+                userRole = role_repository.findByName(RoleName.ROLE_ADMIN)
+                        .orElseThrow(() -> new AppException("Admin Role not set."));
+            }
+            else{
+                userRole = role_repository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new AppException("User Role not set."));
+            }
+
+            requestorStore.setRoles(Collections.singleton(userRole));
+
+            RequestorStore result = requestorStore_repository.save(requestorStore);
+
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/users/{username}")
+                    .buildAndExpand(result.getUsername()).toUri();
+
+            return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
+
         }
 
-        requestorStore.setRoles(Collections.singleton(userRole));
 
-        RequestorStore result = requestorStore_repository.save(requestorStore);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
-
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
     }
 }
 
