@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PurchaseRequisition_Service  {
+public class PurchaseRequisition_Service implements Subject {
 
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
@@ -31,43 +31,43 @@ public class PurchaseRequisition_Service  {
     @Autowired
     Requestor_Repository requestor_repository;
 
-//    private List<Observer> observers;
-//    private boolean changed;
-//    private final Object MUTEX= new Object();
-//
-//    public PurchaseRequisition_Service(){
-//        this.observers = new ArrayList<>();
-//    }
-//
-//   // @Override
-//    public void register(Observer obj) {
-//        if(obj == null) throw new NullPointerException("Null Observer");
-//        synchronized (MUTEX) {
-//            if(!observers.contains(obj)) observers.add(obj);
-//        }
-//    }
-//
-//   // @Override
-//    public void unregister(Observer obj) {
-//        synchronized (MUTEX) {
-//            observers.remove(obj);
-//        }
-//    }
+    private List<Observer> observers;
+    private boolean changed;
+    private final Object MUTEX= new Object();
 
-  //  @Override
-//    public void notifyObservers(PurchaseRequisition pr, VendorStore vendorStore) {
-//        List<Observer> observersLocal = null;
-//        synchronized (MUTEX) {
-//            if (!changed)
-//                return;
-//            observersLocal = new ArrayList<>(this.observers);
-//            this.changed=false;
-//        }
-//        for (Observer obj : observersLocal) {
-//            System.out.println("PR: "+pr);
-//            obj.update(pr,vendorStore);
-//        }
-//    }
+    public PurchaseRequisition_Service(){
+        this.observers = new ArrayList<>();
+    }
+
+   // @Override
+    public void register(Observer obj) {
+        if(obj == null) throw new NullPointerException("Null Observer");
+        synchronized (MUTEX) {
+            if(!observers.contains(obj)) observers.add(obj);
+        }
+    }
+
+   // @Override
+    public void unregister(Observer obj) {
+        synchronized (MUTEX) {
+            observers.remove(obj);
+        }
+    }
+
+    @Override
+    public void notifyObservers(PurchaseRequisition pr, VendorStore vendorStore) {
+        List<Observer> observersLocal = null;
+        synchronized (MUTEX) {
+            if (!changed)
+                return;
+            observersLocal = new ArrayList<>(this.observers);
+            this.changed=false;
+        }
+        for (Observer obj : observersLocal) {
+            System.out.println("PR: "+pr);
+            obj.update(pr,vendorStore);
+        }
+    }
 
 
 
@@ -106,17 +106,17 @@ public class PurchaseRequisition_Service  {
                    newPR.getCheckedVendors()) {
                VendorStore vendorStore = vendorStore_repository.findByName(vendorstorename).get();
                System.out.println("CAlling notif");
-                VendorPR vpr = new VendorPR();
-               vpr.setId(purchaseRequisition.getId());
-               vpr.setTitle(purchaseRequisition.getTitle());
-               vpr.setCreated_date(purchaseRequisition.getCreated_date());
-               vpr.setExpected_date_of_delivery(purchaseRequisition.getExpected_date_of_delivery());
-               vpr.setStatus(purchaseRequisition.getStatus());
-               vpr.setAdditional_comments(purchaseRequisition.getAdditional_comments());
-               vpr.setVendorStore(vendorStore);
-               vendorPR_repository.save(vpr);
-
-
+               this.changed = true;
+               notifyObservers(pr,vendorStore);
+//                VendorPR vpr = new VendorPR();
+//               vpr.setId(purchaseRequisition.getId());
+//               vpr.setTitle(purchaseRequisition.getTitle());
+//               vpr.setCreated_date(purchaseRequisition.getCreated_date());
+//               vpr.setExpected_date_of_delivery(purchaseRequisition.getExpected_date_of_delivery());
+//               vpr.setStatus(purchaseRequisition.getStatus());
+//               vpr.setAdditional_comments(purchaseRequisition.getAdditional_comments());
+//               vpr.setVendorStore(vendorStore);
+//               vendorPR_repository.save(vpr);
            }
        }
 

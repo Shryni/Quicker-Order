@@ -75,6 +75,8 @@ public class PurchaseRequisitionController {
 
     @PostMapping("/new")
     public ResponseEntity<PurchaseRequisition> addPR(@Valid @RequestBody NewPR newPR) throws URISyntaxException {
+        Observer vendorPR = new VendorPRService();
+        purchaseRequisition_service.register(vendorPR);
         PurchaseRequisition purchaseRequisition1 = purchaseRequisition_service.addPurchaseRequisition(newPR);
         if(purchaseRequisition1 != null){
             return responseEntity.status(HttpStatus.OK).body(purchaseRequisition1);

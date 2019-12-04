@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Entity
 @Table
@@ -30,17 +31,6 @@ public class Quotation {
     private float discount;
     @Column(nullable = false)
     private Float totalPrice;
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
-//    private List<Item> items;
-//
-//    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="quotation")
-//    private Purchaseorder purchaseorder;
-
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "vendorStore_id" , nullable = false)
-//    @JsonIgnore
-//    private VendorStore vendorStore;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendorPRId", nullable = false)
