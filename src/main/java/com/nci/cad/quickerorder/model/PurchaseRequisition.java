@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @Getter
@@ -35,14 +34,6 @@ public class PurchaseRequisition
     @JsonIgnore
     private Requestor requestor;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="purchaseRequisition")
-//    private List<Item> items;
-//
-//    @OneToOne(mappedBy="purchaseRequisition",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Purchaseorder purchaseorder;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL,mappedBy="purchaseRequisition")
-//    private List<Quotation> quotations;
 
 
 }

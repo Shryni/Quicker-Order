@@ -2,10 +2,11 @@ package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
-import com.nci.cad.quickerorder.model.VendorPR;
+import com.nci.cad.quickerorder.payload.NewPR;
 import com.nci.cad.quickerorder.service.Item_Service;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.VendorPRService;
+import com.nci.cad.quickerorder.utils.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,17 @@ import java.util.List;
 public class PurchaseRequisitionController {
 
     @Autowired
-    PurchaseRequisition_Service purchaseRequisition_service;
+    PurchaseRequisition_Service purchaseRequisition_service ;
 
     @Autowired
     VendorPRService vendorPRService;
+
 
     @Autowired
     Item_Service item_service;
 
     ResponseEntity responseEntity = null;
+
 
     //****************************************************************************//
     @GetMapping("/view")
@@ -69,16 +72,16 @@ public class PurchaseRequisitionController {
             return (ResponseEntity<PurchaseRequisition>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/{requestorId}/new")
-    public ResponseEntity<PurchaseRequisition> addPR(@PathVariable (value = "requestorId") Long requestorId, @Valid @RequestBody PurchaseRequisition purchaseRequisition) throws URISyntaxException {
-        PurchaseRequisition purchaseRequisition1 = purchaseRequisition_service.addPurchaseRequisition(requestorId,purchaseRequisition);
+
+    @PostMapping("/new")
+    public ResponseEntity<PurchaseRequisition> addPR(@Valid @RequestBody NewPR newPR) throws URISyntaxException {
+        PurchaseRequisition purchaseRequisition1 = purchaseRequisition_service.addPurchaseRequisition(newPR);
         if(purchaseRequisition1 != null){
             return responseEntity.status(HttpStatus.OK).body(purchaseRequisition1);
         }
         else{
             return (ResponseEntity<PurchaseRequisition>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
-
     }
     @GetMapping("/{prID}/items")
     public ResponseEntity<List<Item>> getAllItems(@PathVariable (value = "prID") Long prID){

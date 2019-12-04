@@ -3,14 +3,20 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.VendorPR;
+import com.nci.cad.quickerorder.model.VendorStore;
 import com.nci.cad.quickerorder.repository.Item_Repository;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.nci.cad.quickerorder.repository.VendorStore_Repository;
+import com.nci.cad.quickerorder.utils.Observer;
+import com.nci.cad.quickerorder.utils.Subject;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+
 
 @Service
 public class VendorPRService {
@@ -26,6 +32,27 @@ public class VendorPRService {
 
     @Autowired
     Item_Repository item_repository;
+
+    private Subject sub;
+
+//    @Override
+//    public void setSubject(Subject sub) {
+//        this.sub = sub;
+//    }
+//    @Override
+//    public void update(PurchaseRequisition pr, VendorStore vendorStore) {
+//        VendorPR vpr = new VendorPR();
+//        vpr.setId(pr.getId());
+//        vpr.setTitle(pr.getTitle());
+//        vpr.setCreated_date(pr.getCreated_date());
+//        vpr.setExpected_date_of_delivery(pr.getExpected_date_of_delivery());
+//        vpr.setStatus(pr.getStatus());
+//        vpr.setAdditional_comments(pr.getAdditional_comments());
+//        vpr.setVendorStore(vendorStore);
+//        System.out.println("VPR: "+vpr);
+//        vendorPR_repository.save(vpr);
+//    }
+
 
     public String addPRsToVendors(Long prID, Long[] vendors) {
         PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.findById(prID).get();
@@ -54,4 +81,6 @@ public class VendorPRService {
             return "No items found in the PR";
         }
     }
+
+
 }

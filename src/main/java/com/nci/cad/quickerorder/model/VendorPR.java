@@ -25,7 +25,6 @@ public class VendorPR {
     @Column(nullable = false)
     private String status;
     private String additional_comments;
-    //private boolean save_template;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendorstore_id", nullable = false)

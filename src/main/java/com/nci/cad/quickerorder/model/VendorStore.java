@@ -1,5 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
+import com.nci.cad.quickerorder.model.audit.DateAudit;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -24,7 +25,7 @@ import java.util.List;
                 "email"
         })
 })
-public class VendorStore {
+public class VendorStore extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

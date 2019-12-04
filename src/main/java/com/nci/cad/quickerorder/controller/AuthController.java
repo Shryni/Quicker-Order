@@ -67,14 +67,22 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-        RequestorStore requestorStore = requestorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
-        Iterator i = requestorStore.getRoles().iterator();
-        String role = null;
-        if (i.hasNext()){
-            Role r = (Role) i.next();
-            role =r.getName().toString();
+        System.out.println("hereeeeee "+jwt );
+        if(loginRequest.getUsernameOrEmail().contains("vendor")){
+            VendorStore  vendorStore = vendorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,null,vendorStore,null));
         }
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,role));
+        else{
+            RequestorStore requestorStore = requestorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
+            Iterator i = requestorStore.getRoles().iterator();
+            String role = null;
+            if (i.hasNext()){
+                Role r = (Role) i.next();
+                role =r.getName().toString();
+            }
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,null,role));
+        }
+
 
     }
 
@@ -95,8 +103,8 @@ public class AuthController {
             VendorStore result = vendorStore_repository.save(vendorStore);
             URI location = ServletUriComponentsBuilder
                     .fromCurrentContextPath().path("/users/{username}")
-                    .buildAndExpand(result.getUsername()).toUri();
-            return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
+                                                                .buildAndExpand(result.getUsername()).toUri();
+                                                        return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
         }
         else{
             if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
