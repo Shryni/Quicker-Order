@@ -57,22 +57,15 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateStore(@Valid @RequestBody LoginRequest loginRequest) {
-
+        String jwt="";
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsernameOrEmail(),
                         loginRequest.getPassword()
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
-        System.out.println("hereeeeee "+jwt );
-        if(loginRequest.getUsernameOrEmail().contains("vendor")){
-            VendorStore  vendorStore = vendorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,null,vendorStore,null));
-        }
-        else{
+        jwt = tokenProvider.generateToken(authentication);
             RequestorStore requestorStore = requestorStore_repository.findByUsername(loginRequest.getUsernameOrEmail()).get();
             Iterator i = requestorStore.getRoles().iterator();
             String role = null;
@@ -80,39 +73,21 @@ public class AuthController {
                 Role r = (Role) i.next();
                 role =r.getName().toString();
             }
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,null,role));
-        }
-
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,role));
 
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerStore(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (signUpRequest.getUsername().contains("VENDOR")||signUpRequest.getUsername().contains("vendor")){
-            if(vendorStore_repository.existsByUsername(signUpRequest.getUsername())) {
+
+            if(requestorStore_repository.existsByUsername(signUpRequest.getUsername()) ||
+               vendorStore_repository.existsByUsername(signUpRequest.getUsername())) {
                 return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                         HttpStatus.BAD_REQUEST);
             }
 
-            if(vendorStore_repository.existsByEmail(signUpRequest.getEmail())) {
-                return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                        HttpStatus.BAD_REQUEST);
-            }
-            VendorStore vendorStore = new VendorStore(signUpRequest.getName(),signUpRequest.getUsername(),signUpRequest.getEmail(), signUpRequest.getPassword());
-            vendorStore.setPassword(passwordEncoder.encode(vendorStore.getPassword()));
-            VendorStore result = vendorStore_repository.save(vendorStore);
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentContextPath().path("/users/{username}")
-                                                                .buildAndExpand(result.getUsername()).toUri();
-                                                        return ResponseEntity.created(location).body(new ApiResponse(true, "Store registered successfully"));
-        }
-        else{
-            if(requestorStore_repository.existsByUsername(signUpRequest.getUsername())) {
-                return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                        HttpStatus.BAD_REQUEST);
-            }
-
-            if(requestorStore_repository.existsByEmail(signUpRequest.getEmail())) {
+            if(requestorStore_repository.existsByEmail(signUpRequest.getEmail()) ||
+            vendorStore_repository.existsByEmail(signUpRequest.getEmail())) {
                 return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
                         HttpStatus.BAD_REQUEST);
             }
@@ -124,6 +99,9 @@ public class AuthController {
                 userRole = role_repository.findByName(RoleName.ROLE_ADMIN)
                         .orElseThrow(() -> new AppException("Admin Role not set."));
             }
+            else if((signUpRequest.getUsername().contains("VENDOR")||signUpRequest.getUsername().contains("vendor"))){
+                userRole = null;
+            }
             else{
                 userRole = role_repository.findByName(RoleName.ROLE_USER)
                         .orElseThrow(() -> new AppException("User Role not set."));
@@ -132,6 +110,18 @@ public class AuthController {
             requestorStore.setRoles(Collections.singleton(userRole));
 
             RequestorStore result = requestorStore_repository.save(requestorStore);
+        if((signUpRequest.getUsername().contains("VENDOR")||signUpRequest.getUsername().contains("vendor"))){
+            VendorStore vendorStore = new VendorStore();
+            vendorStore.setId(result.getId());
+            vendorStore.setCreatedAt(result.getCreatedAt());
+            vendorStore.setUpdatedAt(result.getUpdatedAt());
+            vendorStore.setEmail(result.getEmail());
+            vendorStore.setName(result.getName());
+            vendorStore.setPassword(result.getPassword());
+            vendorStore.setUsername(result.getUsername());
+            vendorStore_repository.save(vendorStore);
+        }
+
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentContextPath().path("/users/{username}")
@@ -143,7 +133,7 @@ public class AuthController {
 
 
 
-    }
+
 }
 
 

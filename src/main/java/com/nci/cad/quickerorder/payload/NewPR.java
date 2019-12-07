@@ -24,7 +24,7 @@ public class NewPR {
     private Boolean save_template;
     private Long requestorID;
     private VendorStore[] vendorStoreList;
-    private String[] checkedVendors;
+    private List<String> checkedVendors;
     private Boolean indeterminate;
     private Boolean checkAll;
 }

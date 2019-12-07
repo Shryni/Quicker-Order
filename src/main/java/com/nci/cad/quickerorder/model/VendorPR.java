@@ -15,6 +15,7 @@ import java.sql.Date;
 @Table
 public class VendorPR {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String title;
@@ -30,4 +31,12 @@ public class VendorPR {
     @JoinColumn(name = "vendorstore_id", nullable = false)
     @JsonIgnore
     private VendorStore vendorStore;
+
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "purchaseRequisitionID", nullable = false)
+//    @JsonIgnore
+//    private PurchaseRequisition purchaseRequisition;
+
+    @Transient
+    private String requestor;
 }

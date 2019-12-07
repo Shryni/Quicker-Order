@@ -8,6 +8,5 @@ public interface Subject {
     public void unregister(Observer obj);
 
    public void notifyObservers(PurchaseRequisition pr, VendorStore vendorStore);
-//    public void notifyObservers();
 
 }

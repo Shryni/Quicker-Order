@@ -25,7 +25,7 @@ public class PurchaseRequisition
     @Column(nullable = false)
     private Date expected_date_of_delivery;
     @Column(nullable = false)
-    private String status;
+        private String status;
     private String additional_comments;
     private boolean save_template;
 

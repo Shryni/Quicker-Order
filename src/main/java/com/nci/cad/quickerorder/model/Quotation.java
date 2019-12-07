@@ -27,7 +27,7 @@ public class Quotation {
     @Column(nullable = false)
     private java.sql.Date quoteValidity;
     @Column(nullable = false)
-    private boolean transport;
+    private Boolean transport;
     private float discount;
     @Column(nullable = false)
     private Float totalPrice;
@@ -36,9 +36,4 @@ public class Quotation {
     @JoinColumn(name = "vendorPRId", nullable = false)
     @JsonIgnore
     private VendorPR vendorPR;
-
-    public Boolean getTransport() {
-        return this.transport;
-    }
-
 }

@@ -39,7 +39,7 @@ public class PurchaseRequisition_Service implements Subject {
         this.observers = new ArrayList<>();
     }
 
-   // @Override
+    @Override
     public void register(Observer obj) {
         if(obj == null) throw new NullPointerException("Null Observer");
         synchronized (MUTEX) {
@@ -47,7 +47,7 @@ public class PurchaseRequisition_Service implements Subject {
         }
     }
 
-   // @Override
+    @Override
     public void unregister(Observer obj) {
         synchronized (MUTEX) {
             observers.remove(obj);
@@ -77,7 +77,10 @@ public class PurchaseRequisition_Service implements Subject {
     public List<PurchaseRequisition> getAllPR(){
         return purchaseRequisition_repository.findAll();
     }
-    public PurchaseRequisition getPRByID(Long prID) {
+    public List<PurchaseRequisition> getPRByID(Long prID) {
+        return purchaseRequisition_repository.findByRequestorId(prID);
+    }
+    public PurchaseRequisition getPRByPRID(Long prID) {
         return purchaseRequisition_repository.findById(prID).get();
     }
 
@@ -94,29 +97,25 @@ public class PurchaseRequisition_Service implements Subject {
        pr.setAdditional_comments(newPR.getAdditional_comments());
        pr.setSave_template(newPR.getSave_template());
        pr.setRequestor(requestor);
-       System.out.println("PR:::: "+pr);
        PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.save(pr);
-       System.out.println("DONEEEE");
-
-       System.out.println("CAlling notif: "+purchaseRequisition);
-       System.out.println("UIUI"+ newPR.getCheckedVendors());
-
+       System.out.println("PR; "+newPR.getCheckedVendors());
        if(purchaseRequisition != null){
            for (String vendorstorename:
                    newPR.getCheckedVendors()) {
+               System.out.println("Checked : "+vendorstorename);
                VendorStore vendorStore = vendorStore_repository.findByName(vendorstorename).get();
-               System.out.println("CAlling notif");
                this.changed = true;
-               notifyObservers(pr,vendorStore);
-//                VendorPR vpr = new VendorPR();
-//               vpr.setId(purchaseRequisition.getId());
-//               vpr.setTitle(purchaseRequisition.getTitle());
-//               vpr.setCreated_date(purchaseRequisition.getCreated_date());
-//               vpr.setExpected_date_of_delivery(purchaseRequisition.getExpected_date_of_delivery());
-//               vpr.setStatus(purchaseRequisition.getStatus());
-//               vpr.setAdditional_comments(purchaseRequisition.getAdditional_comments());
-//               vpr.setVendorStore(vendorStore);
-//               vendorPR_repository.save(vpr);
+              // notifyObservers(pr,vendorStore);
+               VendorPR vpr = new VendorPR();
+               vpr.setTitle(purchaseRequisition.getTitle());
+               vpr.setCreated_date(purchaseRequisition.getCreated_date());
+               vpr.setExpected_date_of_delivery(purchaseRequisition.getExpected_date_of_delivery());
+               vpr.setStatus(purchaseRequisition.getStatus());
+               vpr.setAdditional_comments(purchaseRequisition.getAdditional_comments());
+               vpr.setVendorStore(vendorStore);
+
+               vendorPR_repository.save(vpr);
+               System.out.println("SAAVED : "+vpr);
            }
        }
 

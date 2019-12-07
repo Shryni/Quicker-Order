@@ -1,8 +1,10 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.payload.Id;
 import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
-import com.nci.cad.quickerorder.service.Quotation_Comparator;
+import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.nci.cad.quickerorder.service.Quotation_Service;
+import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,30 +25,29 @@ public class QuotationController {
     Quotation_Service quotation_service;
 
     @Autowired
-    Quotation_Comparator quotation_comparator;
+    VendorPR_Repository vendorPR_repository;
+
+    @Autowired
+    VendorPRService vendorPRService;
+
 
     ResponseEntity responseEntity = null;
 
-    //*****************************************************************************//
-    @GetMapping("/view")
-    public String viewQuotation() {
-        return "quotation/th_viewRequestorStore.html";
-    }
-
-    @GetMapping("/add")
-    public String addQuotation() {
-        return "quotation/th_addRequestorStore.html";
-    }
-
-    @GetMapping("/edit")
-    public String editQuotation() {
-        return "quotation/edit.html";
-    }
-    //*****************************************************************************//
 
     @GetMapping("/all")
     public ResponseEntity<List<Quotation>> getAll(){
         List<Quotation> quotationList = quotation_service.getAll();
+        if(quotationList != null){
+            return responseEntity.status(HttpStatus.OK).body(quotationList);
+
+        }
+        else{
+            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/allforRequestor")
+    public ResponseEntity<List<Quotation>> getAllForRequestor(@Valid @RequestBody Id id){
+        List<Quotation> quotationList = quotation_service.getAllForRequestor(id.getId());
         if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
 
@@ -86,6 +87,16 @@ public class QuotationController {
             return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/getApproved")
+    public ResponseEntity<List<VendorPR>> getApproved(@Valid @RequestBody Id id){
+        List<VendorPR> approvedPRs = vendorPRService.findApprovedPR(id.getId());
+        if(approvedPRs != null){
+            return responseEntity.status(HttpStatus.OK).body(approvedPRs);
+        }
+        else {
+            return (ResponseEntity<List<VendorPR>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/{vprID}/new")
     public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "vprID") Long vprID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
@@ -98,32 +109,22 @@ public class QuotationController {
         }
 
     }
-//    @GetMapping("/{prID}/all")
-//    public ResponseEntity<List<Quotation>> getVendorQuotations(@PathVariable (value = "prID") Long prID) throws URISyntaxException {
-//        List<Quotation> quotationList = quotation_service.getAllQuotationsforVendor(prID);
-//        if(quotationList != null){
-//            return responseEntity.status(HttpStatus.OK).body(quotationList);
-//        }
-//        else{
-//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-//        }
-//
-//    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteQuotation( @Valid @PathVariable Long id) {
         return quotation_service.deleteQuotation(id);
     }
 
-    @GetMapping("/compare/{criteria}")
-    public ResponseEntity<List<Quotation>> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
-        List<Quotation> quotationList = null;
-        if(quotations.size()>3)
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        else
-            quotationList = quotation_comparator.compareQuotations(quotations,criteria);
-            return responseEntity.status(HttpStatus.OK).body(quotationList);
-    }
+//    @GetMapping("/compare/{criteria}")
+//    public ResponseEntity<List<Quotation>> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
+//        List<Quotation> quotationList = null;
+//        if(quotations.size()>3)
+//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+//        else
+//            quotationList = quotation_comparator.compareQuotations(quotations,criteria);
+//            return responseEntity.status(HttpStatus.OK).body(quotationList);
+//    }
 //    @GetMapping("/compare/{criteria}")
 //    public List<Quotation> compareQuotations(@PathVariable String criteria) throws ParseException {
 //

@@ -51,9 +51,17 @@ public class VendorPRService implements Observer{
         vpr.setStatus(pr.getStatus());
         vpr.setAdditional_comments(pr.getAdditional_comments());
         vpr.setVendorStore(vendorStore);
+        addVendorPR(vpr);
+
+    }
+    public void addVendorPR(VendorPR vpr){
         System.out.println("VPR: "+vpr);
         vendorPR_repository.save(vpr);
     }
+//    public void updatePR(VendorPR vpr){
+//        vpr.setStatus("Approved");
+//        vendorPR_repository.save(vpr);
+//    }
 
 
     public String addPRsToVendors(Long prID, Long[] vendors) {
@@ -84,5 +92,23 @@ public class VendorPRService implements Observer{
         }
     }
 
-
+    public VendorPR approveVendorPR(Long id) {
+        VendorPR vpr = vendorPR_repository.findById(id).get();
+        vpr.setStatus("Approved");
+        PurchaseRequisition pr =purchaseRequisition_repository.findById(id).get();
+        pr.setStatus("Approved");
+        purchaseRequisition_repository.save(pr);
+        return vendorPR_repository.save(vpr);
+    }
+    public List<VendorPR> findApprovedPR(Long id){
+        List<VendorPR> vprs = vendorPR_repository.findByVendorStore_id(id);
+        List<VendorPR> approved = null;
+//        for (VendorPR vpr:
+//             vprs) {
+//            if(vpr.getStatus().equals("Approved")){
+//                approved.add(vpr);
+//            }
+//        }
+        return vprs;
+    }
 }

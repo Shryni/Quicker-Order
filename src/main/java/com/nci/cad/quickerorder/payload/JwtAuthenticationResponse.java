@@ -18,14 +18,12 @@ public class JwtAuthenticationResponse {
     private String tokenType = "Bearer";
     private String role;
     RequestorStore requestorStore;
-    VendorStore vendorStore;
 
-    public JwtAuthenticationResponse(String accessToken,RequestorStore requestorStore ,VendorStore vendorStore,String role) {
+    public JwtAuthenticationResponse(String accessToken,RequestorStore requestorStore ,String role) {
 
         this.accessToken = accessToken;
         this.role = role;
         this.requestorStore = requestorStore;
-        this.vendorStore = vendorStore;
     }
 
 }

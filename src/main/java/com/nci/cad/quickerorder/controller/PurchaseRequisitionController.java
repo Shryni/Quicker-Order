@@ -2,6 +2,7 @@ package com.nci.cad.quickerorder.controller;
 
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
+import com.nci.cad.quickerorder.payload.Id;
 import com.nci.cad.quickerorder.payload.NewPR;
 import com.nci.cad.quickerorder.service.Item_Service;
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
@@ -64,7 +65,7 @@ public class PurchaseRequisitionController {
 
     @GetMapping("/{prID}")
     public ResponseEntity<PurchaseRequisition> getPRByID(@PathVariable (value = "prID") Long prID){
-        PurchaseRequisition purchaseRequisition = purchaseRequisition_service.getPRByID(prID);
+        PurchaseRequisition purchaseRequisition = purchaseRequisition_service.getPRByPRID(prID);
         if(purchaseRequisition != null){
             return responseEntity.status(HttpStatus.OK).body(purchaseRequisition);
         }
@@ -85,14 +86,14 @@ public class PurchaseRequisitionController {
             return (ResponseEntity<PurchaseRequisition>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/{prID}/items")
-    public ResponseEntity<List<Item>> getAllItems(@PathVariable (value = "prID") Long prID){
-        List<Item> items = item_service.getItemsByPRId(prID);
-        if(items != null){
-            return responseEntity.status(HttpStatus.OK).body(items);
+    @PostMapping("/all")
+    public ResponseEntity<List<PurchaseRequisition>> getAllItems(@Valid @RequestBody Id id){
+        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getPRByID(id.getId());
+        if(purchaseRequisitionList != null){
+            return responseEntity.status(HttpStatus.OK).body(purchaseRequisitionList);
         }
         else{
-            return (ResponseEntity<List<Item>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<List<PurchaseRequisition>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -39,6 +39,7 @@ public class Quotation_Service {
     }
 
     public Quotation addQuotation(Long vendorPRID, Quotation quotation) throws URISyntaxException {
+
         VendorPR vendorPR = vendorPR_repository.findById(vendorPRID).get();
         quotation.setVendorPR(vendorPR);
         return quotation_repository.save(quotation);
@@ -59,5 +60,9 @@ public class Quotation_Service {
 
     public List<Quotation> getQuotationsbyprID(Long prID) {
         return quotation_repository.findByVendorPRId(prID);
+    }
+
+    public List<Quotation> getAllForRequestor(Long id) {
+        return quotation_repository.findByVendorPRId(id);
     }
 }
