@@ -3,6 +3,7 @@ package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.Requestor;
 import com.nci.cad.quickerorder.model.RequestorStore;
 import com.nci.cad.quickerorder.payload.StoreUpdateObject;
+import com.nci.cad.quickerorder.repository.Requestor_Repository;
 import com.nci.cad.quickerorder.service.RequestorStore_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class RequestorStoreController {
     @Autowired
     Requestor_Service requestor_service;
 
+    @Autowired
+    Requestor_Repository requestor_repository;
 
     ResponseEntity responseEntity = null;
 
@@ -95,7 +98,9 @@ public class RequestorStoreController {
         System.out.println(storeUpdateObject+"OBJJJJJ");
         RequestorStore requestorStore1 = requestorStore_service.updateRequestorStore(storeUpdateObject);
         if(requestorStore1 != null){
-            //requestorStore1.
+            List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorStore1.getId());
+            requestors.forEach(a->requestorStore1.addObserver((a)));
+            requestorStore1.notifyObservers();
             return responseEntity.status(HttpStatus.OK).body(requestorStore1);
 
         }

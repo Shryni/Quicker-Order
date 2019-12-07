@@ -19,7 +19,7 @@ public class Quotation {
     private Long id;
     //private Date quote_date;
     //@Column(nullable = true)
-    private Boolean status;
+    private String status;
     @Column(nullable = true)
     private java.sql.Date deliveryDate;
     @Column(nullable = false)

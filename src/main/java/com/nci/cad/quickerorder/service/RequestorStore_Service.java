@@ -42,7 +42,7 @@ public class RequestorStore_Service {
         requestorStore1.setDelivery_address(requestorStore.getDelivery_address());
 
         return requestorStore_repository.save(requestorStore1);
-        // call notify from caller call.
+
 
     }
 
