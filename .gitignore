@@ -20,6 +20,8 @@ build/
 *.iml
 *.ipr
 out/
+**src/main/quickOrder/build
+**src/main/quickOrder/node_modules
 
 ### NetBeans ###
 /nbproject/private/

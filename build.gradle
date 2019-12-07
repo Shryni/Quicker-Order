@@ -1,8 +1,22 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
+apply plugin: 'base'
+apply plugin: 'com.moowork.node'
 
 group = 'com.nci.cad'
 version = '0.0.1-SNAPSHOT'
@@ -22,14 +36,43 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
 }
-//defaultTasks 'build'
-//wrapper {
-//	description "Regenerates the Gradle Wrapper files"
-//	gradleVersion = '5.0'
-//	distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
-//}
+defaultTasks 'build'
+wrapper {
+	description "Regenerates the Gradle Wrapper files"
+	gradleVersion = '5.0'
+	distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+}
 
+node {
+	version = '10.14.1'
+	npmVersion = '6.4.1'
+	download = true
+	download = true
+	workDir = file("${project.buildDir}/nodejs")
+	npmWorkDir = file("${project.buildDir}/npm")
+}
+task appNpmInstall(type: NpmTask) {
+	description = "Installs all dependencies from package.json"
+	workingDir = file("${project.projectDir}/src/main/quickOrder")
+	args = ["install"]
+}
+task appNpmBuild(type: NpmTask) {
+	description = "Builds production version of the webapp"
+	workingDir = file("${project.projectDir}/src/main/quickOrder")
+	args = ["run", "build"]
+}
+
+task copyWebApp(type: Copy) {
+	from 'src/main/quickOrder/build'
+	into 'build/resources/main/static/.'
+}
+appNpmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn appNpmBuild
+compileJava.dependsOn copyWebApp
 
 
 dependencies {
