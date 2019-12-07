@@ -4,11 +4,13 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.*;
 
+@Service
 public class Quotation_Comparator {
     @Autowired
     Quotation_Repository quotation_repository;

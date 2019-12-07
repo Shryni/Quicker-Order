@@ -95,7 +95,9 @@ public class RequestorStoreController {
         System.out.println(storeUpdateObject+"OBJJJJJ");
         RequestorStore requestorStore1 = requestorStore_service.updateRequestorStore(storeUpdateObject);
         if(requestorStore1 != null){
+            //requestorStore1.
             return responseEntity.status(HttpStatus.OK).body(requestorStore1);
+
         }
         else{
             return (ResponseEntity<RequestorStore>) responseEntity.status(HttpStatus.BAD_REQUEST);

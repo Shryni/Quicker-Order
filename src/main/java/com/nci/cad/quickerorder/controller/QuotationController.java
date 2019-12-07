@@ -1,6 +1,6 @@
 package com.nci.cad.quickerorder.controller;
-import com.nci.cad.quickerorder.model.*;
-import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
+import com.nci.cad.quickerorder.model.Quotation;
+import com.nci.cad.quickerorder.service.ApplyDiscount;
 import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,9 @@ public class QuotationController {
     Quotation_Comparator quotation_comparator;
 
     ResponseEntity responseEntity = null;
+
+    @Autowired
+    ApplyDiscount applyDiscount;
 
     //*****************************************************************************//
     @GetMapping("/view")
@@ -55,21 +58,33 @@ public class QuotationController {
             return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/{prID}/all")
+   @GetMapping("/{prID}/all")
     public ResponseEntity<List<Quotation>> getAllQuotationforthisRequestor(@PathVariable (value = "prID")Long prID){
-        List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
-        if(quotationList != null){
+      List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
+       if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
         }
         else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
+           return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+      }
     }
     @GetMapping("/{quotationID}")
     public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID) {
         Quotation quotation = quotation_service.getQuotationByID(quotationID);
         if (quotation != null) {
             return responseEntity.status(HttpStatus.OK).body(quotation);
+        } else {
+            return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/{reqID}/{vendorId}")
+    public ResponseEntity<Quotation> applyDiscountToQuote(@PathVariable (value = "reqID")Long reqID,@PathVariable (value = "vendorId")Long vendorId,@RequestBody Quotation quotation) {
+        //Long reqID, Long vendorId, Quotation finalizedQuatation
+        Quotation quotation1 = applyDiscount.addDiscountToQuotation(reqID,vendorId,quotation);
+        if (quotation1 != null) {
+            return responseEntity.status(HttpStatus.OK).body(quotation1);
         } else {
             return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }

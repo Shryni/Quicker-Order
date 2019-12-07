@@ -5,14 +5,11 @@ import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.repository.PurchaseOrder_Repository;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class Purchaseorder_Service {
@@ -32,15 +29,15 @@ public class Purchaseorder_Service {
 
     public Purchaseorder addPurchaseOrder(Long quotationID,Purchaseorder purchaseOrder) throws URISyntaxException {
         Quotation quotation = quotation_repository.findById(quotationID).get();
-        if(quotation.getStatus()){
+        if(quotation.getStatus().equals("true") ){
+
             purchaseOrder.setQuotation(quotation);
             return purchaseOrder_repository.save(purchaseOrder);
         }
-        else{
+        else {
             System.out.println("Quotation not approved");
             return null;
         }
-
     }
 
     public ResponseEntity<Purchaseorder> updatePurchaseOrder(Purchaseorder purchaseOrder) {

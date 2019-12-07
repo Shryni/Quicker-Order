@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Getter
@@ -15,6 +13,7 @@ import java.util.List;
 @Entity
 @Table
 public class Quotation {
+    public static final String APPROVED_STATUS = "Approved";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +24,7 @@ public class Quotation {
     private java.sql.Date deliveryDate;
     @Column(nullable = false)
     private boolean transport;
-    private Double discount;
+    private float discount;
     @Column(nullable = false)
     private Float totalPrice;
     private String go_down_address;

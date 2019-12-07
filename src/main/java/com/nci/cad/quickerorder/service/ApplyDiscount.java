@@ -3,12 +3,14 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.*;
 import com.nci.cad.quickerorder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ApplyDiscount {
- /*   @Autowired
+    @Autowired
     Invoice_Repository invoice_repository;
 
     @Autowired
@@ -23,8 +25,8 @@ public class ApplyDiscount {
     @Autowired
     Requestor_Repository requestor_repository;
 
-    public Quotation addDiscountToQuotation(Long id, Long vendorId, Quotation finalizedQuatation) {
-        List<PurchaseRequisition> purchaseRequestionList = purchase_requisition_repository.findByRequestorId(id);
+    public Quotation addDiscountToQuotation(Long reqID, Long vendorId, Quotation finalizedQuatation) {
+        List<PurchaseRequisition> purchaseRequestionList = purchase_requisition_repository.findByRequestorId(reqID);
         ArrayList<Long> purchaseRequrstionIdList = new ArrayList();
         Integer size=0;
 
@@ -33,15 +35,15 @@ public class ApplyDiscount {
         }
 
         if (!purchaseRequrstionIdList.isEmpty()) {
-            size= getInvoiceSizeForRequestorIdAndVendorId(purchaseRequrstionIdList,size, id, vendorId);
+            size= getInvoiceSizeForRequestorIdAndVendorId(purchaseRequrstionIdList,size, reqID, vendorId);
         }
 
         if(size>2)
         {
-            finalizedQuatation.setDiscount(finalizedQuatation.getTotalPrice()*0.95);
+            finalizedQuatation.setDiscount((float) (finalizedQuatation.getTotalPrice()*0.95));
         }else
         {
-            finalizedQuatation.setDiscount(0d);
+            finalizedQuatation.setDiscount(finalizedQuatation.getTotalPrice());
         }
 
         return finalizedQuatation;
@@ -75,7 +77,7 @@ public class ApplyDiscount {
         }
 
         return size;
-    }*/
+    }
 }
 
 

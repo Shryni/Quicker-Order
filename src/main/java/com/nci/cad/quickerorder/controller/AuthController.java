@@ -35,7 +35,8 @@ import java.util.Iterator;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class
+AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -74,6 +75,7 @@ public class AuthController {
             Role r = (Role) i.next();
             role =r.getName().toString();
         }
+        System.out.println("jwt="+jwt);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,requestorStore,role));
 
     }
