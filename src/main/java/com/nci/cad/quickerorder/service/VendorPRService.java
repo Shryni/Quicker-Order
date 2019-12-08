@@ -1,13 +1,11 @@
 package com.nci.cad.quickerorder.service;
 
+import com.nci.cad.quickerorder.controller.RequestorStoreController;
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.VendorPR;
 import com.nci.cad.quickerorder.model.VendorStore;
-import com.nci.cad.quickerorder.repository.Item_Repository;
-import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
-import com.nci.cad.quickerorder.repository.VendorPR_Repository;
-import com.nci.cad.quickerorder.repository.VendorStore_Repository;
+import com.nci.cad.quickerorder.repository.*;
 import com.nci.cad.quickerorder.utils.Observer;
 import com.nci.cad.quickerorder.utils.Subject;
 import lombok.NoArgsConstructor;
@@ -28,6 +26,9 @@ public class VendorPRService implements Observer{
 
     @Autowired
     VendorStore_Repository vendorStore_repository;
+
+    @Autowired
+    RequestorStore_Repository requestorStore_repository;
 
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
@@ -95,20 +96,23 @@ public class VendorPRService implements Observer{
     public VendorPR approveVendorPR(Long id) {
         VendorPR vpr = vendorPR_repository.findById(id).get();
         vpr.setStatus("Approved");
-        PurchaseRequisition pr =purchaseRequisition_repository.findById(id).get();
-        pr.setStatus("Approved");
-        purchaseRequisition_repository.save(pr);
         return vendorPR_repository.save(vpr);
     }
     public List<VendorPR> findApprovedPR(Long id){
         List<VendorPR> vprs = vendorPR_repository.findByVendorStore_id(id);
         List<VendorPR> approved = null;
-//        for (VendorPR vpr:
-//             vprs) {
-//            if(vpr.getStatus().equals("Approved")){
-//                approved.add(vpr);
-//            }
-//        }
+        for (VendorPR vpr:
+             vprs) {
+            if(vpr.getStatus().equals("Approved")){
+                approved.add(vpr);
+            }
+        }
         return vprs;
+    }
+
+    public List<VendorPR> findAllPrs(Long id) {
+        String vendorName = requestorStore_repository.findById(id).get().getName();
+        VendorStore vendorStore = vendorStore_repository.findByName(vendorName);
+        return vendorPR_repository.findByVendorStore_id(vendorStore.getId());
     }
 }

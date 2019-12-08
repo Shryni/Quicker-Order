@@ -85,10 +85,7 @@ public class PurchaseRequisition_Service implements Subject {
     }
 
    public PurchaseRequisition addPurchaseRequisition(NewPR newPR) throws URISyntaxException {
-       System.out.println("HI :"+newPR);
        Requestor requestor = requestor_repository.findById(newPR.getRequestorID()).get();
-
-
        PurchaseRequisition pr = new PurchaseRequisition();
        pr.setTitle(newPR.getTitle());
        pr.setCreated_date(newPR.getCreated_date());
@@ -98,12 +95,10 @@ public class PurchaseRequisition_Service implements Subject {
        pr.setSave_template(newPR.getSave_template());
        pr.setRequestor(requestor);
        PurchaseRequisition purchaseRequisition = purchaseRequisition_repository.save(pr);
-       System.out.println("PR; "+newPR.getCheckedVendors());
        if(purchaseRequisition != null){
            for (String vendorstorename:
                    newPR.getCheckedVendors()) {
-               System.out.println("Checked : "+vendorstorename);
-               VendorStore vendorStore = vendorStore_repository.findByName(vendorstorename).get();
+               VendorStore vendorStore = vendorStore_repository.findByName(vendorstorename);
                this.changed = true;
               // notifyObservers(pr,vendorStore);
                VendorPR vpr = new VendorPR();
@@ -113,9 +108,8 @@ public class PurchaseRequisition_Service implements Subject {
                vpr.setStatus(purchaseRequisition.getStatus());
                vpr.setAdditional_comments(purchaseRequisition.getAdditional_comments());
                vpr.setVendorStore(vendorStore);
-
+               vpr.setPurchaseRequisition(purchaseRequisition);
                vendorPR_repository.save(vpr);
-               System.out.println("SAAVED : "+vpr);
            }
        }
 

@@ -11,4 +11,5 @@ public interface VendorPR_Repository extends JpaRepository<VendorPR, Long> {
 
     List<VendorPR> findByVendorStore_id(Long id);
 
+
 }

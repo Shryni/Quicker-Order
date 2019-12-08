@@ -1,7 +1,9 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.payload.GeneratePrice;
 import com.nci.cad.quickerorder.payload.Id;
 import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
+import com.nci.cad.quickerorder.payload.NewQuotation;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.nci.cad.quickerorder.service.VendorPRService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -97,15 +100,35 @@ public class QuotationController {
             return (ResponseEntity<List<VendorPR>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/options")
+    public ResponseEntity<List<String>> getOptions(){
+        List<String> options = new ArrayList<String>();
+        options.add(new String("Basic Transportation Cost"));
+        options.add(new String("Fast Track Delivery"));
+        options.add(new String("New Customer Discount"));
+        options.add(new String("Regular Customer Discount"));
+        return responseEntity.status(HttpStatus.OK).body(options);
+     }
 
-    @PostMapping("/{vprID}/new")
-    public ResponseEntity<Quotation> addQuotation(@PathVariable (value = "vprID") Long vprID, @Valid @RequestBody Quotation quotation) throws URISyntaxException {
-        Quotation quotation1 = quotation_service.addQuotation(vprID,quotation);
+    @PostMapping("/new")
+    public ResponseEntity<Quotation> addQuotation(@Valid @RequestBody NewQuotation newQuotation) throws URISyntaxException {
+        Quotation quotation1 = quotation_service.addQuotation(newQuotation);
         if(quotation1 != null){
             return responseEntity.status(HttpStatus.OK).body(quotation1);
         }
         else{
             return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    @PostMapping("/generateQuotationPrice")
+    public ResponseEntity<Double> generateQuotationPrice(@Valid @RequestBody GeneratePrice generatePrice) throws URISyntaxException {
+        Double price = quotation_service.generateQuotationPrice(generatePrice);
+        if(price != null){
+            return responseEntity.status(HttpStatus.OK).body(price);
+        }
+        else{
+            return (ResponseEntity<Double>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
 
     }

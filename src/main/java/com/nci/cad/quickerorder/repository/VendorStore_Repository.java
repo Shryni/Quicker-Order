@@ -19,6 +19,6 @@ VendorStore_Repository extends JpaRepository<VendorStore,Long> {
 
     Boolean existsByEmail(String email);
 
-    Optional<VendorStore> findByName(String storName);
+    VendorStore findByName(String name);
 
 }

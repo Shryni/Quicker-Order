@@ -35,15 +35,13 @@ public class VendorPRController {
     @PostMapping("/all")
     public ResponseEntity <List<VendorPR>> getAllVPR(@Valid @RequestBody Id id){
 
-        List<VendorPR> vendorPRS = vendorPR_repository.findByVendorStore_id(id.getId());
-        System.out.println(id.getId());
-        System.out.println("UIUIUIUI "+vendorPRS);
-        for (VendorPR vpr:
-                vendorPRS ) {
-            String requestor = purchaseRequisition_repository.findById(vpr.getId()).get().getRequestor().getRequestorStore().getName();
-            vpr.setRequestor(requestor);
-        }
+        List<VendorPR> vendorPRS = vendorPRService.findAllPrs(id.getId());
         if(vendorPRS != null){
+            for (VendorPR vpr:
+                    vendorPRS ) {
+                String requestorStore = purchaseRequisition_repository.findById(vpr.getPurchaseRequisition().getId()).get().getRequestor().getRequestorStore().getName();
+                vpr.setRequestor(requestorStore);
+            }
             return responseEntity.status(HttpStatus.OK).body(vendorPRS);
         }
         else{
@@ -53,6 +51,16 @@ public class VendorPRController {
     @PostMapping("/accept")
     public ResponseEntity<VendorPR> approvePR(@Valid @RequestBody Id id){
         VendorPR vpr = vendorPRService.approveVendorPR(id.getId());
+        if(vpr != null){
+            return responseEntity.status(HttpStatus.OK).body(vpr);
+        }
+        else{
+            return (ResponseEntity<VendorPR>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/getVPR")
+    public ResponseEntity<VendorPR> approvePR(@Valid @RequestBody Long id){
+        VendorPR vpr = vendorPR_repository.findById(id).get();
         if(vpr != null){
             return responseEntity.status(HttpStatus.OK).body(vpr);
         }

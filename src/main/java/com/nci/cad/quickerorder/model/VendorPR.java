@@ -32,10 +32,10 @@ public class VendorPR {
     @JsonIgnore
     private VendorStore vendorStore;
 
-//    @OneToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "purchaseRequisitionID", nullable = false)
-//    @JsonIgnore
-//    private PurchaseRequisition purchaseRequisition;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "purchaseRequisitionID", nullable = false)
+    @JsonIgnore
+    private PurchaseRequisition purchaseRequisition;
 
     @Transient
     private String requestor;

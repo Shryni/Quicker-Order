@@ -3,6 +3,10 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.model.VendorPR;
+import com.nci.cad.quickerorder.payload.GeneratePrice;
+import com.nci.cad.quickerorder.payload.NewQuotation;
+import com.nci.cad.quickerorder.payload.QuotationObj;
+import com.nci.cad.quickerorder.payload.VendorQuotation;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.sun.org.apache.xpath.internal.operations.Quo;
@@ -38,11 +42,10 @@ public class Quotation_Service {
         return quotation_repository.findById(id).get();
     }
 
-    public Quotation addQuotation(Long vendorPRID, Quotation quotation) throws URISyntaxException {
+    public Quotation addQuotation(NewQuotation newQuotation) throws URISyntaxException {
+        Quotation quotation = new Quotation();
 
-        VendorPR vendorPR = vendorPR_repository.findById(vendorPRID).get();
-        quotation.setVendorPR(vendorPR);
-        return quotation_repository.save(quotation);
+        return null;
     }
     public List<Quotation> getAllQuotationsforVendor(Long prID) {
         return quotation_repository.findByVendorPRId(prID);
@@ -64,5 +67,25 @@ public class Quotation_Service {
 
     public List<Quotation> getAllForRequestor(Long id) {
         return quotation_repository.findByVendorPRId(id);
+    }
+
+    public Double generateQuotationPrice(GeneratePrice generatePrice) {
+        ArrayList<String> features = generatePrice.getFeatures();
+
+        QuotationObj vendorQuotation = new VendorQuotation();
+
+        if(features.contains("Basic Transportation Cost")){
+            vendorQuotation = new TransportQuotation(vendorQuotation);
+        }
+        if(features.contains("Fast Track Delivery")){
+            vendorQuotation = new FasTrackQuotation(vendorQuotation);
+        }
+        if(features.contains("New Customer Discount")){
+            vendorQuotation = new NewCustomerQuotation(vendorQuotation);
+        }
+        if(features.contains("Regular Customer Discount")){
+            vendorQuotation = new RegularCustomerQuotation(vendorQuotation);
+        }
+        return vendorQuotation.price(generatePrice.getQuotedPrice());
     }
 }
