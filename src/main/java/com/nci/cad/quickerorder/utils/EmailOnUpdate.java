@@ -1,5 +1,7 @@
 package com.nci.cad.quickerorder.utils;
 
+
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;

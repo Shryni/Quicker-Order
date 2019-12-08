@@ -79,16 +79,16 @@ public class QuotationController {
     }
 
 
-    @GetMapping("/{reqID}/{vendorId}")
-    public ResponseEntity<Quotation> applyDiscountToQuote(@PathVariable (value = "reqID")Long reqID,@PathVariable (value = "vendorId")Long vendorId,@RequestBody Quotation quotation) {
-        //Long reqID, Long vendorId, Quotation finalizedQuatation
-        Quotation quotation1 = applyDiscount.addDiscountToQuotation(reqID,vendorId,quotation);
-        if (quotation1 != null) {
-            return responseEntity.status(HttpStatus.OK).body(quotation1);
-        } else {
-            return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @GetMapping("/{reqID}/{vendorId}")
+//    public ResponseEntity<Quotation> applyDiscountToQuote(@PathVariable (value = "reqID")Long reqID,@PathVariable (value = "purchaseRequistionID")Long purchaseRequistionID) {
+//        //Long reqID, Long vendorId, Quotation finalizedQuatation
+//        Quotation quotation = applyDiscount.addDiscountToQuotation(reqID,purchaseRequistionID);
+//        if (quotation != null) {
+//            return responseEntity.status(HttpStatus.OK).body(quotation);
+//        } else {
+//            return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 
     @PutMapping("/{quotationID}/approve")
