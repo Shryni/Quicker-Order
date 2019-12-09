@@ -33,7 +33,7 @@ public class VendorPR {
     private VendorStore vendorStore;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "purchaseRequisitionID", nullable = false)
+    @JoinColumn(name = "purchaserequisition_id", nullable = false)
     @JsonIgnore
     private PurchaseRequisition purchaseRequisition;
 

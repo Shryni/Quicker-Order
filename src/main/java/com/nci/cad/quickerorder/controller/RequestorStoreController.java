@@ -95,7 +95,6 @@ public class RequestorStoreController {
 
     @PostMapping("/store/update")
     public ResponseEntity<RequestorStore> updateStore(@Valid @RequestBody StoreUpdateObject storeUpdateObject){
-        System.out.println(storeUpdateObject+"OBJJJJJ");
         RequestorStore requestorStore1 = requestorStore_service.updateRequestorStore(storeUpdateObject);
         if(requestorStore1 != null){
             List<Requestor> requestors = requestor_repository.findByRequestorStoreId(requestorStore1.getId());

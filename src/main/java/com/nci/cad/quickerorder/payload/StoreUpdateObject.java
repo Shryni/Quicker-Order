@@ -27,7 +27,7 @@ public class StoreUpdateObject {
     private String store_contact;
 
     private long approval_limit;
-    private String delivery_address;
+    private String deliveryAddress;
 }
 
 

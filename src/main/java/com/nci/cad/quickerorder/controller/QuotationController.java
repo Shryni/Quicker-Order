@@ -7,7 +7,6 @@ import com.nci.cad.quickerorder.payload.NewQuotation;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.service.ApplyDiscount;
-import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;

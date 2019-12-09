@@ -82,12 +82,10 @@ public class RequestorStore extends Observable {
 
     private long approval_limit;
 
-    private String delivery_address;
-
-
+    private String deliveryAddress;
 
     public void setDelivery_address(String delivery_address) {
-        this.delivery_address = delivery_address;
+        this.deliveryAddress = delivery_address;
         setChanged();
     }
 

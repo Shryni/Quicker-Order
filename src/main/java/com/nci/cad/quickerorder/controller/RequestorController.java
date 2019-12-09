@@ -4,13 +4,9 @@ package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.model.Requestor;
-
 import com.nci.cad.quickerorder.payload.Id;
 import com.nci.cad.quickerorder.payload.NewRequestor;
 import com.nci.cad.quickerorder.payload.Spending;
-//import com.nci.cad.quickerorder.payload.Id;
-//import com.nci.cad.quickerorder.payload.NewRequestor;
-
 import com.nci.cad.quickerorder.service.PurchaseRequisition_Service;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.nci.cad.quickerorder.service.Requestor_Service;
@@ -36,7 +32,6 @@ public class RequestorController {
 
     @Autowired
     Quotation_Service quotation_service;
-
     ResponseEntity responseEntity = null;
 
     //*************************************************************************//
@@ -69,6 +64,16 @@ public class RequestorController {
         }
     }
 
+    @PostMapping ("/all")
+    public ResponseEntity<List<Requestor>> getAllRequestors(@Valid @RequestBody Id id){
+        List<Requestor> requestor = requestor_service.getAllbyID(id.getId());
+        if(requestor != null){
+            return responseEntity.status(HttpStatus.OK).body(requestor);
+        }
+        else {
+            return (ResponseEntity<List<Requestor>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
     @PostMapping("/new")
     public ResponseEntity<Requestor> addRequestor(@Valid @RequestBody NewRequestor newRequestor) throws URISyntaxException {
 
@@ -80,32 +85,6 @@ public class RequestorController {
             return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-
-
-//    @GetMapping("/getPurchases/{requestorID}")
-//    public ResponseEntity<List<Quotation>> getRequestorPurchaseDetails(
-//            @PathVariable(value = "requestorID") Long requestorID) {
-//
-//        System.out.println("Requested requestor id = " +requestorID);
-//        List<Quotation> quotations = quotation_service.getQuotationsByRequestors(requestorID,
-//                Quotation.APPROVED_STATUS);
-//
-//
-//        if (quotations == null) {
-//            System.out.println("Retrieved null quotations");
-//            return responseEntity.status(HttpStatus.OK).body(quotations);
-//        } else {
-//
-//            System.out.println("Found quotations");
-//            for(Quotation q: quotations){
-//                System.out.println(q.getId());
-//            }
-//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.OK);
-//        }
-//    }
-
-
-
     @GetMapping("/getPurchases/{requestorID}")
     public ResponseEntity<List<Spending>> getRequestorPurchaseDetails(
             @PathVariable(value = "requestorID") Long requestorID) {
@@ -123,6 +102,7 @@ public class RequestorController {
     }
 
 
+
     @GetMapping("/{requestorID}/pRequisitions")
     public ResponseEntity<List<PurchaseRequisition>> getAllPR(@PathVariable (value = "requestorID") Long requestorID){
         List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getPRByRequestorID(requestorID);
@@ -138,9 +118,5 @@ public class RequestorController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRequestor(@Valid @PathVariable Long id) {
         return requestor_service.deleteRequestor(id);
-    }
-
-    public ResponseEntity<List<Requestor>> getAllRequestors(Id id) {
-        return null;
     }
 }

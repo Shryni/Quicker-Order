@@ -48,7 +48,7 @@ public class Quotation_Service {
     public Quotation addQuotation(NewQuotation newQuotation) throws URISyntaxException {
         Quotation quotation = new Quotation();
         quotation.setQuote_date(newQuotation.getQuote_date());
-        quotation.setStatus(false);
+        quotation.setStatus("Approved");
         quotation.setDeliveryDate(newQuotation.getDeliveryDate());
         quotation.setQuoteValidity(newQuotation.getQuoteValidity());
         if(newQuotation.getCheckedFeatures().contains("Basic Transportation Cost")){
@@ -81,7 +81,7 @@ public class Quotation_Service {
 
     public Quotation approveQuotation(Long quotationID) {
         Quotation quotation = quotation_repository.findById(quotationID).get();
-        quotation.setStatus(true);
+        quotation.setStatus("Approved");
         return quotation_repository.save(quotation);
     }
     public ResponseEntity<?> deleteQuotation(Long id) {
@@ -98,7 +98,7 @@ public class Quotation_Service {
         List<PurchaseRequisition>purchaseRequisitionList = purchaseRequisition_repository.findByRequestorId(id);
         for (PurchaseRequisition pr: purchaseRequisitionList
              ) {
-            List<VendorPR> vendorPRS = vendorPR_repository.findBypurchase__requisitionid(pr.getId());
+            List<VendorPR> vendorPRS = vendorPR_repository.findBypurchaseRequisition_id(pr.getId());
             for (VendorPR vpr:vendorPRS
                  ) {
                 quotationList.addAll(quotation_repository.findByVendorPRId(vpr.getId()));
@@ -145,7 +145,4 @@ public class Quotation_Service {
         return spendings;
     }
 
-
-//    public List<Quotation> getQuotationsbyprID(Long prID) {
-//    }
 }

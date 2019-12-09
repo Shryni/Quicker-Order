@@ -14,4 +14,5 @@ public class NewRequestor {
     private String last_name;
     private String role;
     private Long storeID;
+    private String email;
 }

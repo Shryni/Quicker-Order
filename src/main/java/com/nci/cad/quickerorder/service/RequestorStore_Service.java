@@ -39,7 +39,8 @@ public class RequestorStore_Service {
         requestorStore1.setStore_city(requestorStore.getStore_city());
         requestorStore1.setStore_postal_code(requestorStore.getStore_postal_code());
         requestorStore1.setStore_contact(requestorStore.getStore_contact());
-        requestorStore1.setDelivery_address(requestorStore.getDelivery_address());
+        requestorStore1.setDelivery_address(requestorStore.getDeliveryAddress());
+
 
         return requestorStore_repository.save(requestorStore1);
 

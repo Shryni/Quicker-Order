@@ -1,7 +1,6 @@
 package com.nci.cad.quickerorder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.org.apache.xpath.internal.operations.Quo;
 import lombok.*;
 
 import javax.persistence.*;

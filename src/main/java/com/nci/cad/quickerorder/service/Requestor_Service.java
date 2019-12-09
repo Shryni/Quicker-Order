@@ -46,6 +46,7 @@ public class Requestor_Service {
         requestor.setFirst_name(newRequestor.getFirst_name());
         requestor.setLast_name(newRequestor.getLast_name());
         requestor.setRole(newRequestor.getRole());
+        requestor.setRequestor_email(newRequestor.getEmail());
         Requestor requestor1 = requestor_repository.save(requestor);
         return requestor1;
     }
