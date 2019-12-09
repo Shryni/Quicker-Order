@@ -112,9 +112,9 @@ public class QuotationController {
 
     @PostMapping("/new")
     public ResponseEntity<Quotation> addQuotation(@Valid @RequestBody NewQuotation newQuotation) throws URISyntaxException {
-        Quotation quotation1 = quotation_service.addQuotation(newQuotation);
-        if(quotation1 != null){
-            return responseEntity.status(HttpStatus.OK).body(quotation1);
+        Quotation quotation = quotation_service.addQuotation(newQuotation);
+        if(quotation != null){
+            return responseEntity.status(HttpStatus.OK).body(quotation);
         }
         else{
             return (ResponseEntity<Quotation>) responseEntity.status(HttpStatus.BAD_REQUEST);

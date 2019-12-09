@@ -1,12 +1,14 @@
 package com.nci.cad.quickerorder.service;
 
 import com.nci.cad.quickerorder.model.Item;
+import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.model.VendorPR;
 import com.nci.cad.quickerorder.payload.GeneratePrice;
 import com.nci.cad.quickerorder.payload.NewQuotation;
 import com.nci.cad.quickerorder.payload.QuotationObj;
 import com.nci.cad.quickerorder.payload.VendorQuotation;
+import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.sun.org.apache.xpath.internal.operations.Quo;
@@ -35,6 +37,9 @@ public class Quotation_Service {
     @Autowired
     VendorPR_Repository vendorPR_repository;
 
+    @Autowired
+    PurchaseRequisition_Repository purchaseRequisition_repository;
+
     public List<Quotation> getAll() {
         return quotation_repository.findAll();
     }
@@ -44,8 +49,29 @@ public class Quotation_Service {
 
     public Quotation addQuotation(NewQuotation newQuotation) throws URISyntaxException {
         Quotation quotation = new Quotation();
-
-        return null;
+        quotation.setQuote_date(newQuotation.getQuote_date());
+        quotation.setStatus(false);
+        quotation.setDeliveryDate(newQuotation.getDeliveryDate());
+        quotation.setQuoteValidity(newQuotation.getQuoteValidity());
+        if(newQuotation.getCheckedFeatures().contains("Basic Transportation Cost")){
+            quotation.setTransport(true);
+        }
+        else{
+            quotation.setTransport(false);
+        }
+        if(newQuotation.getCheckedFeatures().contains("New Customer Discount"))
+        {
+            quotation.setDiscount((float) 0.15);
+        }
+        if(newQuotation.getCheckedFeatures().contains("Regular Customer Discount"))
+        {
+            quotation.setDiscount(quotation.getDiscount()+(float) 0.15);
+        }
+        quotation.setInitialPrice((float) newQuotation.getInitialPrice());
+        quotation.setTotalPrice((float) newQuotation.getPrice());
+        VendorPR vendorPR = vendorPR_repository.findById(newQuotation.getVendorPRID()).get();
+        quotation.setVendorPR(vendorPR);
+        return quotation_repository.save(quotation);
     }
     public List<Quotation> getAllQuotationsforVendor(Long prID) {
         return quotation_repository.findByVendorPRId(prID);
@@ -66,7 +92,18 @@ public class Quotation_Service {
     }
 
     public List<Quotation> getAllForRequestor(Long id) {
-        return quotation_repository.findByVendorPRId(id);
+        List<Quotation> quotationList = new ArrayList<Quotation>();
+        List<PurchaseRequisition>purchaseRequisitionList = purchaseRequisition_repository.findByRequestorId(id);
+        for (PurchaseRequisition pr: purchaseRequisitionList
+             ) {
+            List<VendorPR> vendorPRS = vendorPR_repository.findBypurchase__requisitionid(pr.getId());
+            for (VendorPR vpr:vendorPRS
+                 ) {
+                quotationList.addAll(quotation_repository.findByVendorPRId(vpr.getId()));
+            }
+        }
+        System.out.println("WE : :"+quotationList);
+        return quotationList;
     }
 
     public Double generateQuotationPrice(GeneratePrice generatePrice) {

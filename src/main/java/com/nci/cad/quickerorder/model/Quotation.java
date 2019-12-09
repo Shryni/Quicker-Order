@@ -30,6 +30,8 @@ public class Quotation {
     private Boolean transport;
     private float discount;
     @Column(nullable = false)
+    private Float initialPrice;
+    @Column(nullable = false)
     private Float totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

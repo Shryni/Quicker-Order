@@ -10,6 +10,7 @@ import java.util.List;
 public interface VendorPR_Repository extends JpaRepository<VendorPR, Long> {
 
     List<VendorPR> findByVendorStore_id(Long id);
-
+    List<VendorPR> findBypurchase__requisitionid(Long id);
+//TODO
 
 }
