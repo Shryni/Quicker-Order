@@ -3,32 +3,27 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Quotation;
+import com.nci.cad.quickerorder.payload.Spending;
 import com.nci.cad.quickerorder.model.VendorPR;
 import com.nci.cad.quickerorder.payload.GeneratePrice;
 import com.nci.cad.quickerorder.payload.NewQuotation;
 import com.nci.cad.quickerorder.payload.QuotationObj;
 import com.nci.cad.quickerorder.payload.VendorQuotation;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
+import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
-import com.sun.org.apache.xpath.internal.operations.Quo;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.lang.System.exit;
-import static java.lang.System.setOut;
-
+@Getter
+@Setter
 @Service
 public class Quotation_Service {
     @Autowired
@@ -39,6 +34,9 @@ public class Quotation_Service {
 
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_repository;
+
+    @Autowired
+    PurchaseRequisition_Repository purchaseRequisition_Repository;
 
     public List<Quotation> getAll() {
         return quotation_repository.findAll();
@@ -71,6 +69,10 @@ public class Quotation_Service {
         quotation.setTotalPrice((float) newQuotation.getPrice());
         VendorPR vendorPR = vendorPR_repository.findById(newQuotation.getVendorPRID()).get();
         quotation.setVendorPR(vendorPR);
+        ApplyDiscount applyDiscount = new ApplyDiscount();
+
+        quotation = applyDiscount.addDiscountToQuotation(quotation.getPurchase_requisition().getRequestor().getId(),
+                quotation.getPurchase_requisition().getId(), quotation);
         return quotation_repository.save(quotation);
     }
     public List<Quotation> getAllQuotationsforVendor(Long prID) {
@@ -125,4 +127,25 @@ public class Quotation_Service {
         }
         return vendorQuotation.price(generatePrice.getQuotedPrice());
     }
+
+    public List<Spending> getSpendingsByRequestors(Long requestorID, String status) {
+
+        List<Quotation> quotations = quotation_repository.findUsingRequestorIdAndStatus(requestorID, status);
+
+        List<Spending> spendings = new ArrayList<>();
+
+        for(Quotation q: quotations){
+
+            Spending spend = new Spending();
+            spend.setDeliveryDate(q.getDeliveryDate());
+            spend.setTotalPrice(q.getTotalPrice());
+
+            spendings.add(spend);
+        }
+        return spendings;
+    }
+
+
+//    public List<Quotation> getQuotationsbyprID(Long prID) {
+//    }
 }

@@ -1,15 +1,21 @@
 package com.nci.cad.quickerorder.model;
 
-import com.nci.cad.quickerorder.model.audit.DateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
-
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.HashSet;
+import java.util.Observable;
 import java.util.Set;
 
 @Data
@@ -17,6 +23,14 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(
+        value = {"createdAt", "updatedAt","createdBy", "updatedBy"},
+        allowGetters = true
+
+)
+
+
 @ToString
 @Entity
 @Table(uniqueConstraints = {
@@ -27,7 +41,11 @@ import java.util.Set;
                 "email"
         })
 })
-public class RequestorStore extends DateAudit {
+
+
+
+//public class RequestorStore extends DateAudit implements Observable {
+public class RequestorStore extends Observable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,6 +81,28 @@ public class RequestorStore extends DateAudit {
     private String store_contact;
 
     private long approval_limit;
+
+    private String delivery_address;
+
+
+
+    public void setDelivery_address(String delivery_address) {
+        this.delivery_address = delivery_address;
+        setChanged();
+    }
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+
+
+    @CreatedBy
+    private Long createdBy;
+
+    @LastModifiedBy
+    private Long updatedBy;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requestor Store Details</title>
+</head>
+<body>
+<h1>Requestor Store Edit Page</h1>
+<form method="put"  th:object="${requestorStore}" action="/requestor/{id}">
+    <!--<label for="requestorstoreid">Requestor Store ID</label>:
+    <input type="text" id="requestorstoreid" name="requestorstoreid" autofocus="autofocus"/> <br />
+    -->
+    <label for="requestorstorename">Requestor Store Name</label>:
+    <input th:field="*{store_name}" type="text" id="requestorstorename" name="store_name" autofocus="autofocus"/> <br />
+
+    <label for="address1">Address 1</label>:
+    <input th:field="*{storeAddress_line1}" type="text" id="address1" name="storeAddress_line1" autofocus="autofocus"/> <br />
+
+    <label for="address2">Address 2</label>:
+    <input th:field="*{storeAddress_line2}" type="text" id="address2" name="storeAddress_line2" autofocus="autofocus"/> <br />
+
+    <label for="address3">Address 3</label>:
+    <input th:field="*{storeAddress_line3}" type="text" id="address3" name="storeAddress_line3" autofocus="autofocus"/> <br />
+
+    <label for="city">City</label>
+    <input th:field="*{store_city}" type="text" id="city" name="store_city" autofocus="autofocus"/> <br />
+
+    <label for="eircode">EIR Code</label>
+    <input th:field="*{store_postal_code}" type="text" id="eircode" name="store_postal_code" autofocus="autofocus"/> <br />
+
+    <label for="contact">Contact</label>
+    <input th:field="*{store_contact}" type="text" id="contact" name="store_contact" autofocus="autofocus"/> <br />
+
+    <label for="storeapprovallimit">Store Approval Limit</label>
+    <input th:field="*{approval_limit}" type="text" id="storeapprovallimit" name="approval_limit" autofocus="autofocus"/> <br />
+
+    <label for="email">Email</label>
+    <input th:field="*{store_email}" type="text" id="email" name="approval_limit" autofocus="autofocus"/> <br />
+
+    <button type="Save" value="Save">Save</button>
+    <button type="Cancel" value="Cancel">Cancel</button>
+    <!-- <a th:href="@{/confirm}">Log In</a> -->
+</form>
+<a href="/requestor/add" type="button" >Create Requestor</a>
+
+
+</body>
+</html>

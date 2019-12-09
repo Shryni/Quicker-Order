@@ -20,9 +20,9 @@ public class Purchaseorder {
     private Long id;
     private Date quote_date;
     @Column(nullable = false)
-    private Date date;
+
     private String status;
-    private String comments;
+
 
 //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "purchaseRequisition_id", nullable = false)

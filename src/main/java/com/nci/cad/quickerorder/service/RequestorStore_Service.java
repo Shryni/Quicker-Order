@@ -1,20 +1,14 @@
 package com.nci.cad.quickerorder.service;
 
-import com.nci.cad.quickerorder.model.*;
+import com.nci.cad.quickerorder.model.RequestorStore;
 import com.nci.cad.quickerorder.payload.StoreUpdateObject;
 import com.nci.cad.quickerorder.repository.RequestorStore_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class RequestorStore_Service {
@@ -45,7 +39,10 @@ public class RequestorStore_Service {
         requestorStore1.setStore_city(requestorStore.getStore_city());
         requestorStore1.setStore_postal_code(requestorStore.getStore_postal_code());
         requestorStore1.setStore_contact(requestorStore.getStore_contact());
+        requestorStore1.setDelivery_address(requestorStore.getDelivery_address());
+
         return requestorStore_repository.save(requestorStore1);
+
 
     }
 

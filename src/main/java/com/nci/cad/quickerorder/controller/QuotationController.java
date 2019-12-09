@@ -5,6 +5,9 @@ import com.nci.cad.quickerorder.payload.Id;
 import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
 import com.nci.cad.quickerorder.payload.NewQuotation;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
+import com.nci.cad.quickerorder.model.Quotation;
+import com.nci.cad.quickerorder.service.ApplyDiscount;
+import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,15 +62,15 @@ public class QuotationController {
             return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/{prID}/all")
+   @GetMapping("/{prID}/all")
     public ResponseEntity<List<Quotation>> getAllQuotationforthisRequestor(@PathVariable (value = "prID")Long prID){
-        List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
-        if(quotationList != null){
+      List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
+       if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
         }
         else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-        }
+           return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+      }
     }
     @GetMapping("/{quotationID}")
     public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID) {

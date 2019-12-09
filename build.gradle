@@ -85,6 +85,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'io.jsonwebtoken:jjwt:0.9.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//compile("org.springframework.boot:spring-boot-starter-security")
 	implementation 'jfree:jfreechart:1.0.13'
 	implementation 'joda-time:joda-time:2.10.5'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.27'
@@ -92,10 +93,17 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-mail')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	//compile ('org.springframework:spring-context-support')
+
 
 
 	//compile("org.springframework.boot:spring-boot-starter-security")
 	annotationProcessor 'org.projectlombok:lombok'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
