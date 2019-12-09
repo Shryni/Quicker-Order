@@ -1,24 +1,23 @@
 package com.nci.cad.quickerorder.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Entity
 @Table
 public class PurchaseRequisition
 {
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -26,12 +25,15 @@ public class PurchaseRequisition
     @Column(nullable = false)
     private Date expected_date_of_delivery;
     @Column(nullable = false)
-    private String status;
+        private String status;
     private String additional_comments;
     private boolean save_template;
-    @OneToOne(mappedBy="purchase_requisitions",  fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "requestor_id", nullable = false)
+    @JsonIgnore
     private Requestor requestor;
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
-    private List<Item> items;
+
+
 
 }
