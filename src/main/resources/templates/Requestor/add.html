@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requestor Details</title>
+</head>
+<body>
+<h1>Requestor Create Page</h1>
+<form method="post" th:object="${requestor}" action="/requestor/new">
+    <label for="requestoreid">Requestor dtore id</label>:
+    <input th:field="*{requestorStore.id}" type="text" disabled id="requestoreid" name="requestoreid" autofocus="autofocus"/> <br />
+    <label for="requestorfirstname">Requestor Name</label>:
+    <input type id="requestorfirstname" name="first_name" autofocus="autofocus"/> <br />
+    <label for="requestorlastname">Last Name</label>
+    <input type="text" id="requestorlastname" name="last_name" autofocus="autofocus"/> <br />
+    <input
+           type="hidden"
+           th:name="requestorStore.id"
+           th:value="*{requestorStore.id}"/>
+   <label for="role">Role</label>
+    <select id="role" name="role">
+        <option value="manager">Manager</option>
+        <option value="supervisor">Supervisor</option>
+    </select><br/>
+
+
+    <label for="roleID">Role ID</label>:
+    <input type="integer" id="roleID" name="role_id" autofocus="autofocus"/> <br />
+    <!--<label for="requestorStore">Requestor Store</label>
+   <input type="text" id="requestorStore" name="requestorStore" autofocus="autofocus"/> <br />-->
+    <button type="Save" value="Save">Save</button>
+    <button type="Cancel" value="Cancel">Cancel</button>
+
+
+</form>
+</body>
+</html>
