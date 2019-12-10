@@ -54,8 +54,8 @@ public class PurchaseRequisitionController {
     //****************************************************************************//
 
     @GetMapping("/all")
-    public ResponseEntity<List<PurchaseRequisition>> getAllPR() {
-        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getAllPR();
+    public ResponseEntity<List<PurchaseRequisition>> getAllPR(@Valid @RequestBody Id id) {
+        List<PurchaseRequisition> purchaseRequisitionList = purchaseRequisition_service.getPRByID(id.getId());
         if (purchaseRequisitionList != null) {
             return responseEntity.status(HttpStatus.OK).body(purchaseRequisitionList);
         } else {

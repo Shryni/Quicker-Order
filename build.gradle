@@ -46,33 +46,33 @@ wrapper {
 	gradleVersion = '5.0'
 	distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
-
-node {
-	version = '10.14.1'
-	npmVersion = '6.4.1'
-	download = true
-	download = true
-	workDir = file("${project.buildDir}/nodejs")
-	npmWorkDir = file("${project.buildDir}/npm")
-}
-task appNpmInstall(type: NpmTask) {
-	description = "Installs all dependencies from package.json"
-	workingDir = file("${project.projectDir}/src/main/quickOrder")
-	args = ["install"]
-}
-task appNpmBuild(type: NpmTask) {
-	description = "Builds production version of the webapp"
-	workingDir = file("${project.projectDir}/src/main/quickOrder")
-	args = ["run", "build"]
-}
-
-task copyWebApp(type: Copy) {
-	from 'src/main/quickOrder/build'
-	into 'build/resources/main/static/.'
-}
-appNpmBuild.dependsOn appNpmInstall
-copyWebApp.dependsOn appNpmBuild
-compileJava.dependsOn copyWebApp
+//
+//node {
+//	version = '10.14.1'
+//	npmVersion = '6.4.1'
+//	download = true
+//	download = true
+//	workDir = file("${project.buildDir}/nodejs")
+//	npmWorkDir = file("${project.buildDir}/npm")
+//}
+//task appNpmInstall(type: NpmTask) {
+//	description = "Installs all dependencies from package.json"
+//	workingDir = file("${project.projectDir}/src/main/quickOrder")
+//	args = ["install"]
+//}
+//task appNpmBuild(type: NpmTask) {
+//	description = "Builds production version of the webapp"
+//	workingDir = file("${project.projectDir}/src/main/quickOrder")
+//	args = ["run", "build"]
+//}
+//
+//task copyWebApp(type: Copy) {
+//	from 'src/main/quickOrder/build'
+//	into 'build/resources/main/static/.'
+//}
+//appNpmBuild.dependsOn appNpmInstall
+//copyWebApp.dependsOn appNpmBuild
+//compileJava.dependsOn copyWebApp
 
 
 dependencies {

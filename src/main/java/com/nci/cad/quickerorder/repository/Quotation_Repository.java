@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface Quotation_Repository extends JpaRepository<Quotation, Long> {
-    //List<Quotation> findByPurchaseOrderId(Long id);
-    List<Quotation> findByVendorPRId(Long id);
+    Quotation findByVendorPRId(Long id);
+   // List<Quotation> findByPurchaseRequisitionId(Long id);
 
     //List<Quotation> fin
    @Modifying(clearAutomatically = true)
@@ -43,8 +43,8 @@ public interface Quotation_Repository extends JpaRepository<Quotation, Long> {
 
     // List<Quotation> findByPurchase__requisition(Long id);
 
-   @Query("select q from Quotation q WHERE q.status =:status AND q.purchase_requisition IN(SELECT pr FROM PurchaseRequisition pr WHERE pr.requestor in (SELECT r from Requestor r where r.id =:requesterId))")
-   List<Quotation> findUsingRequestorIdAndStatus(@Param("requesterId") Long requesterId, @Param("status") String status);
+//   @Query("select q from Quotation q WHERE q.status =:status AND q.purchase_requisition IN(SELECT pr FROM PurchaseRequisition pr WHERE pr.requestor in (SELECT r from Requestor r where r.id =:requesterId))")
+//   List<Quotation> findUsingRequestorIdAndStatus(@Param("requesterId") Long requesterId, @Param("status") String status);
 
 /*    @Query("select * from Quotation q where q.")
     List<Quotation> findAllByPurchaseRequisitionId(List<Long> ids);*/

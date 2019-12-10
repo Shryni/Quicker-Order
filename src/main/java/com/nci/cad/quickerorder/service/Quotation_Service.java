@@ -3,16 +3,13 @@ package com.nci.cad.quickerorder.service;
 import com.nci.cad.quickerorder.model.Item;
 import com.nci.cad.quickerorder.model.PurchaseRequisition;
 import com.nci.cad.quickerorder.model.Quotation;
-import com.nci.cad.quickerorder.payload.Spending;
+import com.nci.cad.quickerorder.payload.*;
 import com.nci.cad.quickerorder.model.VendorPR;
-import com.nci.cad.quickerorder.payload.GeneratePrice;
-import com.nci.cad.quickerorder.payload.NewQuotation;
-import com.nci.cad.quickerorder.payload.QuotationObj;
-import com.nci.cad.quickerorder.payload.VendorQuotation;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import com.nci.cad.quickerorder.repository.PurchaseRequisition_Repository;
 import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
+import com.sun.org.apache.xpath.internal.operations.Quo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +45,7 @@ public class Quotation_Service {
     public Quotation addQuotation(NewQuotation newQuotation) throws URISyntaxException {
         Quotation quotation = new Quotation();
         quotation.setQuote_date(newQuotation.getQuote_date());
-        quotation.setStatus("Approved");
+        quotation.setStatus("Submitted");
         quotation.setDeliveryDate(newQuotation.getDeliveryDate());
         quotation.setQuoteValidity(newQuotation.getQuoteValidity());
         if(newQuotation.getCheckedFeatures().contains("Basic Transportation Cost")){
@@ -69,15 +66,14 @@ public class Quotation_Service {
         quotation.setTotalPrice((float) newQuotation.getPrice());
         VendorPR vendorPR = vendorPR_repository.findById(newQuotation.getVendorPRID()).get();
         quotation.setVendorPR(vendorPR);
-        ApplyDiscount applyDiscount = new ApplyDiscount();
 
-        quotation = applyDiscount.addDiscountToQuotation(quotation.getPurchase_requisition().getRequestor().getId(),
-                quotation.getPurchase_requisition().getId(), quotation);
+//        ApplyDiscount applyDiscount = new ApplyDiscount();
+
+//        quotation = applyDiscount.addDiscountToQuotation(quotation.getPurchase_requisition().getRequestor().getId(),
+//                quotation.getPurchase_requisition().getId(), quotation);
         return quotation_repository.save(quotation);
     }
-    public List<Quotation> getAllQuotationsforVendor(Long prID) {
-        return quotation_repository.findByVendorPRId(prID);
-    }
+
 
     public Quotation approveQuotation(Long quotationID) {
         Quotation quotation = quotation_repository.findById(quotationID).get();
@@ -89,23 +85,18 @@ public class Quotation_Service {
         return ResponseEntity.ok().build();
     }
 
-    public List<Quotation> getQuotationsbyprID(Long prID) {
-        return quotation_repository.findByVendorPRId(prID);
-    }
 
-    public List<Quotation> getAllForRequestor(Long id) {
-        List<Quotation> quotationList = new ArrayList<Quotation>();
-        List<PurchaseRequisition>purchaseRequisitionList = purchaseRequisition_repository.findByRequestorId(id);
-        for (PurchaseRequisition pr: purchaseRequisitionList
+
+    public List<QuotationResponse> getAllForPR(Long prID) {
+        List<QuotationResponse> returnList = new ArrayList<QuotationResponse>();
+        List<VendorPR> vendorPRList = vendorPR_repository.findBypurchaseRequisition_id(prID);
+        for (VendorPR vpr : vendorPRList
              ) {
-            List<VendorPR> vendorPRS = vendorPR_repository.findBypurchaseRequisition_id(pr.getId());
-            for (VendorPR vpr:vendorPRS
-                 ) {
-                quotationList.addAll(quotation_repository.findByVendorPRId(vpr.getId()));
-            }
+            Quotation quotation = quotation_repository.findByVendorPRId(vpr.getId());
+            String vendorName = quotation.getVendorPR().getVendorStore().getName();
+            returnList.add(new QuotationResponse(quotation,vendorName));
         }
-        System.out.println("WE : :"+quotationList);
-        return quotationList;
+        return returnList;
     }
 
     public Double generateQuotationPrice(GeneratePrice generatePrice) {
@@ -128,21 +119,21 @@ public class Quotation_Service {
         return vendorQuotation.price(generatePrice.getQuotedPrice());
     }
 
-    public List<Spending> getSpendingsByRequestors(Long requestorID, String status) {
-
-        List<Quotation> quotations = quotation_repository.findUsingRequestorIdAndStatus(requestorID, status);
-
-        List<Spending> spendings = new ArrayList<>();
-
-        for(Quotation q: quotations){
-
-            Spending spend = new Spending();
-            spend.setDeliveryDate(q.getDeliveryDate());
-            spend.setTotalPrice(q.getTotalPrice());
-
-            spendings.add(spend);
-        }
-        return spendings;
-    }
+//    public List<Spending> getSpendingsByRequestors(Long requestorID, String status) {
+//
+//        List<Quotation> quotations = quotation_repository.findUsingRequestorIdAndStatus(requestorID, status);
+//
+//        List<Spending> spendings = new ArrayList<>();
+//
+//        for(Quotation q: quotations){
+//
+//            Spending spend = new Spending();
+//            spend.setDeliveryDate(q.getDeliveryDate());
+//            spend.setTotalPrice(q.getTotalPrice());
+//
+//            spendings.add(spend);
+//        }
+//        return spendings;
+//    }
 
 }

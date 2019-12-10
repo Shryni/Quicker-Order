@@ -77,8 +77,8 @@ public class PurchaseRequisition_Service implements Subject {
     public List<PurchaseRequisition> getAllPR(){
         return purchaseRequisition_repository.findAll();
     }
-    public List<PurchaseRequisition> getPRByID(Long prID) {
-        return purchaseRequisition_repository.findByRequestorId(prID);
+    public List<PurchaseRequisition> getPRByID(Long reqID) {
+        return purchaseRequisition_repository.findByRequestorId(reqID);
     }
     public PurchaseRequisition getPRByPRID(Long prID) {
         return purchaseRequisition_repository.findById(prID).get();
@@ -98,6 +98,7 @@ public class PurchaseRequisition_Service implements Subject {
        if(purchaseRequisition != null){
            for (String vendorstorename:
                    newPR.getCheckedVendors()) {
+               System.out.println("££££££££££"+purchaseRequisition);
                VendorStore vendorStore = vendorStore_repository.findByName(vendorstorename);
                this.changed = true;
               // notifyObservers(pr,vendorStore);

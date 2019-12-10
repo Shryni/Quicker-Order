@@ -1,12 +1,11 @@
 package com.nci.cad.quickerorder.controller;
 import com.nci.cad.quickerorder.model.*;
-import com.nci.cad.quickerorder.payload.GeneratePrice;
-import com.nci.cad.quickerorder.payload.Id;
-import com.nci.cad.quickerorder.payload.JwtAuthenticationResponse;
-import com.nci.cad.quickerorder.payload.NewQuotation;
+import com.nci.cad.quickerorder.payload.*;
+import com.nci.cad.quickerorder.repository.Quotation_Repository;
 import com.nci.cad.quickerorder.repository.VendorPR_Repository;
 import com.nci.cad.quickerorder.model.Quotation;
 import com.nci.cad.quickerorder.service.ApplyDiscount;
+import com.nci.cad.quickerorder.service.Quotation_Comparator;
 import com.nci.cad.quickerorder.service.Quotation_Service;
 import com.nci.cad.quickerorder.service.VendorPRService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +29,13 @@ public class QuotationController {
     Quotation_Service quotation_service;
 
     @Autowired
-    VendorPR_Repository vendorPR_repository;
+    Quotation_Repository quotation_repository;
 
     @Autowired
     VendorPRService vendorPRService;
+
+    @Autowired
+    Quotation_Comparator quotation_comparator;
 
 
     ResponseEntity responseEntity = null;
@@ -51,26 +53,33 @@ public class QuotationController {
         }
     }
     @PostMapping("/allforRequestor")
-    public ResponseEntity<List<Quotation>> getAllForRequestor(@Valid @RequestBody Id id){
-        List<Quotation> quotationList = quotation_service.getAllForRequestor(id.getId());
+    public ResponseEntity<List<QuotationResponse>> getAllForPR(@Valid @RequestBody Id id){
+        List<QuotationResponse> quotationList = quotation_service.getAllForPR(id.getId());
         if(quotationList != null){
             return responseEntity.status(HttpStatus.OK).body(quotationList);
 
         }
         else{
-            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<List<QuotationResponse>>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-   @GetMapping("/{prID}/all")
-    public ResponseEntity<List<Quotation>> getAllQuotationforthisRequestor(@PathVariable (value = "prID")Long prID){
-      List<Quotation> quotationList = quotation_service.getQuotationsbyprID(prID);
-       if(quotationList != null){
+    @PostMapping("/compare")
+    public ResponseEntity<List<QuotationResponse>> compareQuotations(@Valid @RequestBody CompareRequest compareRequest ) throws ParseException {
+        List<QuotationResponse> quotationList = null;
+        if(compareRequest.getQuotationIDs().size()>3)
+            return (ResponseEntity<List<QuotationResponse>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        else {
+            List<Quotation> quotations = new ArrayList<Quotation>();
+            ArrayList<Long> quotationIDs = compareRequest.getQuotationIDs();
+            for (Long quotationID:quotationIDs
+            ) {
+                quotations.add(quotation_repository.findById(quotationID).get());
+            }
+            quotationList = quotation_comparator.compareQuotations(quotations,compareRequest.getCriteria());
             return responseEntity.status(HttpStatus.OK).body(quotationList);
         }
-        else{
-           return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-      }
     }
+
     @GetMapping("/{quotationID}")
     public ResponseEntity<Quotation> getQuotationById(@PathVariable (value = "quotationID")Long quotationID) {
         Quotation quotation = quotation_service.getQuotationByID(quotationID);
@@ -82,9 +91,9 @@ public class QuotationController {
     }
 
 
-    @PutMapping("/{quotationID}/approve")
-    public ResponseEntity<Quotation> approveQuotation (@PathVariable (value = "quotationID")Long quotationID){
-        Quotation quotation = quotation_service.approveQuotation(quotationID);
+    @PostMapping("/approve")
+    public ResponseEntity<Quotation> approveQuotation (@Valid @RequestBody Id id){
+        Quotation quotation = quotation_service.approveQuotation(id.getId());
         if(quotation != null){
             return responseEntity.status(HttpStatus.OK).body(quotation);
         }
@@ -141,132 +150,6 @@ public class QuotationController {
         return quotation_service.deleteQuotation(id);
     }
 
-//    @GetMapping("/compare/{criteria}")
-//    public ResponseEntity<List<Quotation>> compareQuotations(@Valid @RequestBody List<Quotation> quotations ,@PathVariable String criteria) throws ParseException {
-//        List<Quotation> quotationList = null;
-//        if(quotations.size()>3)
-//            return (ResponseEntity<List<Quotation>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-//        else
-//            quotationList = quotation_comparator.compareQuotations(quotations,criteria);
-//            return responseEntity.status(HttpStatus.OK).body(quotationList);
-//    }
-//    @GetMapping("/compare/{criteria}")
-//    public List<Quotation> compareQuotations(@PathVariable String criteria) throws ParseException {
-//
-//            //return quotation_comparator.compareQuotations(quotations,criteria);
-//            return quotation_comparator.compareQuotations(getQuotations(),criteria);
-//    }
 
-//    public List<Quotation> getQuotations(){
-//        List<Quotation>quotationList = new ArrayList<>();
-//        Quotation quotation1 = new Quotation();
-//        quotation1.setId((long) 1);
-//        quotation1.setQuote_date(java.sql.Date.valueOf("2019-05-15"));
-//        quotation1.setDeliveryDate(java.sql.Date.valueOf("2019-05-25"));
-//        quotation1.setStatus("Approved");
-//        quotation1.setQuoteValidity(java.sql.Date.valueOf("2019-05-25"));
-//        quotation1.setTransport(true);
-//        quotation1.setDiscount((float) 20.2);
-//        quotation1.setTotalPrice((float) 8900.12);
-//        quotation1.setItems(getItems1());
-//        quotation1.setPurchaseorder(getPurchaseOrder1());
-//
-//        quotationList.add(quotation1);
-//        System.out.println(quotation1.getTotalPrice()+"!*!");
-//
-//        Quotation quotation2 = new Quotation();
-//        quotation2.setId((long) 2);
-//        quotation2.setQuote_date(java.sql.Date.valueOf("2019-06-15"));
-//        quotation2.setDeliveryDate(java.sql.Date.valueOf("2019-06-25"));
-//        quotation2.setStatus("Approved");
-//        quotation2.setQuoteValidity(java.sql.Date.valueOf("2019-06-25"));
-//        quotation2.setTransport(true);
-//        quotation2.setDiscount((float) 23.2);
-//        quotation2.setTotalPrice((float) 5170.4);
-//        quotation2.setItems(getItems2());
-//        quotation2.setPurchaseorder(getPurchaseOrder2());
-//        System.out.println(quotation2.getTotalPrice()+"!*!");
-//        quotationList.add(quotation2);
-//        return quotationList;
-//    }
-//    public List<Item> getItems1(){
-//        List<Item> items = new ArrayList<>();
-//        Item item1 = new Item();
-//        item1.setId((long) 12);
-//        item1.setDescription("Item 1");
-//        item1.setName("Name Item1");
-//        item1.setQuantity(5);
-//        item1.setPrice((float) 1023.0);
-//
-//        Item item2 = new Item();
-//        item2.setId((long) 13);
-//        item2.setDescription("Item 2");
-//        item2.setName("Name Item2");
-//        item2.setQuantity(4);
-//        item2.setPrice((float) 4050.0);
-//        items.add(item1);
-//        items.add(item2);
-//        return items;
-//    }
-//    public List<Item> getItems2(){
-//        List<Item> items = new ArrayList<>();
-//        Item item1 = new Item();
-//        item1.setId((long) 112);
-//        item1.setDescription("Item 1");
-//        item1.setName("Name Item1");
-//        item1.setQuantity(5);
-//        item1.setPrice((float) 1563.0);
-//
-//        Item item2 = new Item();
-//        item2.setId((long) 134);
-//        item2.setDescription("Item 2");
-//        item2.setName("Name1 Item2");
-//        item2.setQuantity(4);
-//        item2.setPrice((float) 4900.0);
-//        items.add(item1);
-//        items.add(item2);
-//        return items;
-//    }
-//    public Purchaseorder getPurchaseOrder1(){
-//        Purchaseorder purchaseorder = new Purchaseorder();
-//        purchaseorder.setId((long) 112);
-//        purchaseorder.setQuote_date(java.sql.Date.valueOf("2019-05-15"));
-//        purchaseorder.setDate(java.sql.Date.valueOf("2019-05-19"));
-//        purchaseorder.setStatus("Done");
-//        purchaseorder.setComments("Nil");
-//        purchaseorder.setInvoice(getInvoice1());
-//        return purchaseorder;
-//    }
-//    public Purchaseorder getPurchaseOrder2(){
-//        Purchaseorder purchaseorder = new Purchaseorder();
-//        purchaseorder.setId((long) 1102);
-//        purchaseorder.setQuote_date(java.sql.Date.valueOf("2019-06-15"));
-//        purchaseorder.setDate(java.sql.Date.valueOf("2019-06-19"));
-//        purchaseorder.setStatus("Done");
-//        purchaseorder.setComments("Nil");
-//        purchaseorder.setInvoice(getInvoice2());
-//        return purchaseorder;
-//    }
-//    public Invoice getInvoice1(){
-//        java.util.Date date1 = java.sql.Date.valueOf("2019-06-15");
-//        java.util.Date date2 = java.sql.Date.valueOf("2019-06-05");
-//        Invoice invoice = new Invoice();
-//        invoice.setId((long) 1);
-//        invoice.setDate((Date) date1);
-//        invoice.setQuote_date((Date) date2);
-//        invoice.setStatus("Completed");
-//        return invoice;
-//    }
-//
-//    public Invoice getInvoice2(){
-//        java.util.Date date1 = java.sql.Date.valueOf("2019-07-15");
-//        java.util.Date date2 = java.sql.Date.valueOf("2019-07-05");
-//        Invoice invoice = new Invoice();
-//        invoice.setId((long) 2);
-//        invoice.setDate((Date) date1);
-//        invoice.setQuote_date((Date) date2);
-//        invoice.setStatus("Completed");
-//        return invoice;
-//    }
 
 }

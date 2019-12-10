@@ -29,7 +29,7 @@ public class Quotation {
     @Column(nullable = false)
     private java.sql.Date quoteValidity;
     @Column(nullable = false)
-    private boolean transport;
+    private Boolean transport;
     private float discount;
     @Column(nullable = false)
     private Float initialPrice;
@@ -37,14 +37,14 @@ public class Quotation {
     private Float totalPrice;
     private String go_down_address;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendorPRId", nullable = false)
     @JsonIgnore
     private VendorPR vendorPR;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
-    private PurchaseRequisition purchase_requisition;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
+//    private PurchaseRequisition purchaseRequisition;
 
 
 }
