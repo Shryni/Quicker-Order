@@ -22,7 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @Service
-public class Quotation_Service {
+public class    Quotation_Service {
     @Autowired
     Quotation_Repository quotation_repository;
 
@@ -34,6 +34,9 @@ public class Quotation_Service {
 
     @Autowired
     PurchaseRequisition_Repository purchaseRequisition_Repository;
+
+    @Autowired
+    ApplyDiscount applyDiscount;
 
     public List<Quotation> getAll() {
         return quotation_repository.findAll();
@@ -67,11 +70,16 @@ public class Quotation_Service {
         VendorPR vendorPR = vendorPR_repository.findById(newQuotation.getVendorPRID()).get();
         quotation.setVendorPR(vendorPR);
 
-//        ApplyDiscount applyDiscount = new ApplyDiscount();
+//        quotation = applyDiscount.addDiscountToQuotation(
+//                quotation.getVendorPR().getPurchaseRequisition().getRequestor().getId(),
+//                quotation.getVendorPR().getVendorStore().getId(),
+//                quotation
+//        );
+//
+//        System.out.println("&&&&&&&&&&&"+ quotation.getTotalPrice());
 
-//        quotation = applyDiscount.addDiscountToQuotation(quotation.getPurchase_requisition().getRequestor().getId(),
-//                quotation.getPurchase_requisition().getId(), quotation);
         return quotation_repository.save(quotation);
+
     }
 
 
@@ -119,21 +127,21 @@ public class Quotation_Service {
         return vendorQuotation.price(generatePrice.getQuotedPrice());
     }
 
-//    public List<Spending> getSpendingsByRequestors(Long requestorID, String status) {
-//
-//        List<Quotation> quotations = quotation_repository.findUsingRequestorIdAndStatus(requestorID, status);
-//
-//        List<Spending> spendings = new ArrayList<>();
-//
-//        for(Quotation q: quotations){
-//
-//            Spending spend = new Spending();
-//            spend.setDeliveryDate(q.getDeliveryDate());
-//            spend.setTotalPrice(q.getTotalPrice());
-//
-//            spendings.add(spend);
-//        }
-//        return spendings;
-//    }
+    public List<Spending> getSpendingsByRequestors(Long requestorID, String status) {
+
+        List<Quotation> quotations = quotation_repository.findUsingRequestorIdAndStatus(requestorID, status);
+
+        List<Spending> spendings = new ArrayList<>();
+
+        for(Quotation q: quotations){
+
+            Spending spend = new Spending();
+            spend.setDeliveryDate(q.getDeliveryDate());
+            spend.setTotalPrice(q.getTotalPrice());
+
+            spendings.add(spend);
+        }
+        return spendings;
+    }
 
 }

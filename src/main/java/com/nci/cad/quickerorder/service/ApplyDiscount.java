@@ -11,14 +11,16 @@ public class ApplyDiscount {
     @Autowired
     Quotation_Repository quotation_repository;
 
-    public Quotation addDiscountToQuotation(Long reqID, Long purchaseRequistionID, Quotation quotation) {
+    public Quotation addDiscountToQuotation(Long reqID, Long vendorStoreID, Quotation quotation) {
+        System.out.println("REQ ID: "+ reqID);
+        System.out.println("vendorStoreID ID: "+ vendorStoreID);
+        System.out.println("Quotation ID: "+ quotation);
+         int noOfOrders = quotation_repository.findQuotationByPurchaserequitionId(reqID, vendorStoreID,"Approved");
 
-        int noOfOrders = quotation_repository.findQuotationByPurchaserequitionId(reqID, purchaseRequistionID, "Approved");
-
-        if (noOfOrders != 0) {
+        if (noOfOrders !=0 && noOfOrders>2) {
             quotation.setTotalPrice((float) (quotation.getTotalPrice() * 0.95));
         } else {
-            quotation.setDiscount(quotation.getTotalPrice());
+            quotation.setTotalPrice(quotation.getTotalPrice());
         }
         return quotation;
     }

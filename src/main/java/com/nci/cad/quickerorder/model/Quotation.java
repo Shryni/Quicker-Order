@@ -42,9 +42,6 @@ public class Quotation {
     @JsonIgnore
     private VendorPR vendorPR;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "purchaseRequisition_id", nullable = false)
-//    private PurchaseRequisition purchaseRequisition;
 
 
 }
