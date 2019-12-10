@@ -39,6 +39,9 @@ repositories {
 	maven {
 		url "https://plugins.gradle.org/m2/"
 	}
+	flatDir {
+		dirs 'libs'
+	}
 }
 defaultTasks 'build'
 wrapper {
@@ -46,46 +49,44 @@ wrapper {
 	gradleVersion = '5.0'
 	distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
-//
-//node {
-//	version = '10.14.1'
-//	npmVersion = '6.4.1'
-//	download = true
-//	download = true
-//	workDir = file("${project.buildDir}/nodejs")
-//	npmWorkDir = file("${project.buildDir}/npm")
-//}
-//task appNpmInstall(type: NpmTask) {
-//	description = "Installs all dependencies from package.json"
-//	workingDir = file("${project.projectDir}/src/main/quickOrder")
-//	args = ["install"]
-//}
-//task appNpmBuild(type: NpmTask) {
-//	description = "Builds production version of the webapp"
-//	workingDir = file("${project.projectDir}/src/main/quickOrder")
-//	args = ["run", "build"]
-//}
-//
-//task copyWebApp(type: Copy) {
-//	from 'src/main/quickOrder/build'
-//	into 'build/resources/main/static/.'
-//}
-//appNpmBuild.dependsOn appNpmInstall
-//copyWebApp.dependsOn appNpmBuild
-//compileJava.dependsOn copyWebApp
+
+node {
+	version = '10.14.1'
+	npmVersion = '6.4.1'
+	download = true
+	download = true
+	workDir = file("${project.buildDir}/nodejs")
+	npmWorkDir = file("${project.buildDir}/npm")
+}
+task appNpmInstall(type: NpmTask) {
+	description = "Installs all dependencies from package.json"
+	workingDir = file("${project.projectDir}/src/main/quickOrder")
+	args = ["install"]
+}
+task appNpmBuild(type: NpmTask) {
+	description = "Builds production version of the webapp"
+	workingDir = file("${project.projectDir}/src/main/quickOrder")
+	args = ["run", "build"]
+}
+
+task copyWebApp(type: Copy) {
+	from 'src/main/quickOrder/build'
+	into 'build/resources/main/static/.'
+}
+appNpmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn appNpmBuild
+compileJava.dependsOn copyWebApp
 
 
 dependencies {
-	implementation files('./quotationComparator-0.0.1.jar')
-	//compile ('./quotationComparator-0.0.1.jar')
+	implementation files ('./quotationComparator-0.0.1.jar')
+	implementation files('libs/quotationComparator-0.0.1.jar')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'io.jsonwebtoken:jjwt:0.9.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	//compile("org.springframework.boot:spring-boot-starter-security")
 	implementation 'jfree:jfreechart:1.0.13'
 	implementation 'joda-time:joda-time:2.10.5'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.27'
@@ -97,11 +98,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
-	//compile ('org.springframework:spring-context-support')
-
-
-
-	//compile("org.springframework.boot:spring-boot-starter-security")
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testImplementation 'org.springframework.security:spring-security-test'

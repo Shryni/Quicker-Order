@@ -34,25 +34,6 @@ public class RequestorController {
     Quotation_Service quotation_service;
     ResponseEntity responseEntity = null;
 
-    //*************************************************************************//
-    @GetMapping("/view")
-    public String viewRequestor() {
-        return "requestor/th_viewRequestorStore.html";
-    }
-
-    @GetMapping("/add")
-    public String addRequestor(Model model,@RequestParam String requestorStoreName) {
-        model.addAttribute("requestorStoreName",requestorStoreName);
-        return "th_addRequestor.html";
-    }
-
-    @GetMapping("/edit")
-    public String editRequestor() {
-        return "requestor/edit.html";
-    }
-
-    //*************************************************************************//
-
     @GetMapping("/{requestorId}")
     public ResponseEntity<Requestor> getRequestorById(@PathVariable (value = "requestorId")Long requestorId){
         Requestor requestor = requestor_service.getRequestorById(requestorId);

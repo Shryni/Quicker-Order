@@ -15,10 +15,9 @@ public interface Quotation_Repository extends JpaRepository<Quotation, Long> {
     Quotation findByVendorPRId(Long id);
     @Query(value = "select count(purchaserequisition_id) from vendorpr a join purchase_requisition b\n" +
             "on a.purchaserequisition_id=b.id join quotation quot on quot.vendorprid=a.id\n" +
-            "where requestor_id= :requesterId and a.vendorstore_id= :vendorStoreId and quot.status= :status", nativeQuery = true)
+            "where requestor_id= :requesterId and a.vendorstore_id= :vendorStoreId ", nativeQuery = true)
     int findQuotationByPurchaserequitionId(@Param("requesterId") Long requesterId ,
-                                           @Param("vendorStoreId") Long vendorStoreId,
-                                           @Param("status") String status);
+                                           @Param("vendorStoreId") Long vendorStoreId);
 
     @Query("select q from Quotation q WHERE q.status =:status AND q.vendorPR " +
             "IN(SELECT v FROM VendorPR v WHERE v.purchaseRequisition " +

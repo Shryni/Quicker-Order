@@ -69,17 +69,13 @@ public class    Quotation_Service {
         quotation.setTotalPrice((float) newQuotation.getPrice());
         VendorPR vendorPR = vendorPR_repository.findById(newQuotation.getVendorPRID()).get();
         quotation.setVendorPR(vendorPR);
-
-//        quotation = applyDiscount.addDiscountToQuotation(
-//                quotation.getVendorPR().getPurchaseRequisition().getRequestor().getId(),
-//                quotation.getVendorPR().getVendorStore().getId(),
-//                quotation
-//        );
-//
-//        System.out.println("&&&&&&&&&&&"+ quotation.getTotalPrice());
-
+        Quotation quotationwithNewPrice = applyDiscount.addDiscountToQuotation(
+                quotation.getVendorPR().getPurchaseRequisition().getRequestor().getId(),
+                quotation.getVendorPR().getVendorStore().getId(),
+                quotation
+        );
+        quotation.setTotalPrice(quotationwithNewPrice.getTotalPrice());
         return quotation_repository.save(quotation);
-
     }
 
 
@@ -138,7 +134,6 @@ public class    Quotation_Service {
             Spending spend = new Spending();
             spend.setDeliveryDate(q.getDeliveryDate());
             spend.setTotalPrice(q.getTotalPrice());
-
             spendings.add(spend);
         }
         return spendings;

@@ -12,10 +12,7 @@ public class ApplyDiscount {
     Quotation_Repository quotation_repository;
 
     public Quotation addDiscountToQuotation(Long reqID, Long vendorStoreID, Quotation quotation) {
-        System.out.println("REQ ID: "+ reqID);
-        System.out.println("vendorStoreID ID: "+ vendorStoreID);
-        System.out.println("Quotation ID: "+ quotation);
-         int noOfOrders = quotation_repository.findQuotationByPurchaserequitionId(reqID, vendorStoreID,"Approved");
+         int noOfOrders = quotation_repository.findQuotationByPurchaserequitionId(reqID, vendorStoreID);
 
         if (noOfOrders !=0 && noOfOrders>2) {
             quotation.setTotalPrice((float) (quotation.getTotalPrice() * 0.95));

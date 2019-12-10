@@ -72,10 +72,8 @@ public class VendorPRService implements Observer{
             VendorPR vendorPR = new VendorPR();
             vendorPR.setId(purchaseRequisition.getId());
             vendorPR.setTitle(purchaseRequisition.getTitle());
-            //vendorPR.setCreated_date(purchaseRequisition.getCreated_date());
             vendorPR.setExpected_date_of_delivery(purchaseRequisition.getExpected_date_of_delivery());
             vendorPR.setStatus(purchaseRequisition.getStatus());
-            //vendorPR.setAdditional_comments(purchaseRequisition.getAdditional_comments());
             for (Long vendorID:vendors
             ) {
                 vendorPR.setVendorStore(vendorStore_repository.findById(vendorID).get());
