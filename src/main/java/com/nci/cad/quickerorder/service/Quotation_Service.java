@@ -96,9 +96,11 @@ public class    Quotation_Service {
         List<VendorPR> vendorPRList = vendorPR_repository.findBypurchaseRequisition_id(prID);
         for (VendorPR vpr : vendorPRList
              ) {
-            Quotation quotation = quotation_repository.findByVendorPRId(vpr.getId());
-            String vendorName = quotation.getVendorPR().getVendorStore().getName();
-            returnList.add(new QuotationResponse(quotation,vendorName));
+            if(vpr.getStatus().equalsIgnoreCase("Approved")){
+                Quotation quotation = quotation_repository.findByVendorPRId(vpr.getId());
+                String vendorName = quotation.getVendorPR().getVendorStore().getName();
+                returnList.add(new QuotationResponse(quotation,vendorName));
+            }
         }
         return returnList;
     }

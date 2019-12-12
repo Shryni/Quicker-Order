@@ -66,21 +66,21 @@ public class RequestorController {
             return (ResponseEntity<Requestor>) responseEntity.status(HttpStatus.BAD_REQUEST);
         }
     }
-//    @GetMapping("/getPurchases/{requestorID}")
-//    public ResponseEntity<List<Spending>> getRequestorPurchaseDetails(
-//            @PathVariable(value = "requestorID") Long requestorID) {
-//
-//        System.out.println("Requested requestor id = " +requestorID);
-//        List<Spending> spendings = quotation_service.getSpendingsByRequestors(requestorID,
-//                Quotation.APPROVED_STATUS);
-//
-//        System.out.println(spendings);
-//        if (spendings != null) {
-//            return responseEntity.status(HttpStatus.OK).body(spendings);
-//        } else {
-//            return (ResponseEntity<List<Spending>>) responseEntity.status(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @GetMapping("/getPurchases/{requestorID}")
+    public ResponseEntity<List<Spending>> getRequestorPurchaseDetails(
+            @PathVariable(value = "requestorID") Long requestorID) {
+
+        System.out.println("Requested requestor id = " +requestorID);
+        List<Spending> spendings = quotation_service.getSpendingsByRequestors(requestorID,
+                Quotation.APPROVED_STATUS);
+
+        System.out.println(spendings);
+        if (spendings != null) {
+            return responseEntity.status(HttpStatus.OK).body(spendings);
+        } else {
+            return (ResponseEntity<List<Spending>>) responseEntity.status(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 

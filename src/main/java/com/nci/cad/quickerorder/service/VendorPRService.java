@@ -93,6 +93,8 @@ public class VendorPRService implements Observer{
 
     public VendorPR approveVendorPR(Long id) {
         VendorPR vpr = vendorPR_repository.findById(id).get();
+        PurchaseRequisition pr = purchaseRequisition_repository.findById(vpr.getPurchaseRequisition().getId()).get();
+        pr.setStatus("Approved");
         vpr.setStatus("Approved");
         return vendorPR_repository.save(vpr);
     }
